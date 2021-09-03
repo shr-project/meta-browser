@@ -3,9 +3,31 @@ HOMEPAGE = "https://www.chromium.org/Home"
 
 CVE_PRODUCT = "chromium:chromium google:chrome"
 
-SRC_URI = "https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz"
+SRC_URI = "https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz \
+    file://python3/0001-python3-update-shebangs-usr-bin-env-python.patch \
+    file://python3/0002-python3-update-shebangs-usr-bin-env-python2.patch \
+    file://python3/0003-python3-update-shebangs-usr-bin-env-python2.7.patch \
+    file://python3/0004-python3-update-shebangs-usr-bin-env-python.patch \
+    file://python3/0005-python3-update-shebangs-usr-bin-env-python2.patch \
+    file://python3/0006-python3-update-shebangs-usr-bin-python2.4.patch \
+    file://python3/0007-python3-update-shebangs-usr-bin-python3.patch \
+    file://python3/0008-python3-update-shebangs-usr-bin-python.patch \
+    file://python3/0009-python3-update-shebangs-usr-bin-python2.patch \
+    file://python3/0010-python3-update-shebangs-usr-bin-python.patch \
+    file://python3/0011-python3-update-shebangs-python.patch \
+    file://python3/0012-python3-update-shebangs-usr-bin-env-python.patch \
+    file://python3/0013-python3-update-shebangs-usr-bin-python-u.patch \
+    file://python3/0014-python3-update-shebangs-usr-bin-python3-i.patch \
+    file://python3/0015-python3-update-shebangs-in-some-other-cases.patch \
+    file://python3/0016-python3-update-shebangs-usr-bin-env-python2.4-usr-bi.patch \
+    file://python3/0017-python3-update-shebangs-in-some-other-cases.patch \
+    file://python3/0018-shebangs.sh-add-script-which-converted-most-of-the-s.patch \
+    file://python3/0019-python2_action-run-python3-as-well.patch \
+    file://python3/0020-WIP-clang-format.patch \
+    file://python3/0021-WIP-bind-gen.patch \
 SRC_URI[md5sum] = "6f2f67339ecb64c94b3f42f41938862f"
 SRC_URI[sha256sum] = "6446db535c02c461c7e5c8d294a0300db03abba791f97f0c70bc52255aedb9bf"
+"
 
 S = "${WORKDIR}/chromium-${PV}"
 
