@@ -1,6 +1,6 @@
-From a2aabc19de529cecad267d0f09db7535c54ab0fd Mon Sep 17 00:00:00 2001
+From 211ec997864b16d918bcb9c1944e0c53a025f8c2 Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:51 +0200
+Date: Tue, 28 Sep 2021 13:32:28 +0200
 Subject: [PATCH] python3: update shebangs '^#!/usr/bin/python -u$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>

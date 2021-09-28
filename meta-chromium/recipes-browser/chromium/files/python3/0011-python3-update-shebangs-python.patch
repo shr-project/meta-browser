@@ -1,6 +1,6 @@
-From 14d2af9be8acb50e4befa0a22ae8a45c9be55aa5 Mon Sep 17 00:00:00 2001
+From 758c7c5c273fe7dbb6e2f0365df9303abe8b599a Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:51 +0200
+Date: Tue, 28 Sep 2021 13:32:27 +0200
 Subject: [PATCH] python3: update shebangs '^#! python$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>

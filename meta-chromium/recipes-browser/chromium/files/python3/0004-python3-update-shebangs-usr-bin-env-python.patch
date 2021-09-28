@@ -1,6 +1,6 @@
-From 6df92a09262493206d3707c483e08711238593a2 Mon Sep 17 00:00:00 2001
+From 448fd3d4426ee7f2c5048a848ea3e1976b6987be Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:47 +0200
+Date: Tue, 28 Sep 2021 13:32:24 +0200
 Subject: [PATCH] python3: update shebangs '^#! /usr/bin/env python$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
@@ -8,7 +8,6 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  build/android/method_count.py                                   | 2 +-
  .../android/pylib/results/presentation/standard_gtest_merge.py  | 2 +-
  third_party/afl/update.py                                       | 2 +-
- .../src/tests/restricted_traces/restricted_trace_gold_tests.py  | 2 +-
  third_party/angle/third_party/glmark2/src/waflib/Build.py       | 2 +-
  third_party/angle/third_party/glmark2/src/waflib/ConfigSet.py   | 2 +-
  third_party/angle/third_party/glmark2/src/waflib/Configure.py   | 2 +-
@@ -155,9 +154,8 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  tools/android/sdk_updater/update_sdk_tests.py                   | 2 +-
  tools/clang/scripts/goma_ld.py                                  | 2 +-
  tools/clang/scripts/goma_link.py                                | 2 +-
- tools/json_schema_compiler/idl_schema.py                        | 2 +-
  .../third_party/google/protobuf/internal/_parameterized.py      | 2 +-
- 152 files changed, 152 insertions(+), 152 deletions(-)
+ 150 files changed, 150 insertions(+), 150 deletions(-)
 
 diff --git a/build/android/method_count.py b/build/android/method_count.py
 index a39a390cf8..26e776ffd0 100755
@@ -170,7 +168,7 @@ index a39a390cf8..26e776ffd0 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/build/android/pylib/results/presentation/standard_gtest_merge.py b/build/android/pylib/results/presentation/standard_gtest_merge.py
-index 58a29366c4..0207ce893a 100755
+index 64f40e62e5..90c9e71e5e 100755
 --- a/build/android/pylib/results/presentation/standard_gtest_merge.py
 +++ b/build/android/pylib/results/presentation/standard_gtest_merge.py
 @@ -1,4 +1,4 @@
@@ -189,16 +187,6 @@ index 186d946cbc..66419e7d7a 100755
  # Copyright (c) 2016 The Chromium Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
-diff --git a/third_party/angle/src/tests/restricted_traces/restricted_trace_gold_tests.py b/third_party/angle/src/tests/restricted_traces/restricted_trace_gold_tests.py
-index 34c8af628d..a6cdd39ea2 100755
---- a/third_party/angle/src/tests/restricted_traces/restricted_trace_gold_tests.py
-+++ b/third_party/angle/src/tests/restricted_traces/restricted_trace_gold_tests.py
-@@ -1,4 +1,4 @@
--#! /usr/bin/env python
-+#!/usr/bin/env python3
- #
- # [VPYTHON:BEGIN]
- # wheel: <
 diff --git a/third_party/angle/third_party/glmark2/src/waflib/Build.py b/third_party/angle/third_party/glmark2/src/waflib/Build.py
 index b2ef897100..684c202963 100644
 --- a/third_party/angle/third_party/glmark2/src/waflib/Build.py
@@ -1020,7 +1008,7 @@ index c2ca1df6dd..54f85cefb8 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/catapult/devil/devil/android/apk_helper_test.py b/third_party/catapult/devil/devil/android/apk_helper_test.py
-index 6ac7fde26d..cccae2103e 100755
+index d65b601be3..398682a3d8 100755
 --- a/third_party/catapult/devil/devil/android/apk_helper_test.py
 +++ b/third_party/catapult/devil/devil/android/apk_helper_test.py
 @@ -1,4 +1,4 @@
@@ -1030,7 +1018,7 @@ index 6ac7fde26d..cccae2103e 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/catapult/devil/devil/android/device_denylist_test.py b/third_party/catapult/devil/devil/android/device_denylist_test.py
-index b5d79e83e6..97f8ceac5a 100644
+index 155da68c0c..57451c53a3 100644
 --- a/third_party/catapult/devil/devil/android/device_denylist_test.py
 +++ b/third_party/catapult/devil/devil/android/device_denylist_test.py
 @@ -1,4 +1,4 @@
@@ -1040,7 +1028,7 @@ index b5d79e83e6..97f8ceac5a 100644
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/catapult/devil/devil/android/device_errors_test.py b/third_party/catapult/devil/devil/android/device_errors_test.py
-index 5fc9e2542c..16ed5348d1 100755
+index 47b4c96fa4..292af77c4b 100755
 --- a/third_party/catapult/devil/devil/android/device_errors_test.py
 +++ b/third_party/catapult/devil/devil/android/device_errors_test.py
 @@ -1,4 +1,4 @@
@@ -1070,7 +1058,7 @@ index bb21701265..20ef233efa 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/catapult/devil/devil/utils/markdown_test.py b/third_party/catapult/devil/devil/utils/markdown_test.py
-index 11cd46eabe..5b10465982 100755
+index bc979858f9..57e0ff6643 100755
 --- a/third_party/catapult/devil/devil/utils/markdown_test.py
 +++ b/third_party/catapult/devil/devil/utils/markdown_test.py
 @@ -1,4 +1,4 @@
@@ -1080,7 +1068,7 @@ index 11cd46eabe..5b10465982 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/catapult/devil/devil/utils/parallelizer_test.py b/third_party/catapult/devil/devil/utils/parallelizer_test.py
-index 2d8f72aaad..1a9573524b 100644
+index 729cacfede..f029959589 100644
 --- a/third_party/catapult/devil/devil/utils/parallelizer_test.py
 +++ b/third_party/catapult/devil/devil/utils/parallelizer_test.py
 @@ -1,4 +1,4 @@
@@ -1570,7 +1558,7 @@ index fb0020e481..4a0c16c3d3 100755
  # Copyright 2018 Google Inc.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/skia/tools/skqp/find_commit_with_best_gold_results.py b/third_party/skia/tools/skqp/find_commit_with_best_gold_results.py
-index d825b1ace8..f0a23b7501 100755
+index be24491aa1..e79bb638b5 100755
 --- a/third_party/skia/tools/skqp/find_commit_with_best_gold_results.py
 +++ b/third_party/skia/tools/skqp/find_commit_with_best_gold_results.py
 @@ -1,4 +1,4 @@
@@ -1580,7 +1568,7 @@ index d825b1ace8..f0a23b7501 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/skia/tools/skqp/make_apk_list.py b/third_party/skia/tools/skqp/make_apk_list.py
-index 32c9847499..239a37e1ed 100755
+index 00968f455f..3a3bb04607 100755
 --- a/third_party/skia/tools/skqp/make_apk_list.py
 +++ b/third_party/skia/tools/skqp/make_apk_list.py
 @@ -1,4 +1,4 @@
@@ -1650,23 +1638,13 @@ index 21a7dd2286..832422052e 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/tools/clang/scripts/goma_link.py b/tools/clang/scripts/goma_link.py
-index 9beecb30bb..b6e1d8593f 100755
+index a101dc93bf..7fa6f5a4a4 100755
 --- a/tools/clang/scripts/goma_link.py
 +++ b/tools/clang/scripts/goma_link.py
 @@ -1,4 +1,4 @@
 -#! /usr/bin/env python
 +#!/usr/bin/env python3
  # Copyright (c) 2020 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
- # found in the LICENSE file.
-diff --git a/tools/json_schema_compiler/idl_schema.py b/tools/json_schema_compiler/idl_schema.py
-index 1ab54c860b..029e83c717 100755
---- a/tools/json_schema_compiler/idl_schema.py
-+++ b/tools/json_schema_compiler/idl_schema.py
-@@ -1,4 +1,4 @@
--#! /usr/bin/env python
-+#!/usr/bin/env python3
- # Copyright (c) 2012 The Chromium Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/tools/swarming_client/third_party/google/protobuf/internal/_parameterized.py b/tools/swarming_client/third_party/google/protobuf/internal/_parameterized.py

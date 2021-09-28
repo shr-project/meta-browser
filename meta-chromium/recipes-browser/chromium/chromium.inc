@@ -22,12 +22,10 @@ SRC_URI = "https://commondatastorage.googleapis.com/chromium-browser-official/ch
     file://python3/0016-python3-update-shebangs-usr-bin-env-python2.4-usr-bi.patch \
     file://python3/0017-python3-update-shebangs-in-some-other-cases.patch \
     file://python3/0018-shebangs.sh-add-script-which-converted-most-of-the-s.patch \
-    file://python3/0019-python2_action-run-python3-as-well.patch \
-    file://python3/0020-WIP-clang-format.patch \
-    file://python3/0021-WIP-bind-gen.patch \
+    file://python3/0019-WIP-clang-format.patch \
+"
 SRC_URI[md5sum] = "6f2f67339ecb64c94b3f42f41938862f"
 SRC_URI[sha256sum] = "6446db535c02c461c7e5c8d294a0300db03abba791f97f0c70bc52255aedb9bf"
-"
 
 S = "${WORKDIR}/chromium-${PV}"
 

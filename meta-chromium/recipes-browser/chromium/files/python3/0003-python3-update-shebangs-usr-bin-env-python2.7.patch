@@ -1,12 +1,10 @@
-From e11d15dda20ac63bb9d09bddbf9fdb7328fc6fcb Mon Sep 17 00:00:00 2001
+From 296b3a0404d125d049e09cf48d4a663b317b62b3 Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:47 +0200
+Date: Tue, 28 Sep 2021 13:32:23 +0200
 Subject: [PATCH] python3: update shebangs '^#!/usr/bin/env python2.7$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- base/android/jni_generator/jni_refactorer.py                    | 2 +-
- chrome/android/monochrome/scripts/monochrome_python_tests.py    | 2 +-
  net/data/ssl/scripts/generate-name-normalization-certs.py       | 2 +-
  testing/libfuzzer/gen_fuzzer_owners.py                          | 2 +-
  .../catapult/catapult_build/perfbot_stats/chrome_perf_stats.py  | 2 +-
@@ -52,43 +50,15 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  third_party/grpc/src/tools/interop_matrix/client_matrix.py      | 2 +-
  .../grpc/src/tools/interop_matrix/create_matrix_images.py       | 2 +-
  .../grpc/src/tools/interop_matrix/run_interop_matrix_tests.py   | 2 +-
- third_party/grpc/src/tools/profiling/bloat/bloat_diff.py        | 2 +-
  .../src/tools/profiling/latency_profile/profile_analyzer.py     | 2 +-
- third_party/grpc/src/tools/profiling/microbenchmarks/bm2bq.py   | 2 +-
- .../src/tools/profiling/microbenchmarks/bm_diff/bm_build.py     | 2 +-
- .../src/tools/profiling/microbenchmarks/bm_diff/bm_constants.py | 2 +-
- .../grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_diff.py | 2 +-
- .../grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_main.py | 2 +-
- .../grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_run.py  | 2 +-
- .../src/tools/profiling/microbenchmarks/bm_diff/bm_speedup.py   | 2 +-
  third_party/grpc/src/tools/profiling/qps/qps_diff.py            | 2 +-
  .../grpc/src/tools/run_tests/lb_interop_tests/gen_build_yaml.py | 2 +-
  .../grpc/src/tools/run_tests/python_utils/port_server.py        | 2 +-
  third_party/protobuf/benchmarks/util/big_query_utils.py         | 2 +-
  third_party/skia/gn/codesign_ios.py                             | 2 +-
  third_party/skia/gn/gen_plist_ios.py                            | 2 +-
- 62 files changed, 62 insertions(+), 62 deletions(-)
+ 52 files changed, 52 insertions(+), 52 deletions(-)
 
-diff --git a/base/android/jni_generator/jni_refactorer.py b/base/android/jni_generator/jni_refactorer.py
-index c5519a6421..16039e2f0f 100755
---- a/base/android/jni_generator/jni_refactorer.py
-+++ b/base/android/jni_generator/jni_refactorer.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- # Copyright 2018 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
- # found in the LICENSE file.
-diff --git a/chrome/android/monochrome/scripts/monochrome_python_tests.py b/chrome/android/monochrome/scripts/monochrome_python_tests.py
-index 08edc1c336..29586ebdf4 100755
---- a/chrome/android/monochrome/scripts/monochrome_python_tests.py
-+++ b/chrome/android/monochrome/scripts/monochrome_python_tests.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2020 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
 diff --git a/net/data/ssl/scripts/generate-name-normalization-certs.py b/net/data/ssl/scripts/generate-name-normalization-certs.py
 index 06429c1f0b..1759e41a8e 100755
 --- a/net/data/ssl/scripts/generate-name-normalization-certs.py
@@ -100,7 +70,7 @@ index 06429c1f0b..1759e41a8e 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/testing/libfuzzer/gen_fuzzer_owners.py b/testing/libfuzzer/gen_fuzzer_owners.py
-index d6f493ff4c..afd1c36a5a 100755
+index 23261aaba1..427ea96fda 100755
 --- a/testing/libfuzzer/gen_fuzzer_owners.py
 +++ b/testing/libfuzzer/gen_fuzzer_owners.py
 @@ -1,4 +1,4 @@
@@ -110,7 +80,7 @@ index d6f493ff4c..afd1c36a5a 100755
  # Copyright 2018 The Chromium Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/catapult/catapult_build/perfbot_stats/chrome_perf_stats.py b/third_party/catapult/catapult_build/perfbot_stats/chrome_perf_stats.py
-index e98fddfd37..633e3e7e58 100755
+index c015e305a9..fdc8e763f6 100755
 --- a/third_party/catapult/catapult_build/perfbot_stats/chrome_perf_stats.py
 +++ b/third_party/catapult/catapult_build/perfbot_stats/chrome_perf_stats.py
 @@ -1,4 +1,4 @@
@@ -140,7 +110,7 @@ index 30558abd1f..9d014a169d 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/catapult/systrace/bin/run_tests b/third_party/catapult/systrace/bin/run_tests
-index 4944c368c6..ddf34901d8 100755
+index a0b731c1c4..9474300148 100755
 --- a/third_party/catapult/systrace/bin/run_tests
 +++ b/third_party/catapult/systrace/bin/run_tests
 @@ -1,4 +1,4 @@
@@ -230,7 +200,7 @@ index cd66a13e46..65d0259c27 100755
  # Copyright 2015 gRPC authors.
  #
 diff --git a/third_party/grpc/src/src/upb/gen_build_yaml.py b/third_party/grpc/src/src/upb/gen_build_yaml.py
-index c2ceb9792d..0bb8097580 100755
+index b556c3dea8..e59a41f009 100755
 --- a/third_party/grpc/src/src/upb/gen_build_yaml.py
 +++ b/third_party/grpc/src/src/upb/gen_build_yaml.py
 @@ -1,4 +1,4 @@
@@ -280,7 +250,7 @@ index cb47cae5cc..fe76bed2ee 100755
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
 diff --git a/third_party/grpc/src/test/core/end2end/generate_tests.bzl b/third_party/grpc/src/test/core/end2end/generate_tests.bzl
-index f812e65e22..5131ac776f 100755
+index 58aae8f002..1355e45bb8 100755
 --- a/third_party/grpc/src/test/core/end2end/generate_tests.bzl
 +++ b/third_party/grpc/src/test/core/end2end/generate_tests.bzl
 @@ -1,4 +1,4 @@
@@ -510,7 +480,7 @@ index 6b61756546..958ec1f1cd 100755
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
 diff --git a/third_party/grpc/src/tools/interop_matrix/client_matrix.py b/third_party/grpc/src/tools/interop_matrix/client_matrix.py
-index 5e7b76cb0f..04ea582cee 100644
+index 5cd532e6a7..0ff881472c 100644
 --- a/third_party/grpc/src/tools/interop_matrix/client_matrix.py
 +++ b/third_party/grpc/src/tools/interop_matrix/client_matrix.py
 @@ -1,4 +1,4 @@
@@ -539,18 +509,8 @@ index be92458ea6..1259715ae0 100755
  # Copyright 2017 gRPC authors.
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
-diff --git a/third_party/grpc/src/tools/profiling/bloat/bloat_diff.py b/third_party/grpc/src/tools/profiling/bloat/bloat_diff.py
-index 3dd4dbe01b..b6bd1de657 100755
---- a/third_party/grpc/src/tools/profiling/bloat/bloat_diff.py
-+++ b/third_party/grpc/src/tools/profiling/bloat/bloat_diff.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
 diff --git a/third_party/grpc/src/tools/profiling/latency_profile/profile_analyzer.py b/third_party/grpc/src/tools/profiling/latency_profile/profile_analyzer.py
-index 1966622f58..1affc1ccd9 100755
+index facc024a51..47372fef31 100755
 --- a/third_party/grpc/src/tools/profiling/latency_profile/profile_analyzer.py
 +++ b/third_party/grpc/src/tools/profiling/latency_profile/profile_analyzer.py
 @@ -1,4 +1,4 @@
@@ -559,76 +519,6 @@ index 1966622f58..1affc1ccd9 100755
  # Copyright 2015 gRPC authors.
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
-diff --git a/third_party/grpc/src/tools/profiling/microbenchmarks/bm2bq.py b/third_party/grpc/src/tools/profiling/microbenchmarks/bm2bq.py
-index eedb5e76ab..fbd391e515 100755
---- a/third_party/grpc/src/tools/profiling/microbenchmarks/bm2bq.py
-+++ b/third_party/grpc/src/tools/profiling/microbenchmarks/bm2bq.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
-diff --git a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_build.py b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_build.py
-index 8cd993e6c1..344b0f23a0 100755
---- a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_build.py
-+++ b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_build.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
-diff --git a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_constants.py b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_constants.py
-index c8b6c1ebd0..ef60873118 100644
---- a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_constants.py
-+++ b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_constants.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
-diff --git a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_diff.py b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_diff.py
-index 3934b1e809..38875e2b8a 100755
---- a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_diff.py
-+++ b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_diff.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
-diff --git a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_main.py b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_main.py
-index 9add95f985..00f9db46e2 100755
---- a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_main.py
-+++ b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_main.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
-diff --git a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_run.py b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_run.py
-index 27fe0a18cc..51e8df4fcc 100755
---- a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_run.py
-+++ b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_run.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
-diff --git a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_speedup.py b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_speedup.py
-index d0d78cb376..1f59ad8706 100755
---- a/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_speedup.py
-+++ b/third_party/grpc/src/tools/profiling/microbenchmarks/bm_diff/bm_speedup.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2.7
-+#!/usr/bin/env python3
- #
- # Copyright 2017 gRPC authors.
- #
 diff --git a/third_party/grpc/src/tools/profiling/qps/qps_diff.py b/third_party/grpc/src/tools/profiling/qps/qps_diff.py
 index d36b96c3a1..5157f14caa 100755
 --- a/third_party/grpc/src/tools/profiling/qps/qps_diff.py

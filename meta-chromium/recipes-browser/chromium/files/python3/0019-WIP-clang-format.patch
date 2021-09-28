@@ -1,4 +1,4 @@
-From 9897cd4b4da9fa78e3c3ec0283fb6690e273ffcb Mon Sep 17 00:00:00 2001
+From e4f0d98a157cc66bc2f7f74cbdba8204cef77142 Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
 Date: Fri, 3 Sep 2021 16:51:03 +0200
 Subject: [PATCH] WIP: clang-format

@@ -1,4 +1,4 @@
-From fa4a4d545f2ec026e342f59a6cd1ca4d1aa44d60 Mon Sep 17 00:00:00 2001
+From 817ee6a559eab328d0e888065ca7e1fa59a06db4 Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
 Date: Fri, 3 Sep 2021 15:42:46 +0200
 Subject: [PATCH] python3: update shebangs in some other cases
@@ -41,7 +41,7 @@ index e56783477a..c34c81e3b5 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/native_client/SConstruct b/native_client/SConstruct
-index 81d0781959..f112cbdb4f 100755
+index 676883b09c..a5eea4f789 100755
 --- a/native_client/SConstruct
 +++ b/native_client/SConstruct
 @@ -1,4 +1,4 @@
@@ -91,7 +91,7 @@ index 2f1267b57c..faed79e19c 100755
  # liblouis Braille Translation and Back-Translation Library
  
 diff --git a/third_party/llvm/mlir/python/mlir/dialects/linalg/opdsl/dump_oplib.py b/third_party/llvm/mlir/python/mlir/dialects/linalg/opdsl/dump_oplib.py
-index bacc0c302c..3940eda477 100644
+index 05c06e737b..86bb82b392 100644
 --- a/third_party/llvm/mlir/python/mlir/dialects/linalg/opdsl/dump_oplib.py
 +++ b/third_party/llvm/mlir/python/mlir/dialects/linalg/opdsl/dump_oplib.py
 @@ -1,4 +1,4 @@

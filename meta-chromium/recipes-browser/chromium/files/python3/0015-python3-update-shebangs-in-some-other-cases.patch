@@ -1,4 +1,4 @@
-From f6b5f627c36e75de02935805bf11f6b1b70fc459 Mon Sep 17 00:00:00 2001
+From 76e6c67963661ed84d167c33c502dfff3c3f7691 Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
 Date: Fri, 3 Sep 2021 14:51:07 +0200
 Subject: [PATCH] python3: update shebangs in some other cases
@@ -34,10 +34,10 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  26 files changed, 35 insertions(+), 35 deletions(-)
 
 diff --git a/docs/python3_migration.md b/docs/python3_migration.md
-index 65aea89812..044b8901b2 100644
+index de47c3da24..b6cd40df7a 100644
 --- a/docs/python3_migration.md
 +++ b/docs/python3_migration.md
-@@ -58,7 +58,7 @@ However, here are a few notes that may be helpful in a Chromium context:
+@@ -56,7 +56,7 @@ However, here are a few notes that may be helpful in a Chromium context:
    is available in vpython and in `//third_party/six/src/six.py`.
  
  * shebang lines mostly don't matter. A "shebang line" is the line at the
@@ -374,7 +374,7 @@ index 433036993f..c4ae3a3d45 100644
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
 diff --git a/third_party/llvm/lldb/docs/use/python-reference.rst b/third_party/llvm/lldb/docs/use/python-reference.rst
-index 75d9ea1164..9fa5870b3f 100644
+index 33e1de11e8..c246cc25fb 100644
 --- a/third_party/llvm/lldb/docs/use/python-reference.rst
 +++ b/third_party/llvm/lldb/docs/use/python-reference.rst
 @@ -610,7 +610,7 @@ a function that can be used by LLDB's python command code:

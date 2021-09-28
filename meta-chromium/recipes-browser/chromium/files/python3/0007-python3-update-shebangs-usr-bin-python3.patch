@@ -1,6 +1,6 @@
-From 01d3224aa5f91254353f972296c53a485f0abc53 Mon Sep 17 00:00:00 2001
+From 95211c39427294d242c17b58a14b352b2ece536d Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:49 +0200
+Date: Tue, 28 Sep 2021 13:32:25 +0200
 Subject: [PATCH] python3: update shebangs '^#!/usr/bin/python3$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
@@ -12,8 +12,55 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  components/feed/core/v2/tools/stream_dump.py                    | 2 +-
  components/feed/core/v2/tools/textpb_to_binarypb.py             | 2 +-
  native_client/build/update_pnacl_tool_revisions.py              | 2 +-
+ native_client/pnacl/driver/artools.py                           | 2 +-
+ native_client/pnacl/driver/driver_env.py                        | 2 +-
+ native_client/pnacl/driver/driver_log.py                        | 2 +-
+ native_client/pnacl/driver/driver_temps.py                      | 2 +-
+ native_client/pnacl/driver/driver_tools.py                      | 2 +-
+ native_client/pnacl/driver/elftools.py                          | 2 +-
+ native_client/pnacl/driver/filetype.py                          | 2 +-
+ native_client/pnacl/driver/ldtools.py                           | 2 +-
+ native_client/pnacl/driver/nativeld.py                          | 2 +-
+ native_client/pnacl/driver/pathtools.py                         | 2 +-
+ native_client/pnacl/driver/pnacl-abicheck.py                    | 2 +-
+ native_client/pnacl/driver/pnacl-ar.py                          | 2 +-
+ native_client/pnacl/driver/pnacl-as.py                          | 2 +-
+ native_client/pnacl/driver/pnacl-clang++.py                     | 2 +-
+ native_client/pnacl/driver/pnacl-clang.py                       | 2 +-
+ native_client/pnacl/driver/pnacl-compress.py                    | 2 +-
+ native_client/pnacl/driver/pnacl-dis.py                         | 2 +-
+ native_client/pnacl/driver/pnacl-driver.py                      | 2 +-
+ native_client/pnacl/driver/pnacl-finalize.py                    | 2 +-
+ native_client/pnacl/driver/pnacl-illegal.py                     | 2 +-
+ native_client/pnacl/driver/pnacl-ld.py                          | 2 +-
+ native_client/pnacl/driver/pnacl-nm.py                          | 2 +-
+ native_client/pnacl/driver/pnacl-nop.py                         | 2 +-
+ native_client/pnacl/driver/pnacl-opt.py                         | 2 +-
+ native_client/pnacl/driver/pnacl-ranlib.py                      | 2 +-
+ native_client/pnacl/driver/pnacl-readelf.py                     | 2 +-
+ native_client/pnacl/driver/pnacl-strip.py                       | 2 +-
+ native_client/pnacl/driver/pnacl-translate.py                   | 2 +-
+ native_client/pnacl/driver/shelltools.py                        | 2 +-
+ .../pnacl/driver/tests/default_output_filename_test.py          | 2 +-
+ native_client/pnacl/driver/tests/diagnostic_flags_test.py       | 2 +-
+ native_client/pnacl/driver/tests/driver_env_test.py             | 2 +-
+ native_client/pnacl/driver/tests/driver_test_utils.py           | 2 +-
+ native_client/pnacl/driver/tests/driver_tests.py                | 2 +-
+ native_client/pnacl/driver/tests/driver_tools_test.py           | 2 +-
+ native_client/pnacl/driver/tests/expand_response_file_test.py   | 2 +-
+ native_client/pnacl/driver/tests/filetype_test.py               | 2 +-
+ native_client/pnacl/driver/tests/fix_private_libs_test.py       | 2 +-
+ native_client/pnacl/driver/tests/force_file_type_test.py        | 2 +-
+ native_client/pnacl/driver/tests/help_message_test.py           | 2 +-
+ native_client/pnacl/driver/tests/native_objects_test.py         | 2 +-
+ native_client/pnacl/driver/tests/path_length_test.py            | 2 +-
+ native_client/pnacl/driver/tests/pch_test.py                    | 2 +-
+ native_client/pnacl/driver/tests/pnacl_compress_test.py         | 2 +-
+ native_client/pnacl/driver/tests/pnacl_ld_options_test.py       | 2 +-
+ native_client/pnacl/driver/tests/strip_test.py                  | 2 +-
+ native_client/pnacl/driver/tests/translate_options_test.py      | 2 +-
+ remoting/host/linux/configure_url_forwarder.py                  | 2 +-
  remoting/host/linux/linux_me2me_host.py                         | 2 +-
- remoting/host/linux/setup_url_forwarder.py                      | 2 +-
  third_party/angle/scripts/bootstrap.py                          | 2 +-
  third_party/angle/scripts/gen_gl_enum_utils.py                  | 2 +-
  third_party/angle/scripts/gen_proc_table.py                     | 2 +-
@@ -32,6 +79,7 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  .../angle/src/libANGLE/renderer/gen_dxgi_format_table.py        | 2 +-
  .../angle/src/libANGLE/renderer/gen_dxgi_support_tables.py      | 2 +-
  .../angle/src/libANGLE/renderer/gen_load_functions_table.py     | 2 +-
+ .../renderer/gen_load_texture_border_functions_table.py         | 2 +-
  .../src/libANGLE/renderer/gl/generate_gl_dispatch_table.py      | 2 +-
  .../angle/src/libANGLE/renderer/metal/gen_mtl_format_table.py   | 2 +-
  .../libANGLE/renderer/metal/shaders/gen_mtl_internal_shaders.py | 2 +-
@@ -53,11 +101,15 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  third_party/vulkan-deps/vulkan-tools/src/scripts/kvt_genvk.py   | 2 +-
  .../vulkan-tools/src/scripts/vulkaninfo_generator.py            | 2 +-
  .../vulkan-validation-layers/src/scripts/lvl_genvk.py           | 2 +-
+ third_party/wayland-protocols/src/tests/replace.py              | 2 +-
+ tools/android/wpr/chrome_proxy_wpr_record.py                    | 2 +-
+ tools/android/wpr/chrome_proxy_wpr_replay.py                    | 2 +-
  tools/binary_size/generate_official_build_report.py             | 2 +-
  tools/gn/examples/ios/build/toolchain/apple/swiftc.py           | 2 +-
+ tools/memory/partition_allocator/objects_per_size.py            | 2 +-
  tools/memory/partition_allocator/profile_allocations.py         | 2 +-
  v8/tools/generate-runtime-call-stats.py                         | 2 +-
- 52 files changed, 52 insertions(+), 52 deletions(-)
+ 104 files changed, 104 insertions(+), 104 deletions(-)
 
 diff --git a/build/apple/xcrun.py b/build/apple/xcrun.py
 index 71bf50c352..c5054949de 100755
@@ -120,7 +172,7 @@ index ef07d256c3..0c8e569357 100755
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/native_client/build/update_pnacl_tool_revisions.py b/native_client/build/update_pnacl_tool_revisions.py
-index 6e88800c76..4ae578dda2 100755
+index aa17649179..727b72a9b7 100755
 --- a/native_client/build/update_pnacl_tool_revisions.py
 +++ b/native_client/build/update_pnacl_tool_revisions.py
 @@ -1,4 +1,4 @@
@@ -129,24 +181,494 @@ index 6e88800c76..4ae578dda2 100755
  # Copyright (c) 2013 The Native Client Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/artools.py b/native_client/pnacl/driver/artools.py
+index 3c3772f440..1fb307c392 100755
+--- a/native_client/pnacl/driver/artools.py
++++ b/native_client/pnacl/driver/artools.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/driver_env.py b/native_client/pnacl/driver/driver_env.py
+index dd128c3d66..5e58f05dc7 100755
+--- a/native_client/pnacl/driver/driver_env.py
++++ b/native_client/pnacl/driver/driver_env.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/driver_log.py b/native_client/pnacl/driver/driver_log.py
+index 9196d26823..11c412f8fb 100755
+--- a/native_client/pnacl/driver/driver_log.py
++++ b/native_client/pnacl/driver/driver_log.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/driver_temps.py b/native_client/pnacl/driver/driver_temps.py
+index 92cf2650dd..88f9ab4893 100644
+--- a/native_client/pnacl/driver/driver_temps.py
++++ b/native_client/pnacl/driver/driver_temps.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2014 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/driver_tools.py b/native_client/pnacl/driver/driver_tools.py
+index c4e9ce3812..a48658c540 100755
+--- a/native_client/pnacl/driver/driver_tools.py
++++ b/native_client/pnacl/driver/driver_tools.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/elftools.py b/native_client/pnacl/driver/elftools.py
+index 26ffdaa694..0eb80492b4 100755
+--- a/native_client/pnacl/driver/elftools.py
++++ b/native_client/pnacl/driver/elftools.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/filetype.py b/native_client/pnacl/driver/filetype.py
+index 58e47c2445..38acd808d4 100644
+--- a/native_client/pnacl/driver/filetype.py
++++ b/native_client/pnacl/driver/filetype.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/ldtools.py b/native_client/pnacl/driver/ldtools.py
+index 140c1427bd..bac4d85072 100755
+--- a/native_client/pnacl/driver/ldtools.py
++++ b/native_client/pnacl/driver/ldtools.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/nativeld.py b/native_client/pnacl/driver/nativeld.py
+index 6ee568165f..5f534cce9b 100755
+--- a/native_client/pnacl/driver/nativeld.py
++++ b/native_client/pnacl/driver/nativeld.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pathtools.py b/native_client/pnacl/driver/pathtools.py
+index 93995d92b3..5091a65774 100755
+--- a/native_client/pnacl/driver/pathtools.py
++++ b/native_client/pnacl/driver/pathtools.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-abicheck.py b/native_client/pnacl/driver/pnacl-abicheck.py
+index d19c66fa46..752b7ab646 100644
+--- a/native_client/pnacl/driver/pnacl-abicheck.py
++++ b/native_client/pnacl/driver/pnacl-abicheck.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-ar.py b/native_client/pnacl/driver/pnacl-ar.py
+index f8146c69f8..70e8fdca00 100755
+--- a/native_client/pnacl/driver/pnacl-ar.py
++++ b/native_client/pnacl/driver/pnacl-ar.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-as.py b/native_client/pnacl/driver/pnacl-as.py
+index b362f74b97..ccb76391e2 100755
+--- a/native_client/pnacl/driver/pnacl-as.py
++++ b/native_client/pnacl/driver/pnacl-as.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-clang++.py b/native_client/pnacl/driver/pnacl-clang++.py
+index 33e19e30cb..617f3cff54 100755
+--- a/native_client/pnacl/driver/pnacl-clang++.py
++++ b/native_client/pnacl/driver/pnacl-clang++.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-clang.py b/native_client/pnacl/driver/pnacl-clang.py
+index 3a973d53a6..5550288375 100755
+--- a/native_client/pnacl/driver/pnacl-clang.py
++++ b/native_client/pnacl/driver/pnacl-clang.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-compress.py b/native_client/pnacl/driver/pnacl-compress.py
+index 174459be47..56feba16ef 100644
+--- a/native_client/pnacl/driver/pnacl-compress.py
++++ b/native_client/pnacl/driver/pnacl-compress.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2014 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-dis.py b/native_client/pnacl/driver/pnacl-dis.py
+index ac34708309..b23e2405b5 100755
+--- a/native_client/pnacl/driver/pnacl-dis.py
++++ b/native_client/pnacl/driver/pnacl-dis.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-driver.py b/native_client/pnacl/driver/pnacl-driver.py
+index d5443067c6..d0aecc4c85 100755
+--- a/native_client/pnacl/driver/pnacl-driver.py
++++ b/native_client/pnacl/driver/pnacl-driver.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-finalize.py b/native_client/pnacl/driver/pnacl-finalize.py
+index 408b6f820e..b34c8f8c38 100644
+--- a/native_client/pnacl/driver/pnacl-finalize.py
++++ b/native_client/pnacl/driver/pnacl-finalize.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-illegal.py b/native_client/pnacl/driver/pnacl-illegal.py
+index 28e3bf478b..b07f4bed63 100755
+--- a/native_client/pnacl/driver/pnacl-illegal.py
++++ b/native_client/pnacl/driver/pnacl-illegal.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-ld.py b/native_client/pnacl/driver/pnacl-ld.py
+index 24a23c2648..22dca615a1 100755
+--- a/native_client/pnacl/driver/pnacl-ld.py
++++ b/native_client/pnacl/driver/pnacl-ld.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-nm.py b/native_client/pnacl/driver/pnacl-nm.py
+index cb5e0357a6..d252fa99cc 100755
+--- a/native_client/pnacl/driver/pnacl-nm.py
++++ b/native_client/pnacl/driver/pnacl-nm.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-nop.py b/native_client/pnacl/driver/pnacl-nop.py
+index 6eedbfa8f4..d4ad13e31f 100755
+--- a/native_client/pnacl/driver/pnacl-nop.py
++++ b/native_client/pnacl/driver/pnacl-nop.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-opt.py b/native_client/pnacl/driver/pnacl-opt.py
+index aef9ad5745..7fb9261b48 100755
+--- a/native_client/pnacl/driver/pnacl-opt.py
++++ b/native_client/pnacl/driver/pnacl-opt.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-ranlib.py b/native_client/pnacl/driver/pnacl-ranlib.py
+index ac257ce0ee..d2d12dd535 100755
+--- a/native_client/pnacl/driver/pnacl-ranlib.py
++++ b/native_client/pnacl/driver/pnacl-ranlib.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-readelf.py b/native_client/pnacl/driver/pnacl-readelf.py
+index 545d717915..a140fd7514 100755
+--- a/native_client/pnacl/driver/pnacl-readelf.py
++++ b/native_client/pnacl/driver/pnacl-readelf.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-strip.py b/native_client/pnacl/driver/pnacl-strip.py
+index eed2859047..ef7aebb95c 100755
+--- a/native_client/pnacl/driver/pnacl-strip.py
++++ b/native_client/pnacl/driver/pnacl-strip.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/pnacl-translate.py b/native_client/pnacl/driver/pnacl-translate.py
+index 03c7d380bd..5a2db3eae6 100755
+--- a/native_client/pnacl/driver/pnacl-translate.py
++++ b/native_client/pnacl/driver/pnacl-translate.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/shelltools.py b/native_client/pnacl/driver/shelltools.py
+index 6eec43ab84..c6ff4993f2 100755
+--- a/native_client/pnacl/driver/shelltools.py
++++ b/native_client/pnacl/driver/shelltools.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/default_output_filename_test.py b/native_client/pnacl/driver/tests/default_output_filename_test.py
+index 3daa39bf34..239c7d05b5 100644
+--- a/native_client/pnacl/driver/tests/default_output_filename_test.py
++++ b/native_client/pnacl/driver/tests/default_output_filename_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/diagnostic_flags_test.py b/native_client/pnacl/driver/tests/diagnostic_flags_test.py
+index e2d966aed0..7294f40d11 100644
+--- a/native_client/pnacl/driver/tests/diagnostic_flags_test.py
++++ b/native_client/pnacl/driver/tests/diagnostic_flags_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/driver_env_test.py b/native_client/pnacl/driver/tests/driver_env_test.py
+index e9b06d086a..4c33473e8b 100644
+--- a/native_client/pnacl/driver/tests/driver_env_test.py
++++ b/native_client/pnacl/driver/tests/driver_env_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/driver_test_utils.py b/native_client/pnacl/driver/tests/driver_test_utils.py
+index ded6da4f99..22d14d2f47 100644
+--- a/native_client/pnacl/driver/tests/driver_test_utils.py
++++ b/native_client/pnacl/driver/tests/driver_test_utils.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/driver_tests.py b/native_client/pnacl/driver/tests/driver_tests.py
+index 95e4fa6409..75f5acf7d7 100755
+--- a/native_client/pnacl/driver/tests/driver_tests.py
++++ b/native_client/pnacl/driver/tests/driver_tests.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/driver_tools_test.py b/native_client/pnacl/driver/tests/driver_tools_test.py
+index 72b24e3253..84f9228cf3 100755
+--- a/native_client/pnacl/driver/tests/driver_tools_test.py
++++ b/native_client/pnacl/driver/tests/driver_tools_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/expand_response_file_test.py b/native_client/pnacl/driver/tests/expand_response_file_test.py
+index 2533e51d45..69e2837e14 100644
+--- a/native_client/pnacl/driver/tests/expand_response_file_test.py
++++ b/native_client/pnacl/driver/tests/expand_response_file_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/filetype_test.py b/native_client/pnacl/driver/tests/filetype_test.py
+index 2916538544..28f82779ab 100644
+--- a/native_client/pnacl/driver/tests/filetype_test.py
++++ b/native_client/pnacl/driver/tests/filetype_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/fix_private_libs_test.py b/native_client/pnacl/driver/tests/fix_private_libs_test.py
+index adbc6b2f47..c24ca06594 100644
+--- a/native_client/pnacl/driver/tests/fix_private_libs_test.py
++++ b/native_client/pnacl/driver/tests/fix_private_libs_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/force_file_type_test.py b/native_client/pnacl/driver/tests/force_file_type_test.py
+index fb06dd6860..4e45575717 100644
+--- a/native_client/pnacl/driver/tests/force_file_type_test.py
++++ b/native_client/pnacl/driver/tests/force_file_type_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/help_message_test.py b/native_client/pnacl/driver/tests/help_message_test.py
+index b3c2dc77bd..7c668efe35 100644
+--- a/native_client/pnacl/driver/tests/help_message_test.py
++++ b/native_client/pnacl/driver/tests/help_message_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/native_objects_test.py b/native_client/pnacl/driver/tests/native_objects_test.py
+index 03ecacb0aa..3ecff63442 100755
+--- a/native_client/pnacl/driver/tests/native_objects_test.py
++++ b/native_client/pnacl/driver/tests/native_objects_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2013 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/path_length_test.py b/native_client/pnacl/driver/tests/path_length_test.py
+index 07e1d79e2c..dc3b798d7b 100644
+--- a/native_client/pnacl/driver/tests/path_length_test.py
++++ b/native_client/pnacl/driver/tests/path_length_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2014 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/pch_test.py b/native_client/pnacl/driver/tests/pch_test.py
+index cc89844477..00f6a89585 100644
+--- a/native_client/pnacl/driver/tests/pch_test.py
++++ b/native_client/pnacl/driver/tests/pch_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright 2014 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/pnacl_compress_test.py b/native_client/pnacl/driver/tests/pnacl_compress_test.py
+index 83f6c480f1..f26ee90ded 100644
+--- a/native_client/pnacl/driver/tests/pnacl_compress_test.py
++++ b/native_client/pnacl/driver/tests/pnacl_compress_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2014 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/pnacl_ld_options_test.py b/native_client/pnacl/driver/tests/pnacl_ld_options_test.py
+index 088585a8a8..fe4343254d 100644
+--- a/native_client/pnacl/driver/tests/pnacl_ld_options_test.py
++++ b/native_client/pnacl/driver/tests/pnacl_ld_options_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2014 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/strip_test.py b/native_client/pnacl/driver/tests/strip_test.py
+index 664a962ae3..644b94d2cc 100644
+--- a/native_client/pnacl/driver/tests/strip_test.py
++++ b/native_client/pnacl/driver/tests/strip_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/native_client/pnacl/driver/tests/translate_options_test.py b/native_client/pnacl/driver/tests/translate_options_test.py
+index 99528e783d..e3d3b9e2a3 100644
+--- a/native_client/pnacl/driver/tests/translate_options_test.py
++++ b/native_client/pnacl/driver/tests/translate_options_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright (c) 2012 The Native Client Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/remoting/host/linux/configure_url_forwarder.py b/remoting/host/linux/configure_url_forwarder.py
+index a7137baa8a..136ff2309c 100755
+--- a/remoting/host/linux/configure_url_forwarder.py
++++ b/remoting/host/linux/configure_url_forwarder.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright 2021 The Chromium Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
 diff --git a/remoting/host/linux/linux_me2me_host.py b/remoting/host/linux/linux_me2me_host.py
-index 1800ced094..ec7cc1ad07 100755
+index 024b82a7d9..88459a08eb 100755
 --- a/remoting/host/linux/linux_me2me_host.py
 +++ b/remoting/host/linux/linux_me2me_host.py
 @@ -1,4 +1,4 @@
 -#!/usr/bin/python3
 +#!/usr/bin/env python3
  # Copyright (c) 2012 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
- # found in the LICENSE file.
-diff --git a/remoting/host/linux/setup_url_forwarder.py b/remoting/host/linux/setup_url_forwarder.py
-index 3b2b9f4cc2..dbf1fbcd0b 100755
---- a/remoting/host/linux/setup_url_forwarder.py
-+++ b/remoting/host/linux/setup_url_forwarder.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/python3
-+#!/usr/bin/env python3
- # Copyright 2021 The Chromium Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/angle/scripts/bootstrap.py b/third_party/angle/scripts/bootstrap.py
@@ -170,7 +692,7 @@ index f849a7252b..70f45932a8 100755
  # Copyright 2019 The ANGLE Project Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/angle/scripts/gen_proc_table.py b/third_party/angle/scripts/gen_proc_table.py
-index 6d45bd05ce..4fe7fd3146 100644
+index 8785e12ef2..0d542313ab 100644
 --- a/third_party/angle/scripts/gen_proc_table.py
 +++ b/third_party/angle/scripts/gen_proc_table.py
 @@ -1,4 +1,4 @@
@@ -180,7 +702,7 @@ index 6d45bd05ce..4fe7fd3146 100644
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/angle/scripts/generate_entry_points.py b/third_party/angle/scripts/generate_entry_points.py
-index 19132e4839..c276f7c929 100755
+index d1a8f79644..6089bf98c1 100755
 --- a/third_party/angle/scripts/generate_entry_points.py
 +++ b/third_party/angle/scripts/generate_entry_points.py
 @@ -1,4 +1,4 @@
@@ -190,7 +712,7 @@ index 19132e4839..c276f7c929 100755
  # Copyright 2017 The ANGLE Project Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/angle/scripts/generate_loader.py b/third_party/angle/scripts/generate_loader.py
-index ef3a8a5bd3..3742168231 100755
+index 42bdd3359c..6a368a6bf4 100755
 --- a/third_party/angle/scripts/generate_loader.py
 +++ b/third_party/angle/scripts/generate_loader.py
 @@ -1,4 +1,4 @@
@@ -200,7 +722,7 @@ index ef3a8a5bd3..3742168231 100755
  # Copyright 2018 The ANGLE Project Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/angle/scripts/registry_xml.py b/third_party/angle/scripts/registry_xml.py
-index 25a7c57be4..55f98fab88 100644
+index ef68956c99..e3cbd720d4 100644
 --- a/third_party/angle/scripts/registry_xml.py
 +++ b/third_party/angle/scripts/registry_xml.py
 @@ -1,4 +1,4 @@
@@ -210,7 +732,7 @@ index 25a7c57be4..55f98fab88 100644
  # Copyright 2018 The ANGLE Project Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/angle/scripts/run_code_generation.py b/third_party/angle/scripts/run_code_generation.py
-index 94908e0ed3..594365d11c 100755
+index c7c2bfd705..337f1db823 100755
 --- a/third_party/angle/scripts/run_code_generation.py
 +++ b/third_party/angle/scripts/run_code_generation.py
 @@ -1,4 +1,4 @@
@@ -329,6 +851,16 @@ index e607392884..9d45b1a416 100755
  # Copyright 2015 The ANGLE Project Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
+diff --git a/third_party/angle/src/libANGLE/renderer/gen_load_texture_border_functions_table.py b/third_party/angle/src/libANGLE/renderer/gen_load_texture_border_functions_table.py
+index b72289e712..3e6f2ee66d 100755
+--- a/third_party/angle/src/libANGLE/renderer/gen_load_texture_border_functions_table.py
++++ b/third_party/angle/src/libANGLE/renderer/gen_load_texture_border_functions_table.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright 2021 The ANGLE Project Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
 diff --git a/third_party/angle/src/libANGLE/renderer/gl/generate_gl_dispatch_table.py b/third_party/angle/src/libANGLE/renderer/gl/generate_gl_dispatch_table.py
 index 4307add77c..8eecb0def7 100644
 --- a/third_party/angle/src/libANGLE/renderer/gl/generate_gl_dispatch_table.py
@@ -380,7 +912,7 @@ index f9ef3cd9ce..7f2a246c23 100644
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
 diff --git a/third_party/angle/src/tests/restricted_traces/gen_restricted_traces.py b/third_party/angle/src/tests/restricted_traces/gen_restricted_traces.py
-index e315d72908..54dab7750f 100644
+index 2fc1f1b049..60271e0582 100755
 --- a/third_party/angle/src/tests/restricted_traces/gen_restricted_traces.py
 +++ b/third_party/angle/src/tests/restricted_traces/gen_restricted_traces.py
 @@ -1,4 +1,4 @@
@@ -420,7 +952,7 @@ index 6e999265c3..d8c11585da 100755
  # Copyright 2015 The Chromium Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/ffmpeg/chromium/scripts/generate_gn_unittest.py b/third_party/ffmpeg/chromium/scripts/generate_gn_unittest.py
-index cc7d5ecf11..f3d81895ad 100755
+index 880a697da6..52242e4b6e 100755
 --- a/third_party/ffmpeg/chromium/scripts/generate_gn_unittest.py
 +++ b/third_party/ffmpeg/chromium/scripts/generate_gn_unittest.py
 @@ -1,4 +1,4 @@
@@ -500,7 +1032,7 @@ index 069ee68bf1..fde319b8fc 100755
  # Copyright 2013-2021 The Khronos Group Inc.
  #
 diff --git a/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_genvk.py b/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_genvk.py
-index 7c81858804..f44252fb42 100644
+index 2da3d90771..4b64a67173 100644
 --- a/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_genvk.py
 +++ b/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_genvk.py
 @@ -1,4 +1,4 @@
@@ -520,7 +1052,7 @@ index 8cd3e1bebc..9aaa2567c0 100644
  # Copyright (c) 2013-2019 The Khronos Group Inc.
  #
 diff --git a/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkaninfo_generator.py b/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkaninfo_generator.py
-index 30b938c4a9..50fad8f346 100644
+index fc4b145e85..55937c73f1 100644
 --- a/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkaninfo_generator.py
 +++ b/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkaninfo_generator.py
 @@ -1,4 +1,4 @@
@@ -530,7 +1062,7 @@ index 30b938c4a9..50fad8f346 100644
  # Copyright (c) 2019 Valve Corporation
  # Copyright (c) 2019 LunarG, Inc.
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/lvl_genvk.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/lvl_genvk.py
-index 3d143dbc2a..2ce26725d6 100644
+index ce34af50c4..9791bf1af3 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/lvl_genvk.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/lvl_genvk.py
 @@ -1,4 +1,4 @@
@@ -539,6 +1071,36 @@ index 3d143dbc2a..2ce26725d6 100644
  #
  # Copyright (c) 2013-2019 The Khronos Group Inc.
  #
+diff --git a/third_party/wayland-protocols/src/tests/replace.py b/third_party/wayland-protocols/src/tests/replace.py
+index 8a8a18e6e6..0ab7dfdada 100755
+--- a/third_party/wayland-protocols/src/tests/replace.py
++++ b/third_party/wayland-protocols/src/tests/replace.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ 
+ import sys
+ 
+diff --git a/tools/android/wpr/chrome_proxy_wpr_record.py b/tools/android/wpr/chrome_proxy_wpr_record.py
+index eac628b63b..ebcfff480d 100755
+--- a/tools/android/wpr/chrome_proxy_wpr_record.py
++++ b/tools/android/wpr/chrome_proxy_wpr_record.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright 2021 The Chromium Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
+diff --git a/tools/android/wpr/chrome_proxy_wpr_replay.py b/tools/android/wpr/chrome_proxy_wpr_replay.py
+index eaf53ca211..8bee0a8ed9 100755
+--- a/tools/android/wpr/chrome_proxy_wpr_replay.py
++++ b/tools/android/wpr/chrome_proxy_wpr_replay.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright 2021 The Chromium Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
 diff --git a/tools/binary_size/generate_official_build_report.py b/tools/binary_size/generate_official_build_report.py
 index 1759328b7b..b254e5ce5b 100755
 --- a/tools/binary_size/generate_official_build_report.py
@@ -559,8 +1121,18 @@ index 88ae6e5ce4..45bc23971b 100755
  
  
  import argparse
+diff --git a/tools/memory/partition_allocator/objects_per_size.py b/tools/memory/partition_allocator/objects_per_size.py
+index 68822fe9b6..d7e4467e91 100755
+--- a/tools/memory/partition_allocator/objects_per_size.py
++++ b/tools/memory/partition_allocator/objects_per_size.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+ # Copyright 2021 The Chromium Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
 diff --git a/tools/memory/partition_allocator/profile_allocations.py b/tools/memory/partition_allocator/profile_allocations.py
-index dffd31374d..236c1ddda0 100755
+index 9ce52bc710..2319718f6a 100755
 --- a/tools/memory/partition_allocator/profile_allocations.py
 +++ b/tools/memory/partition_allocator/profile_allocations.py
 @@ -1,4 +1,4 @@

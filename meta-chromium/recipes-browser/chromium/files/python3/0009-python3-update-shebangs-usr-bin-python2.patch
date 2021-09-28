@@ -1,6 +1,6 @@
-From 0f1d40a8f4c8a2df5414225afbe440a151252d37 Mon Sep 17 00:00:00 2001
+From 2fe8063d6ed77276839869602604222b05be606f Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:50 +0200
+Date: Tue, 28 Sep 2021 13:32:27 +0200
 Subject: [PATCH] python3: update shebangs '^#!/usr/bin/python2$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
@@ -35,9 +35,7 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  third_party/skia/tools/skottie-wasm-perf/parse_perf_csvs.py     | 2 +-
  .../vulkan-validation-layers/src/build-gn/remove_files.py       | 2 +-
  .../audio_coding/audio_network_adaptor/parse_ana_dump.py        | 2 +-
- tools/android/wpr/chrome_proxy_wpr_record.py                    | 2 +-
- tools/android/wpr/chrome_proxy_wpr_replay.py                    | 2 +-
- 32 files changed, 32 insertions(+), 32 deletions(-)
+ 30 files changed, 30 insertions(+), 30 deletions(-)
 
 diff --git a/build/fuchsia/qemu_target_test.py b/build/fuchsia/qemu_target_test.py
 index 44b3802909..d399214cb8 100755
@@ -180,7 +178,7 @@ index 72b4c1db98..70bc624ff2 100755
  # Copyright 2019 The ANGLE Project Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style license that can be
 diff --git a/third_party/angle/scripts/trigger.py b/third_party/angle/scripts/trigger.py
-index ad25894d7d..60030df17e 100755
+index 9c91cefdc0..ef92a9755f 100755
 --- a/third_party/angle/scripts/trigger.py
 +++ b/third_party/angle/scripts/trigger.py
 @@ -1,4 +1,4 @@
@@ -300,7 +298,7 @@ index a58b3c697b..6d31850930 100755
  # Copyright 2014 Google Inc.
  #
 diff --git a/third_party/skia/tools/rewrite_includes.py b/third_party/skia/tools/rewrite_includes.py
-index 6210b8a0c6..0545b2c9fe 100755
+index 2d3946f766..884ac632d6 100755
 --- a/third_party/skia/tools/rewrite_includes.py
 +++ b/third_party/skia/tools/rewrite_includes.py
 @@ -1,4 +1,4 @@
@@ -339,23 +337,3 @@ index 9c07c18c84..7aed74ae37 100755
  #  Copyright (c) 2017 The WebRTC project authors. All Rights Reserved.
  #
  #  Use of this source code is governed by a BSD-style license
-diff --git a/tools/android/wpr/chrome_proxy_wpr_record.py b/tools/android/wpr/chrome_proxy_wpr_record.py
-index a3cd290056..2a7e298ad0 100755
---- a/tools/android/wpr/chrome_proxy_wpr_record.py
-+++ b/tools/android/wpr/chrome_proxy_wpr_record.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/python2
-+#!/usr/bin/env python3
- # Copyright 2021 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
- # found in the LICENSE file.
-diff --git a/tools/android/wpr/chrome_proxy_wpr_replay.py b/tools/android/wpr/chrome_proxy_wpr_replay.py
-index aabc543102..569c8fd392 100755
---- a/tools/android/wpr/chrome_proxy_wpr_replay.py
-+++ b/tools/android/wpr/chrome_proxy_wpr_replay.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/python2
-+#!/usr/bin/env python3
- # Copyright 2021 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
- # found in the LICENSE file.

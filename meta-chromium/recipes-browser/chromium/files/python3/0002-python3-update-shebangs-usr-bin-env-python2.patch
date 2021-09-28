@@ -1,6 +1,6 @@
-From e2ef5b8f2bf42764a386121e0372f4bcd9a01785 Mon Sep 17 00:00:00 2001
+From 879ccb52f4481d1db597c375699fa39ce4729ffb Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:46 +0200
+Date: Tue, 28 Sep 2021 13:32:23 +0200
 Subject: [PATCH] python3: update shebangs '^#!/usr/bin/env python2$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
@@ -15,9 +15,9 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  third_party/openscreen/src/build/scripts/install-sysroot.py     | 2 +-
  third_party/openscreen/src/testing/libfuzzer/archive_corpus.py  | 2 +-
  third_party/skia/bin/gerrit-number                              | 2 +-
+ third_party/wayland-protocols/gtk/gtk/compose/compose-parse.py  | 2 +-
  third_party/webgl/src/sdk/tests/deqp/build.py                   | 2 +-
  third_party/webgl/src/sdk/tests/py/tex_image_test_generator.py  | 2 +-
- tools/security/idn_test_case_generator.py                       | 2 +-
  v8/tools/dev/gm.py                                              | 2 +-
  14 files changed, 14 insertions(+), 14 deletions(-)
 
@@ -121,6 +121,16 @@ index d9707c07a7..db1952dc19 100755
  # Copyright 2017 Google Inc.
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
+diff --git a/third_party/wayland-protocols/gtk/gtk/compose/compose-parse.py b/third_party/wayland-protocols/gtk/gtk/compose/compose-parse.py
+index 23444bc1ed..15b6171edf 100755
+--- a/third_party/wayland-protocols/gtk/gtk/compose/compose-parse.py
++++ b/third_party/wayland-protocols/gtk/gtk/compose/compose-parse.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
+ #
+ # compose-parse.py, version 1.4
 diff --git a/third_party/webgl/src/sdk/tests/deqp/build.py b/third_party/webgl/src/sdk/tests/deqp/build.py
 index 7f452c634a..c2e1765301 100644
 --- a/third_party/webgl/src/sdk/tests/deqp/build.py
@@ -141,18 +151,8 @@ index 37b4022738..96b7519581 100755
  
  # Copyright (c) 2019 The Khronos Group Inc.
  # Use of this source code is governed by an MIT-style license that can be
-diff --git a/tools/security/idn_test_case_generator.py b/tools/security/idn_test_case_generator.py
-index 1d0eab65f6..92642b31d6 100755
---- a/tools/security/idn_test_case_generator.py
-+++ b/tools/security/idn_test_case_generator.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2
-+#!/usr/bin/env python3
- # Copyright 2017 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
- # found in the LICENSE file.
 diff --git a/v8/tools/dev/gm.py b/v8/tools/dev/gm.py
-index 8a05da3cc9..7c7f4d5628 100755
+index 3d52b70cdf..868518c4c7 100755
 --- a/v8/tools/dev/gm.py
 +++ b/v8/tools/dev/gm.py
 @@ -1,4 +1,4 @@

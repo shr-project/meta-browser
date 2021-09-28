@@ -1,4 +1,4 @@
-From a6cd62d1ddf79df4cb704f594c561b03a65c9c75 Mon Sep 17 00:00:00 2001
+From 6a28633f2df52c1da17ad56edbbd0ecb97653c29 Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
 Date: Fri, 3 Sep 2021 16:20:44 +0200
 Subject: [PATCH] shebangs.sh: add script which converted most of the shebangs

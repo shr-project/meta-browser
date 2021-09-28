@@ -1,6 +1,6 @@
-From 163fb58ef625b91d45928e7f90ebb0a28fe847ff Mon Sep 17 00:00:00 2001
+From 623136ae5204435ba6dbf61b4442fab5b7e4ca00 Mon Sep 17 00:00:00 2001
 From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Sep 2021 16:15:52 +0200
+Date: Tue, 28 Sep 2021 13:32:29 +0200
 Subject: [PATCH] python3: update shebangs '^#!/usr/bin/python3 -i$'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
@@ -14,6 +14,7 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  .../src/scripts/dispatch_table_helper_generator.py            | 2 +-
  .../vulkan-loader/src/scripts/helper_file_generator.py        | 2 +-
  .../vulkan-loader/src/scripts/loader_extension_generator.py   | 2 +-
+ .../src/scripts/loader_generated_header_version_generator.py  | 2 +-
  .../vulkan-deps/vulkan-tools/src/scripts/common_codegen.py    | 2 +-
  .../vulkan-tools/src/scripts/mock_icd_generator.py            | 2 +-
  .../src/scripts/vulkan_tools_helper_file_generator.py         | 2 +-
@@ -32,10 +33,10 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  .../src/scripts/spirv_validation_generator.py                 | 2 +-
  .../vulkan-validation-layers/src/scripts/sync_val_gen.py      | 2 +-
  .../src/scripts/thread_safety_generator.py                    | 4 ++--
- 27 files changed, 28 insertions(+), 28 deletions(-)
+ 28 files changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/third_party/vulkan-deps/vulkan-headers/src/registry/cgenerator.py b/third_party/vulkan-deps/vulkan-headers/src/registry/cgenerator.py
-index f77e21a160..09ef6c1ad7 100644
+index 5614602134..c45846e8e4 100644
 --- a/third_party/vulkan-deps/vulkan-headers/src/registry/cgenerator.py
 +++ b/third_party/vulkan-deps/vulkan-headers/src/registry/cgenerator.py
 @@ -1,4 +1,4 @@
@@ -55,7 +56,7 @@ index edf90596d6..132eca7e8f 100644
  # Copyright 2013-2021 The Khronos Group Inc.
  #
 diff --git a/third_party/vulkan-deps/vulkan-headers/src/registry/generator.py b/third_party/vulkan-deps/vulkan-headers/src/registry/generator.py
-index 6203c650d0..c07247ec88 100644
+index 01274a33b0..a21b1af293 100644
 --- a/third_party/vulkan-deps/vulkan-headers/src/registry/generator.py
 +++ b/third_party/vulkan-deps/vulkan-headers/src/registry/generator.py
 @@ -1,4 +1,4 @@
@@ -105,7 +106,7 @@ index 333cdf6632..1b14eef098 100644
  # Copyright (c) 2015-2017 The Khronos Group Inc.
  # Copyright (c) 2015-2017 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-loader/src/scripts/helper_file_generator.py b/third_party/vulkan-deps/vulkan-loader/src/scripts/helper_file_generator.py
-index 323bee6054..2d7f52344e 100644
+index ca5f67d694..0355706cb6 100644
 --- a/third_party/vulkan-deps/vulkan-loader/src/scripts/helper_file_generator.py
 +++ b/third_party/vulkan-deps/vulkan-loader/src/scripts/helper_file_generator.py
 @@ -1,4 +1,4 @@
@@ -115,7 +116,7 @@ index 323bee6054..2d7f52344e 100644
  # Copyright (c) 2015-2017 The Khronos Group Inc.
  # Copyright (c) 2015-2017 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_extension_generator.py b/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_extension_generator.py
-index 421dc849f4..c280317b02 100644
+index 69de89548b..586eaca811 100644
 --- a/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_extension_generator.py
 +++ b/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_extension_generator.py
 @@ -1,4 +1,4 @@
@@ -124,6 +125,16 @@ index 421dc849f4..c280317b02 100644
  #
  # Copyright (c) 2015-2020 The Khronos Group Inc.
  # Copyright (c) 2015-2020 Valve Corporation
+diff --git a/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_generated_header_version_generator.py b/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_generated_header_version_generator.py
+index dcae17385e..df245318db 100644
+--- a/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_generated_header_version_generator.py
++++ b/third_party/vulkan-deps/vulkan-loader/src/scripts/loader_generated_header_version_generator.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3 -i
++#!/usr/bin/env python3 -i
+ #
+ # Copyright (c) 2021 The Khronos Group Inc.
+ # Copyright (c) 2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-tools/src/scripts/common_codegen.py b/third_party/vulkan-deps/vulkan-tools/src/scripts/common_codegen.py
 index 5ba9a57e6f..86292dfefa 100644
 --- a/third_party/vulkan-deps/vulkan-tools/src/scripts/common_codegen.py
@@ -145,7 +156,7 @@ index 64ea7dc650..eb3640e1a4 100644
  # Copyright (c) 2015-2017 The Khronos Group Inc.
  # Copyright (c) 2015-2017 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkan_tools_helper_file_generator.py b/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkan_tools_helper_file_generator.py
-index 02170273ec..2676da6122 100644
+index 1b24a5e4d2..54fc87324a 100644
 --- a/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkan_tools_helper_file_generator.py
 +++ b/third_party/vulkan-deps/vulkan-tools/src/scripts/vulkan_tools_helper_file_generator.py
 @@ -1,4 +1,4 @@
@@ -155,7 +166,7 @@ index 02170273ec..2676da6122 100644
  # Copyright (c) 2015-2017 The Khronos Group Inc.
  # Copyright (c) 2015-2017 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/best_practices_generator.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/best_practices_generator.py
-index c32e502d51..fd8b0bbf47 100644
+index 27eeace068..fc77b2de54 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/best_practices_generator.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/best_practices_generator.py
 @@ -1,4 +1,4 @@
@@ -165,7 +176,7 @@ index c32e502d51..fd8b0bbf47 100644
  # Copyright (c) 2015-2021 The Khronos Group Inc.
  # Copyright (c) 2015-2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/command_validation_generator.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/command_validation_generator.py
-index 2725e8b3f9..2dbcb16d45 100644
+index e2025b4ae4..717c77f374 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/command_validation_generator.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/command_validation_generator.py
 @@ -1,4 +1,4 @@
@@ -175,15 +186,15 @@ index 2725e8b3f9..2dbcb16d45 100644
  # Copyright (c) 2021 The Khronos Group Inc.
  #
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/common_ci.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/common_ci.py
-index 606845196c..bb95d3d7d5 100644
+index 18e5eeda2b..c6fb6ad547 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/common_ci.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/common_ci.py
 @@ -1,4 +1,4 @@
 -#!/usr/bin/python3 -i
 +#!/usr/bin/env python3 -i
  #
- # Copyright (c) 2015-2017, 2019-2020 The Khronos Group Inc.
- # Copyright (c) 2015-2017, 2019-2020 Valve Corporation
+ # Copyright (c) 2015-2017, 2019-2021 The Khronos Group Inc.
+ # Copyright (c) 2015-2017, 2019-2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/common_codegen.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/common_codegen.py
 index 5f2450cae1..3138698609 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/common_codegen.py
@@ -205,7 +216,7 @@ index d544a0909a..38ea7c6610 100644
  # Copyright (c) 2015-2021 The Khronos Group Inc.
  # Copyright (c) 2015-2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/helper_file_generator.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/helper_file_generator.py
-index 0b15ee1430..0880623944 100644
+index c1ebd1f012..6492634fce 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/helper_file_generator.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/helper_file_generator.py
 @@ -1,4 +1,4 @@
@@ -215,7 +226,7 @@ index 0b15ee1430..0880623944 100644
  # Copyright (c) 2015-2021 The Khronos Group Inc.
  # Copyright (c) 2015-2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_dispatch_generator.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_dispatch_generator.py
-index 925fd43d9c..b22f551efc 100644
+index bb89bb688c..2bf61e17f7 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_dispatch_generator.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_dispatch_generator.py
 @@ -1,4 +1,4 @@
@@ -225,7 +236,7 @@ index 925fd43d9c..b22f551efc 100644
  # Copyright (c) 2015-2021 The Khronos Group Inc.
  # Copyright (c) 2015-2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_generator.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_generator.py
-index 420381cded..7a3dee58e0 100644
+index c840cb5f39..8e2e11d3b4 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_generator.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/layer_chassis_generator.py
 @@ -1,4 +1,4 @@
@@ -265,7 +276,7 @@ index 61709a86f4..3bc9453363 100644
  # Copyright (c) 2015-2021 The Khronos Group Inc.
  # Copyright (c) 2015-2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/parameter_validation_generator.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/parameter_validation_generator.py
-index 55da4854ce..df4a63f61d 100644
+index bc9d11e115..ed916c328a 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/parameter_validation_generator.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/parameter_validation_generator.py
 @@ -1,4 +1,4 @@
@@ -275,7 +286,7 @@ index 55da4854ce..df4a63f61d 100644
  # Copyright (c) 2015-2021 The Khronos Group Inc.
  # Copyright (c) 2015-2021 Valve Corporation
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/spirv_validation_generator.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/spirv_validation_generator.py
-index e175a6ffa5..ee8ca0981c 100644
+index 79b40edb13..1749c8cd9e 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/spirv_validation_generator.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/spirv_validation_generator.py
 @@ -1,4 +1,4 @@
@@ -285,7 +296,7 @@ index e175a6ffa5..ee8ca0981c 100644
  # Copyright (c) 2020-2021 The Khronos Group Inc.
  #
 diff --git a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/sync_val_gen.py b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/sync_val_gen.py
-index 9c69c3322b..318edeabbc 100644
+index 5cc6a00322..5e9531a5af 100644
 --- a/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/sync_val_gen.py
 +++ b/third_party/vulkan-deps/vulkan-validation-layers/src/scripts/sync_val_gen.py
 @@ -1,4 +1,4 @@
