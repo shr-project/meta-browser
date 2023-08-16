@@ -1,0 +1,28 @@
+From 699d6f7eaad777c233ac326b54074b646e3b89a3 Mon Sep 17 00:00:00 2001
+From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 16 Aug 2023 18:40:14 +0000
+Subject: [PATCH] Bug 1592738 - update xpcom_macros to more recent proc_macro
+ et al
+
+Upstream-Status: Backport [https://hg.mozilla.org/releases/mozilla-esr78/rev/6445a3a0e81d6aeeaa976be784edf2de9fab84de]
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ xpcom/rust/xpcom/xpcom_macros/Cargo.toml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/xpcom/rust/xpcom/xpcom_macros/Cargo.toml b/xpcom/rust/xpcom/xpcom_macros/Cargo.toml
+index cae41b5f58..807221f1c8 100644
+--- a/xpcom/rust/xpcom/xpcom_macros/Cargo.toml
++++ b/xpcom/rust/xpcom/xpcom_macros/Cargo.toml
+@@ -7,7 +7,7 @@ authors = ["Michael Layzell <michael@thelayzells.com>"]
+ proc-macro = true
+ 
+ [dependencies]
+-syn = "0.15"
+-quote = "0.6"
+-proc-macro2 = "0.4"
++syn = "1"
++quote = "1"
++proc-macro2 = "1"
+ lazy_static = "1.0"

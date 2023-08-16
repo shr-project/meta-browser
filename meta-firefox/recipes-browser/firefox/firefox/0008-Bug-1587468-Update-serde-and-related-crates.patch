@@ -1,0 +1,4352 @@
+From 7bc975ac938585df73825c4512eec5cea4446f2e Mon Sep 17 00:00:00 2001
+From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 16 Aug 2023 18:46:05 +0000
+Subject: [PATCH] Bug 1587468 - Update serde and related crates
+
+Upstream-Status: Backport [https://hg.mozilla.org/releases/mozilla-esr78/rev/285df50f96b2249bc9dc424a4b05eb166b55715c]
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ third_party/rust/serde/.cargo-checksum.json   |    2 +-
+ third_party/rust/serde/Cargo.toml             |    8 +-
+ third_party/rust/serde/README.md              |   26 +-
+ third_party/rust/serde/build.rs               |   35 +-
+ third_party/rust/serde/src/de/ignored_any.rs  |   11 +-
+ third_party/rust/serde/src/de/impls.rs        |  149 +-
+ third_party/rust/serde/src/de/mod.rs          |   15 +-
+ third_party/rust/serde/src/de/value.rs        |  120 +-
+ third_party/rust/serde/src/export.rs          |    5 +-
+ third_party/rust/serde/src/integer128.rs      |   12 +-
+ third_party/rust/serde/src/lib.rs             |   45 +-
+ third_party/rust/serde/src/private/de.rs      |    2 +
+ third_party/rust/serde/src/private/ser.rs     |   44 +-
+ third_party/rust/serde/src/ser/impls.rs       |   70 +-
+ third_party/rust/serde/src/ser/mod.rs         |   13 +-
+ third_party/rust/serde/src/std_error.rs       |   48 +
+ third_party/rust/serde_derive/Cargo.toml      |    4 +-
+ third_party/rust/serde_derive/README.md       |   26 +-
+ third_party/rust/serde_derive/src/bound.rs    |   22 +-
+ third_party/rust/serde_derive/src/de.rs       |  171 +-
+ third_party/rust/serde_derive/src/dummy.rs    |   23 +-
+ third_party/rust/serde_derive/src/fragment.rs |   24 +-
+ .../rust/serde_derive/src/internals/ast.rs    |   12 +-
+ .../rust/serde_derive/src/internals/attr.rs   | 1394 ++++++++---------
+ .../rust/serde_derive/src/internals/check.rs  |   27 +-
+ .../rust/serde_derive/src/internals/ctxt.rs   |    5 +
+ .../rust/serde_derive/src/internals/mod.rs    |    1 +
+ .../rust/serde_derive/src/internals/symbol.rs |   67 +
+ third_party/rust/serde_derive/src/lib.rs      |    8 +-
+ third_party/rust/serde_derive/src/ser.rs      |   90 +-
+ 30 files changed, 1493 insertions(+), 986 deletions(-)
+ create mode 100644 third_party/rust/serde/src/std_error.rs
+ create mode 100644 third_party/rust/serde_derive/src/internals/symbol.rs
+
+diff --git a/third_party/rust/serde/.cargo-checksum.json b/third_party/rust/serde/.cargo-checksum.json
+index af230b5437..1e665e6927 100644
+--- a/third_party/rust/serde/.cargo-checksum.json
++++ b/third_party/rust/serde/.cargo-checksum.json
+@@ -1 +1 @@
+-{"files":{"Cargo.toml":"3084cb56ac54d166ae7c7ef988c63ab8fd2718f06f09eadbb510c7150608d5e9","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3","README.md":"11f6eec1a694070311f8ff191c53e67b90bf1d5064f32d684a1b73b1c3264ac1","build.rs":"35a17dedfe5d52409eb3932a52698a20da2ba6b28b606a31116385aa3c627c44","crates-io.md":"131dee2d4beaf83485aed22942b98815ef65af9bcfb65f02b5b90c59b8bc7b8b","src/de/from_primitive.rs":"058fa17313ed3a9c29ec04c6ec67f21a756f6f28cdeb4b0dfcd7012b3e702d0b","src/de/ignored_any.rs":"3c199f3e4c3f8775ab30439c6868b61aa0a32fa23232b218afb94d1aadb15f0a","src/de/impls.rs":"902c73687e37b13acbbd6ce4089742a6be3ee12a7e9e1cab1719fad7dcdd8e04","src/de/mod.rs":"1e4b0fde0bb8e0fc64da23fe6b70291554162a8eed434250a0469dae0bf55a97","src/de/utf8.rs":"f17524ee0af98ec3abcfd7d0b812fbd1033263bd8e2ce2f57c1e1999ce153558","src/de/value.rs":"c738089a0309ba1749f69a4bb01e237d6ddaecba0799db009a2661c5269873c3","src/export.rs":"dceb648800cd6a4ee651259a203c6d98bffe768b943f090e4a06ff0c1cfc701f","src/integer128.rs":"f8298a559f1fae7579819cb68f6cba8c01cdda11737cf1fb498bf52810c130b6","src/lib.rs":"79fc780521079f4fef7c500d1dccba339cd21b9f00929948b6fe96ebef442cea","src/macros.rs":"f18fc25c5fb857238bf119cdee5c7987a8584dea69c51f27ca718b7dfd871d0f","src/private/de.rs":"2a4b0b7145135b1116f7b0af4adebe74b7d3aa4cc96896584066a654aa4b6c6c","src/private/macros.rs":"ebb6affd4c89e3b5f9a42e03f8b7d966bc588875e9b44e962d0b7aba7f80a10f","src/private/mod.rs":"f8f2cd5edbfc26c268b34cdb89db1b34e6348f81384f03d18532e7568575006d","src/private/ser.rs":"946bf9910bb646a4c1732fd17f8c98db2515fe23edeb6e622e3618ff4de46b33","src/ser/impls.rs":"a3863d6d8c2bcf711fb146021680dc698814dadc1fb1415b9909ad1f0b19982e","src/ser/impossible.rs":"3dd0e165b88fc67e698e675f16569b91fab9e054caa4c3e1997f929ba364fe90","src/ser/mod.rs":"20784f4f03a49071a519232026580bf9079bd1544c01eb18ce618eeb9c6ccd89"},"package":"9f301d728f2b94c9a7691c90f07b0b4e8a4517181d9461be94c04bddeb4bd850"}
+\ No newline at end of file
++{"files":{"Cargo.toml":"5225bf9886cf381fca9b37d89070bb62d7b53ce7abf6df6f0fab2648df97db55","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3","README.md":"b919da154e92b23653a6d0432feb95f210cdac2617126f4e05c4842f170dc395","build.rs":"00972536ef079d36b6a547057ae423352b30da93554c5f22d33196e3e1753dbc","crates-io.md":"131dee2d4beaf83485aed22942b98815ef65af9bcfb65f02b5b90c59b8bc7b8b","src/de/from_primitive.rs":"058fa17313ed3a9c29ec04c6ec67f21a756f6f28cdeb4b0dfcd7012b3e702d0b","src/de/ignored_any.rs":"6a0527edd497a56a103ae65f5e73da675b3f99094d6dcad3c335c8d932daaf40","src/de/impls.rs":"d1677459c53e3ca99a2b6f3ae58d1ff9c906d953e3d27273f3bcf3fbad2e95d8","src/de/mod.rs":"0dd0c8bdefa86f621fdeba8f7b5575463c111bf034b0297e80d3aa8fedf40955","src/de/utf8.rs":"f17524ee0af98ec3abcfd7d0b812fbd1033263bd8e2ce2f57c1e1999ce153558","src/de/value.rs":"a878f6bdd57d25b0b93bfc6288ed1e46c50870dc8703748b6fbb8c0965a6b586","src/export.rs":"2ebdf0eccaa64c5e98c6dfd13b4980474f627fc3fae90cfc2c741acf860afd5d","src/integer128.rs":"b213ec6c1ecf8c8228d9591e0b2c31b78d972cd4c6a0b231468090f15784f6f6","src/lib.rs":"58a5d692c5efc046ea9ba2710d1daa0e13e8d5efead64f8cb78e9351290e8857","src/macros.rs":"f18fc25c5fb857238bf119cdee5c7987a8584dea69c51f27ca718b7dfd871d0f","src/private/de.rs":"175fa8a219cf931d3d41e140bb1c9c0599a009e589a8443f9cb54f02fdf2c7ed","src/private/macros.rs":"ebb6affd4c89e3b5f9a42e03f8b7d966bc588875e9b44e962d0b7aba7f80a10f","src/private/mod.rs":"f8f2cd5edbfc26c268b34cdb89db1b34e6348f81384f03d18532e7568575006d","src/private/ser.rs":"67c085463d348806225f323eabd32b5bfd540ec8d78a1b515436af9b8a9636ec","src/ser/impls.rs":"741d6e24635911e65e31bc67d2596284a8e90b5682c975bacf11388e9b3d05e4","src/ser/impossible.rs":"3dd0e165b88fc67e698e675f16569b91fab9e054caa4c3e1997f929ba364fe90","src/ser/mod.rs":"3b90c5cb48d895a653ef94328c77e7956c7f4b6e0aaddd9101afabe87ff0f23a","src/std_error.rs":"3aac687856c035517fae44ed2906dd4a1e3184bae4bf613adcdeb73f74126c57"},"package":"0c4b39bd9b0b087684013a792c59e3e07a46a01d2322518d8a1104641a0b1be0"}
+\ No newline at end of file
+diff --git a/third_party/rust/serde/Cargo.toml b/third_party/rust/serde/Cargo.toml
+index ed8271856e..42394e7aa5 100644
+--- a/third_party/rust/serde/Cargo.toml
++++ b/third_party/rust/serde/Cargo.toml
+@@ -3,7 +3,7 @@
+ # When uploading crates to the registry Cargo will automatically
+ # "normalize" Cargo.toml files for maximal compatibility
+ # with all versions of Cargo and also rewrite `path` dependencies
+-# to registry (e.g. crates.io) dependencies
++# to registry (e.g., crates.io) dependencies
+ #
+ # If you believe there's an error in this file please file an
+ # issue against the rust-lang/cargo repository. If you're
+@@ -12,7 +12,7 @@
+ 
+ [package]
+ name = "serde"
+-version = "1.0.88"
++version = "1.0.102"
+ authors = ["Erick Tryzelaar <erick.tryzelaar@gmail.com>", "David Tolnay <dtolnay@gmail.com>"]
+ build = "build.rs"
+ include = ["Cargo.toml", "build.rs", "src/**/*.rs", "crates-io.md", "README.md", "LICENSE-APACHE", "LICENSE-MIT"]
+@@ -22,7 +22,7 @@ documentation = "https://docs.serde.rs/serde/"
+ readme = "crates-io.md"
+ keywords = ["serde", "serialization", "no_std"]
+ categories = ["encoding"]
+-license = "MIT/Apache-2.0"
++license = "MIT OR Apache-2.0"
+ repository = "https://github.com/serde-rs/serde"
+ [package.metadata.playground]
+ features = ["derive", "rc"]
+@@ -33,7 +33,7 @@ optional = true
+ version = "1.0"
+ 
+ [features]
+-alloc = ["unstable"]
++alloc = []
+ default = ["std"]
+ derive = ["serde_derive"]
+ rc = []
+diff --git a/third_party/rust/serde/README.md b/third_party/rust/serde/README.md
+index b2626db940..426ad6c102 100644
+--- a/third_party/rust/serde/README.md
++++ b/third_party/rust/serde/README.md
+@@ -1,11 +1,13 @@
+-# Serde &emsp; [![Build Status]][travis] [![Latest Version]][crates.io] [![Rustc Version 1.13+]][rustc]
++# Serde &emsp; [![Build Status]][travis] [![Latest Version]][crates.io] [![serde: rustc 1.13+]][Rust 1.13] [![serde_derive: rustc 1.31+]][Rust 1.31]
+ 
+ [Build Status]: https://api.travis-ci.org/serde-rs/serde.svg?branch=master
+ [travis]: https://travis-ci.org/serde-rs/serde
+ [Latest Version]: https://img.shields.io/crates/v/serde.svg
+ [crates.io]: https://crates.io/crates/serde
+-[Rustc Version 1.13+]: https://img.shields.io/badge/rustc-1.13+-lightgray.svg
+-[rustc]: https://blog.rust-lang.org/2016/11/10/Rust-1.13.html
++[serde: rustc 1.13+]: https://img.shields.io/badge/serde-rustc_1.13+-lightgray.svg
++[serde_derive: rustc 1.31+]: https://img.shields.io/badge/serde_derive-rustc_1.31+-lightgray.svg
++[Rust 1.13]: https://blog.rust-lang.org/2016/11/10/Rust-1.13.html
++[Rust 1.31]: https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html
+ 
+ **Serde is a framework for *ser*ializing and *de*serializing Rust data structures efficiently and generically.**
+ 
+@@ -81,19 +83,19 @@ good response, we are happy to respond to [GitHub issues][issues] as well.
+ [irc]: https://wiki.mozilla.org/IRC
+ [issues]: https://github.com/serde-rs/serde/issues/new/choose
+ 
+-## License
++<br>
+ 
+-Serde is licensed under either of
++#### License
+ 
+- * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or
+-   http://www.apache.org/licenses/LICENSE-2.0)
+- * MIT license ([LICENSE-MIT](LICENSE-MIT) or
+-   http://opensource.org/licenses/MIT)
++<sup>
++Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
++2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
++</sup>
+ 
+-at your option.
+-
+-### Contribution
++<br>
+ 
++<sub>
+ Unless you explicitly state otherwise, any contribution intentionally submitted
+ for inclusion in Serde by you, as defined in the Apache-2.0 license, shall be
+ dual licensed as above, without any additional terms or conditions.
++</sub>
+diff --git a/third_party/rust/serde/build.rs b/third_party/rust/serde/build.rs
+index 82129bc728..1453adf107 100644
+--- a/third_party/rust/serde/build.rs
++++ b/third_party/rust/serde/build.rs
+@@ -23,10 +23,18 @@ fn main() {
+         println!("cargo:rustc-cfg=collections_bound");
+     }
+ 
+-    // CString::into_boxed_c_str stabilized in Rust 1.20:
++    // core::cmp::Reverse stabilized in Rust 1.19:
++    // https://doc.rust-lang.org/stable/core/cmp/struct.Reverse.html
++    if minor >= 19 {
++        println!("cargo:rustc-cfg=core_reverse");
++    }
++
++    // CString::into_boxed_c_str and PathBuf::into_boxed_path stabilized in Rust 1.20:
+     // https://doc.rust-lang.org/std/ffi/struct.CString.html#method.into_boxed_c_str
++    // https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.into_boxed_path
+     if minor >= 20 {
+         println!("cargo:rustc-cfg=de_boxed_c_str");
++        println!("cargo:rustc-cfg=de_boxed_path");
+     }
+ 
+     // From<Box<T>> for Rc<T> / Arc<T> stabilized in Rust 1.21:
+@@ -62,6 +70,31 @@ fn main() {
+     if minor >= 28 {
+         println!("cargo:rustc-cfg=num_nonzero");
+     }
++
++    // TryFrom, Atomic types, and non-zero signed integers stabilized in Rust 1.34:
++    // https://blog.rust-lang.org/2019/04/11/Rust-1.34.0.html#tryfrom-and-tryinto
++    // https://blog.rust-lang.org/2019/04/11/Rust-1.34.0.html#library-stabilizations
++    if minor >= 34 {
++        println!("cargo:rustc-cfg=core_try_from");
++        println!("cargo:rustc-cfg=num_nonzero_signed");
++
++        // Whitelist of archs that support std::sync::atomic module. Ideally we
++        // would use #[cfg(target_has_atomic = "...")] but it is not stable yet.
++        // Instead this is based on rustc's src/librustc_target/spec/*.rs.
++        let has_atomic64 = target.starts_with("x86_64")
++            || target.starts_with("i686")
++            || target.starts_with("aarch64")
++            || target.starts_with("powerpc64")
++            || target.starts_with("sparc64")
++            || target.starts_with("mips64el");
++        let has_atomic32 = has_atomic64 || emscripten;
++        if has_atomic64 {
++            println!("cargo:rustc-cfg=std_atomic64");
++        }
++        if has_atomic32 {
++            println!("cargo:rustc-cfg=std_atomic");
++        }
++    }
+ }
+ 
+ fn rustc_minor_version() -> Option<u32> {
+diff --git a/third_party/rust/serde/src/de/ignored_any.rs b/third_party/rust/serde/src/de/ignored_any.rs
+index 855d68e1ae..68a644e0d1 100644
+--- a/third_party/rust/serde/src/de/ignored_any.rs
++++ b/third_party/rust/serde/src/de/ignored_any.rs
+@@ -1,6 +1,8 @@
+ use lib::*;
+ 
+-use de::{Deserialize, Deserializer, Error, MapAccess, SeqAccess, Visitor};
++use de::{
++    Deserialize, Deserializer, EnumAccess, Error, MapAccess, SeqAccess, VariantAccess, Visitor,
++};
+ 
+ /// An efficient way of discarding data from a deserializer.
+ ///
+@@ -205,6 +207,13 @@ impl<'de> Visitor<'de> for IgnoredAny {
+         let _ = bytes;
+         Ok(IgnoredAny)
+     }
++
++    fn visit_enum<A>(self, data: A) -> Result<Self::Value, A::Error>
++    where
++        A: EnumAccess<'de>,
++    {
++        data.variant::<IgnoredAny>()?.1.newtype_variant()
++    }
+ }
+ 
+ impl<'de> Deserialize<'de> for IgnoredAny {
+diff --git a/third_party/rust/serde/src/de/impls.rs b/third_party/rust/serde/src/de/impls.rs
+index 13c8b5a7c3..efd194ccc8 100644
+--- a/third_party/rust/serde/src/de/impls.rs
++++ b/third_party/rust/serde/src/de/impls.rs
+@@ -578,6 +578,9 @@ macro_rules! forwarded_impl {
+ #[cfg(all(feature = "std", de_boxed_c_str))]
+ forwarded_impl!((), Box<CStr>, CString::into_boxed_c_str);
+ 
++#[cfg(core_reverse)]
++forwarded_impl!((T), Reverse<T>, Reverse);
++
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+ struct OptionVisitor<T> {
+@@ -787,7 +790,8 @@ seq_impl!(
+     BinaryHeap::clear,
+     BinaryHeap::with_capacity(size_hint::cautious(seq.size_hint())),
+     BinaryHeap::reserve,
+-    BinaryHeap::push);
++    BinaryHeap::push
++);
+ 
+ #[cfg(any(feature = "std", feature = "alloc"))]
+ seq_impl!(
+@@ -796,7 +800,8 @@ seq_impl!(
+     BTreeSet::clear,
+     BTreeSet::new(),
+     nop_reserve,
+-    BTreeSet::insert);
++    BTreeSet::insert
++);
+ 
+ #[cfg(any(feature = "std", feature = "alloc"))]
+ seq_impl!(
+@@ -962,7 +967,7 @@ impl<'de, T> Deserialize<'de> for [T; 0] {
+ }
+ 
+ macro_rules! array_impls {
+-    ($($len:expr => ($($n:tt $name:ident)+))+) => {
++    ($($len:expr => ($($n:tt)+))+) => {
+         $(
+             impl<'de, T> Visitor<'de> for ArrayVisitor<[T; $len]>
+             where
+@@ -979,14 +984,12 @@ macro_rules! array_impls {
+                 where
+                     A: SeqAccess<'de>,
+                 {
+-                    $(
+-                        let $name = match try!(seq.next_element()) {
++                    Ok([$(
++                        match try!(seq.next_element()) {
+                             Some(val) => val,
+                             None => return Err(Error::invalid_length($n, &self)),
+-                        };
+-                    )+
+-
+-                    Ok([$($name),+])
++                        }
++                    ),+])
+                 }
+             }
+ 
+@@ -1042,38 +1045,38 @@ macro_rules! array_impls {
+ }
+ 
+ array_impls! {
+-    1 => (0 a)
+-    2 => (0 a 1 b)
+-    3 => (0 a 1 b 2 c)
+-    4 => (0 a 1 b 2 c 3 d)
+-    5 => (0 a 1 b 2 c 3 d 4 e)
+-    6 => (0 a 1 b 2 c 3 d 4 e 5 f)
+-    7 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g)
+-    8 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h)
+-    9 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i)
+-    10 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j)
+-    11 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k)
+-    12 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l)
+-    13 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m)
+-    14 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n)
+-    15 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o)
+-    16 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p)
+-    17 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q)
+-    18 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r)
+-    19 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s)
+-    20 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t)
+-    21 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u)
+-    22 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v)
+-    23 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w)
+-    24 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x)
+-    25 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y)
+-    26 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y 25 z)
+-    27 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y 25 z 26 aa)
+-    28 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y 25 z 26 aa 27 ab)
+-    29 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y 25 z 26 aa 27 ab 28 ac)
+-    30 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y 25 z 26 aa 27 ab 28 ac 29 ad)
+-    31 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y 25 z 26 aa 27 ab 28 ac 29 ad 30 ae)
+-    32 => (0 a 1 b 2 c 3 d 4 e 5 f 6 g 7 h 8 i 9 j 10 k 11 l 12 m 13 n 14 o 15 p 16 q 17 r 18 s 19 t 20 u 21 v 22 w 23 x 24 y 25 z 26 aa 27 ab 28 ac 29 ad 30 ae 31 af)
++    1 => (0)
++    2 => (0 1)
++    3 => (0 1 2)
++    4 => (0 1 2 3)
++    5 => (0 1 2 3 4)
++    6 => (0 1 2 3 4 5)
++    7 => (0 1 2 3 4 5 6)
++    8 => (0 1 2 3 4 5 6 7)
++    9 => (0 1 2 3 4 5 6 7 8)
++    10 => (0 1 2 3 4 5 6 7 8 9)
++    11 => (0 1 2 3 4 5 6 7 8 9 10)
++    12 => (0 1 2 3 4 5 6 7 8 9 10 11)
++    13 => (0 1 2 3 4 5 6 7 8 9 10 11 12)
++    14 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13)
++    15 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14)
++    16 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15)
++    17 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
++    18 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17)
++    19 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18)
++    20 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19)
++    21 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20)
++    22 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21)
++    23 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22)
++    24 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23)
++    25 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24)
++    26 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25)
++    27 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26)
++    28 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)
++    29 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28)
++    30 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29)
++    31 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30)
++    32 => (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31)
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+@@ -1577,6 +1580,24 @@ impl<'de> Visitor<'de> for PathBufVisitor {
+     {
+         Ok(From::from(v))
+     }
++
++    fn visit_bytes<E>(self, v: &[u8]) -> Result<Self::Value, E>
++    where
++        E: Error,
++    {
++        str::from_utf8(v)
++            .map(From::from)
++            .map_err(|_| Error::invalid_value(Unexpected::Bytes(v), &self))
++    }
++
++    fn visit_byte_buf<E>(self, v: Vec<u8>) -> Result<Self::Value, E>
++    where
++        E: Error,
++    {
++        String::from_utf8(v)
++            .map(From::from)
++            .map_err(|e| Error::invalid_value(Unexpected::Bytes(&e.into_bytes()), &self))
++    }
+ }
+ 
+ #[cfg(feature = "std")]
+@@ -1589,6 +1610,9 @@ impl<'de> Deserialize<'de> for PathBuf {
+     }
+ }
+ 
++#[cfg(all(feature = "std", de_boxed_path))]
++forwarded_impl!((), Box<Path>, PathBuf::into_boxed_path);
++
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+ // If this were outside of the serde crate, it would just use:
+@@ -2401,7 +2425,6 @@ macro_rules! nonzero_integers {
+ }
+ 
+ nonzero_integers! {
+-    // Not including signed NonZeroI* since they might be removed
+     NonZeroU8,
+     NonZeroU16,
+     NonZeroU32,
+@@ -2409,12 +2432,26 @@ nonzero_integers! {
+     NonZeroUsize,
+ }
+ 
++#[cfg(num_nonzero_signed)]
++nonzero_integers! {
++    NonZeroI8,
++    NonZeroI16,
++    NonZeroI32,
++    NonZeroI64,
++    NonZeroIsize,
++}
++
+ // Currently 128-bit integers do not work on Emscripten targets so we need an
+ // additional `#[cfg]`
+ serde_if_integer128! {
+     nonzero_integers! {
+         NonZeroU128,
+     }
++
++    #[cfg(num_nonzero_signed)]
++    nonzero_integers! {
++        NonZeroI128,
++    }
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+@@ -2542,3 +2579,31 @@ where
+         Deserialize::deserialize(deserializer).map(Wrapping)
+     }
+ }
++
++#[cfg(all(feature = "std", std_atomic))]
++macro_rules! atomic_impl {
++    ($($ty:ident)*) => {
++        $(
++            impl<'de> Deserialize<'de> for $ty {
++                fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
++                where
++                    D: Deserializer<'de>,
++                {
++                    Deserialize::deserialize(deserializer).map(Self::new)
++                }
++            }
++        )*
++    };
++}
++
++#[cfg(all(feature = "std", std_atomic))]
++atomic_impl! {
++    AtomicBool
++    AtomicI8 AtomicI16 AtomicI32 AtomicIsize
++    AtomicU8 AtomicU16 AtomicU32 AtomicUsize
++}
++
++#[cfg(all(feature = "std", std_atomic64))]
++atomic_impl! {
++    AtomicI64 AtomicU64
++}
+diff --git a/third_party/rust/serde/src/de/mod.rs b/third_party/rust/serde/src/de/mod.rs
+index 6cf769d672..f1b8b3129a 100644
+--- a/third_party/rust/serde/src/de/mod.rs
++++ b/third_party/rust/serde/src/de/mod.rs
+@@ -59,13 +59,13 @@
+ //!    - Box\<T\>
+ //!    - Box\<\[T\]\>
+ //!    - Box\<str\>
+-//!    - Rc\<T\>
+-//!    - Arc\<T\>
+ //!    - Cow\<'a, T\>
+ //!    - Cell\<T\>
+ //!    - RefCell\<T\>
+ //!    - Mutex\<T\>
+ //!    - RwLock\<T\>
++//!    - Rc\<T\>&emsp;*(if* features = ["rc"] *is enabled)*
++//!    - Arc\<T\>&emsp;*(if* features = ["rc"] *is enabled)*
+ //!  - **Collection types**:
+ //!    - BTreeMap\<K, V\>
+ //!    - BTreeSet\<T\>
+@@ -125,6 +125,13 @@ mod utf8;
+ 
+ pub use self::ignored_any::IgnoredAny;
+ 
++#[cfg(feature = "std")]
++#[doc(no_inline)]
++pub use std::error::Error as StdError;
++#[cfg(not(feature = "std"))]
++#[doc(no_inline)]
++pub use std_error::Error as StdError;
++
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+ macro_rules! declare_error_trait {
+@@ -288,7 +295,7 @@ macro_rules! declare_error_trait {
+ }
+ 
+ #[cfg(feature = "std")]
+-declare_error_trait!(Error: Sized + error::Error);
++declare_error_trait!(Error: Sized + StdError);
+ 
+ #[cfg(not(feature = "std"))]
+ declare_error_trait!(Error: Sized + Debug + Display);
+@@ -787,7 +794,7 @@ where
+ ///
+ /// The role of this trait is to define the deserialization half of the [Serde
+ /// data model], which is a way to categorize every Rust data type into one of
+-/// 29 possible types. Each method of the `Serializer` trait corresponds to one
++/// 29 possible types. Each method of the `Deserializer` trait corresponds to one
+ /// of the types of the data model.
+ ///
+ /// Implementations of `Deserialize` map themselves into this data model by
+diff --git a/third_party/rust/serde/src/de/value.rs b/third_party/rust/serde/src/de/value.rs
+index 3a5229696a..d0a185da2e 100644
+--- a/third_party/rust/serde/src/de/value.rs
++++ b/third_party/rust/serde/src/de/value.rs
+@@ -1287,10 +1287,40 @@ where
+         visitor.visit_map(self.map)
+     }
+ 
++    fn deserialize_enum<V>(
++        self,
++        _name: &str,
++        _variants: &'static [&'static str],
++        visitor: V,
++    ) -> Result<V::Value, Self::Error>
++    where
++        V: de::Visitor<'de>,
++    {
++        visitor.visit_enum(self)
++    }
++
+     forward_to_deserialize_any! {
+         bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f32 f64 char str string
+         bytes byte_buf option unit unit_struct newtype_struct seq tuple
+-        tuple_struct map struct enum identifier ignored_any
++        tuple_struct map struct identifier ignored_any
++    }
++}
++
++impl<'de, A> de::EnumAccess<'de> for MapAccessDeserializer<A>
++where
++    A: de::MapAccess<'de>,
++{
++    type Error = A::Error;
++    type Variant = private::MapAsEnum<A>;
++
++    fn variant_seed<T>(mut self, seed: T) -> Result<(T::Value, Self::Variant), Self::Error>
++    where
++        T: de::DeserializeSeed<'de>,
++    {
++        match self.map.next_key_seed(seed)? {
++            Some(key) => Ok((key, private::map_as_enum(self.map))),
++            None => Err(de::Error::invalid_type(de::Unexpected::Map, &"enum")),
++        }
+     }
+ }
+ 
+@@ -1299,7 +1329,7 @@ where
+ mod private {
+     use lib::*;
+ 
+-    use de::{self, Unexpected};
++    use de::{self, DeserializeSeed, Deserializer, MapAccess, Unexpected, VariantAccess, Visitor};
+ 
+     #[derive(Clone, Debug)]
+     pub struct UnitOnly<E> {
+@@ -1360,6 +1390,92 @@ mod private {
+         }
+     }
+ 
++    #[derive(Clone, Debug)]
++    pub struct MapAsEnum<A> {
++        map: A,
++    }
++
++    pub fn map_as_enum<A>(map: A) -> MapAsEnum<A> {
++        MapAsEnum { map: map }
++    }
++
++    impl<'de, A> VariantAccess<'de> for MapAsEnum<A>
++    where
++        A: MapAccess<'de>,
++    {
++        type Error = A::Error;
++
++        fn unit_variant(mut self) -> Result<(), Self::Error> {
++            self.map.next_value()
++        }
++
++        fn newtype_variant_seed<T>(mut self, seed: T) -> Result<T::Value, Self::Error>
++        where
++            T: DeserializeSeed<'de>,
++        {
++            self.map.next_value_seed(seed)
++        }
++
++        fn tuple_variant<V>(mut self, len: usize, visitor: V) -> Result<V::Value, Self::Error>
++        where
++            V: Visitor<'de>,
++        {
++            self.map.next_value_seed(SeedTupleVariant {
++                len: len,
++                visitor: visitor,
++            })
++        }
++
++        fn struct_variant<V>(
++            mut self,
++            _fields: &'static [&'static str],
++            visitor: V,
++        ) -> Result<V::Value, Self::Error>
++        where
++            V: Visitor<'de>,
++        {
++            self.map
++                .next_value_seed(SeedStructVariant { visitor: visitor })
++        }
++    }
++
++    struct SeedTupleVariant<V> {
++        len: usize,
++        visitor: V,
++    }
++
++    impl<'de, V> DeserializeSeed<'de> for SeedTupleVariant<V>
++    where
++        V: Visitor<'de>,
++    {
++        type Value = V::Value;
++
++        fn deserialize<D>(self, deserializer: D) -> Result<Self::Value, D::Error>
++        where
++            D: Deserializer<'de>,
++        {
++            deserializer.deserialize_tuple(self.len, self.visitor)
++        }
++    }
++
++    struct SeedStructVariant<V> {
++        visitor: V,
++    }
++
++    impl<'de, V> DeserializeSeed<'de> for SeedStructVariant<V>
++    where
++        V: Visitor<'de>,
++    {
++        type Value = V::Value;
++
++        fn deserialize<D>(self, deserializer: D) -> Result<Self::Value, D::Error>
++        where
++            D: Deserializer<'de>,
++        {
++            deserializer.deserialize_map(self.visitor)
++        }
++    }
++
+     /// Avoid having to restate the generic types on `MapDeserializer`. The
+     /// `Iterator::Item` contains enough information to figure out K and V.
+     pub trait Pair {
+diff --git a/third_party/rust/serde/src/export.rs b/third_party/rust/serde/src/export.rs
+index 805f45abc3..caa1f4dc22 100644
+--- a/third_party/rust/serde/src/export.rs
++++ b/third_party/rust/serde/src/export.rs
+@@ -9,7 +9,10 @@ pub use lib::result::Result::{self, Err, Ok};
+ pub use self::string::from_utf8_lossy;
+ 
+ #[cfg(any(feature = "alloc", feature = "std"))]
+-pub use lib::Vec;
++pub use lib::{ToString, Vec};
++
++#[cfg(core_try_from)]
++pub use lib::convert::TryFrom;
+ 
+ mod string {
+     use lib::*;
+diff --git a/third_party/rust/serde/src/integer128.rs b/third_party/rust/serde/src/integer128.rs
+index 7a24e50ad6..01d6f34a1e 100644
+--- a/third_party/rust/serde/src/integer128.rs
++++ b/third_party/rust/serde/src/integer128.rs
+@@ -1,13 +1,13 @@
+ /// Conditional compilation depending on whether Serde is built with support for
+ /// 128-bit integers.
+ ///
+-/// Data formats that wish to support Rust compiler versions older than 1.26 may
+-/// place the i128 / u128 methods of their Serializer and Deserializer behind
+-/// this macro.
++/// Data formats that wish to support Rust compiler versions older than 1.26
++/// (or targets that lack 128-bit integers) may place the i128 / u128 methods
++/// of their Serializer and Deserializer behind this macro.
+ ///
+-/// Data formats that require a minimum Rust compiler version of at least 1.26
+-/// do not need to bother with this macro and may assume support for 128-bit
+-/// integers.
++/// Data formats that require a minimum Rust compiler version of at least 1.26,
++/// or do not target platforms that lack 128-bit integers, do not need to
++/// bother with this macro and may assume support for 128-bit integers.
+ ///
+ /// ```edition2018
+ /// # use serde::private::ser::Error;
+diff --git a/third_party/rust/serde/src/lib.rs b/third_party/rust/serde/src/lib.rs
+index 1d953d8467..a9e63c49b3 100644
+--- a/third_party/rust/serde/src/lib.rs
++++ b/third_party/rust/serde/src/lib.rs
+@@ -46,8 +46,8 @@
+ //! - [BSON], the data storage and network transfer format used by MongoDB.
+ //! - [Avro], a binary format used within Apache Hadoop, with support for schema
+ //!   definition.
+-//! - [Hjson], a variant of JSON designed to be readable and writable by humans.
+ //! - [JSON5], A superset of JSON including some productions from ES5.
++//! - [Postcard], a no\_std and embedded-systems friendly compact binary format.
+ //! - [URL], the x-www-form-urlencoded format.
+ //! - [Envy], a way to deserialize environment variables into Rust structs.
+ //!   *(deserialization only)*
+@@ -64,8 +64,8 @@
+ //! [RON]: https://github.com/ron-rs/ron
+ //! [BSON]: https://github.com/zonyitoo/bson-rs
+ //! [Avro]: https://github.com/flavray/avro-rs
+-//! [Hjson]: https://github.com/laktak/hjson-rust
+ //! [JSON5]: https://github.com/callum-oakley/json5-rs
++//! [Postcard]: https://github.com/jamesmunns/postcard
+ //! [URL]: https://github.com/nox/serde_urlencoded
+ //! [Envy]: https://github.com/softprops/envy
+ //! [Envy Store]: https://github.com/softprops/envy-store
+@@ -75,7 +75,7 @@
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+ // Serde types in rustdoc of other crates get linked to here.
+-#![doc(html_root_url = "https://docs.rs/serde/1.0.88")]
++#![doc(html_root_url = "https://docs.rs/serde/1.0.102")]
+ // Support using Serde without the standard library!
+ #![cfg_attr(not(feature = "std"), no_std)]
+ // Unstable functionality only if the user asks for it. For tracking and
+@@ -83,7 +83,7 @@
+ //
+ //    https://github.com/serde-rs/serde/issues/812
+ #![cfg_attr(feature = "unstable", feature(specialization, never_type))]
+-#![cfg_attr(feature = "alloc", feature(alloc))]
++#![allow(unknown_lints, bare_trait_objects, deprecated)]
+ #![cfg_attr(feature = "cargo-clippy", allow(renamed_and_removed_lints))]
+ #![cfg_attr(feature = "cargo-clippy", deny(clippy, clippy_pedantic))]
+ // Ignored clippy and clippy_pedantic lints
+@@ -91,13 +91,13 @@
+     feature = "cargo-clippy",
+     allow(
+         // not available in our oldest supported compiler
+-        const_static_lifetime,
++        checked_conversions,
+         empty_enum,
+         redundant_field_names,
++        redundant_static_lifetimes,
+         // integer and float ser/de requires these sorts of casts
+         cast_possible_truncation,
+         cast_possible_wrap,
+-        cast_precision_loss,
+         cast_sign_loss,
+         // things are often more readable this way
+         cast_lossless,
+@@ -109,8 +109,13 @@
+         // not practical
+         needless_pass_by_value,
+         similar_names,
++        too_many_lines,
+         // preference
+         doc_markdown,
++        // false positive
++        needless_doctest_main,
++        // noisy
++        must_use_candidate,
+     )
+ )]
+ // Rustc lints.
+@@ -155,7 +160,7 @@ mod lib {
+     #[cfg(all(feature = "alloc", not(feature = "std")))]
+     pub use alloc::string::{String, ToString};
+     #[cfg(feature = "std")]
+-    pub use std::string::String;
++    pub use std::string::{String, ToString};
+ 
+     #[cfg(all(feature = "alloc", not(feature = "std")))]
+     pub use alloc::vec::Vec;
+@@ -202,17 +207,28 @@ mod lib {
+     #[cfg(feature = "std")]
+     pub use std::time::{SystemTime, UNIX_EPOCH};
+ 
+-    #[cfg(any(core_duration, feature = "std"))]
+-    pub use self::core::time::Duration;
+-
+-    #[cfg(range_inclusive)]
+-    pub use self::core::ops::RangeInclusive;
+-
+     #[cfg(all(feature = "std", collections_bound))]
+     pub use std::collections::Bound;
+ 
++    #[cfg(core_reverse)]
++    pub use self::core::cmp::Reverse;
++
+     #[cfg(ops_bound)]
+     pub use self::core::ops::Bound;
++
++    #[cfg(range_inclusive)]
++    pub use self::core::ops::RangeInclusive;
++
++    #[cfg(all(feature = "std", std_atomic))]
++    pub use std::sync::atomic::{
++        AtomicBool, AtomicI16, AtomicI32, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU8,
++        AtomicUsize, Ordering,
++    };
++    #[cfg(all(feature = "std", std_atomic64))]
++    pub use std::sync::atomic::{AtomicI64, AtomicU64};
++
++    #[cfg(any(core_duration, feature = "std"))]
++    pub use self::core::time::Duration;
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+@@ -239,6 +255,9 @@ pub mod export;
+ #[doc(hidden)]
+ pub mod private;
+ 
++#[cfg(not(feature = "std"))]
++mod std_error;
++
+ // Re-export #[derive(Serialize, Deserialize)].
+ //
+ // The reason re-exporting is not enabled by default is that disabling it would
+diff --git a/third_party/rust/serde/src/private/de.rs b/third_party/rust/serde/src/private/de.rs
+index feb3d4c7bf..ffa5012dc7 100644
+--- a/third_party/rust/serde/src/private/de.rs
++++ b/third_party/rust/serde/src/private/de.rs
+@@ -1420,6 +1420,7 @@ mod content {
+                 Content::ByteBuf(v) => visitor.visit_byte_buf(v),
+                 Content::Bytes(v) => visitor.visit_borrowed_bytes(v),
+                 Content::U8(v) => visitor.visit_u8(v),
++                Content::U64(v) => visitor.visit_u64(v),
+                 _ => Err(self.invalid_type(&visitor)),
+             }
+         }
+@@ -2123,6 +2124,7 @@ mod content {
+                 Content::ByteBuf(ref v) => visitor.visit_bytes(v),
+                 Content::Bytes(v) => visitor.visit_borrowed_bytes(v),
+                 Content::U8(v) => visitor.visit_u8(v),
++                Content::U64(v) => visitor.visit_u64(v),
+                 _ => Err(self.invalid_type(&visitor)),
+             }
+         }
+diff --git a/third_party/rust/serde/src/private/ser.rs b/third_party/rust/serde/src/private/ser.rs
+index 05f7e40aff..4d9bce8c0d 100644
+--- a/third_party/rust/serde/src/private/ser.rs
++++ b/third_party/rust/serde/src/private/ser.rs
+@@ -1032,7 +1032,7 @@ impl<'a, M> FlatMapSerializer<'a, M>
+ where
+     M: SerializeMap + 'a,
+ {
+-    fn bad_type(self, what: Unsupported) -> M::Error {
++    fn bad_type(what: Unsupported) -> M::Error {
+         ser::Error::custom(format_args!(
+             "can only flatten structs and maps (got {})",
+             what
+@@ -1057,59 +1057,59 @@ where
+     type SerializeStructVariant = FlatMapSerializeStructVariantAsMapValue<'a, M>;
+ 
+     fn serialize_bool(self, _: bool) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Boolean))
++        Err(Self::bad_type(Unsupported::Boolean))
+     }
+ 
+     fn serialize_i8(self, _: i8) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_i16(self, _: i16) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_i32(self, _: i32) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_i64(self, _: i64) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_u8(self, _: u8) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_u16(self, _: u16) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_u32(self, _: u32) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_u64(self, _: u64) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Integer))
++        Err(Self::bad_type(Unsupported::Integer))
+     }
+ 
+     fn serialize_f32(self, _: f32) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Float))
++        Err(Self::bad_type(Unsupported::Float))
+     }
+ 
+     fn serialize_f64(self, _: f64) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Float))
++        Err(Self::bad_type(Unsupported::Float))
+     }
+ 
+     fn serialize_char(self, _: char) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Char))
++        Err(Self::bad_type(Unsupported::Char))
+     }
+ 
+     fn serialize_str(self, _: &str) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::String))
++        Err(Self::bad_type(Unsupported::String))
+     }
+ 
+     fn serialize_bytes(self, _: &[u8]) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::ByteArray))
++        Err(Self::bad_type(Unsupported::ByteArray))
+     }
+ 
+     fn serialize_none(self) -> Result<Self::Ok, Self::Error> {
+@@ -1124,11 +1124,11 @@ where
+     }
+ 
+     fn serialize_unit(self) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Unit))
++        Err(Self::bad_type(Unsupported::Unit))
+     }
+ 
+     fn serialize_unit_struct(self, _: &'static str) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::UnitStruct))
++        Err(Self::bad_type(Unsupported::UnitStruct))
+     }
+ 
+     fn serialize_unit_variant(
+@@ -1137,7 +1137,7 @@ where
+         _: u32,
+         _: &'static str,
+     ) -> Result<Self::Ok, Self::Error> {
+-        Err(self.bad_type(Unsupported::Enum))
++        Err(Self::bad_type(Unsupported::Enum))
+     }
+ 
+     fn serialize_newtype_struct<T: ?Sized>(
+@@ -1166,11 +1166,11 @@ where
+     }
+ 
+     fn serialize_seq(self, _: Option<usize>) -> Result<Self::SerializeSeq, Self::Error> {
+-        Err(self.bad_type(Unsupported::Sequence))
++        Err(Self::bad_type(Unsupported::Sequence))
+     }
+ 
+     fn serialize_tuple(self, _: usize) -> Result<Self::SerializeTuple, Self::Error> {
+-        Err(self.bad_type(Unsupported::Tuple))
++        Err(Self::bad_type(Unsupported::Tuple))
+     }
+ 
+     fn serialize_tuple_struct(
+@@ -1178,7 +1178,7 @@ where
+         _: &'static str,
+         _: usize,
+     ) -> Result<Self::SerializeTupleStruct, Self::Error> {
+-        Err(self.bad_type(Unsupported::TupleStruct))
++        Err(Self::bad_type(Unsupported::TupleStruct))
+     }
+ 
+     fn serialize_tuple_variant(
+@@ -1188,7 +1188,7 @@ where
+         _: &'static str,
+         _: usize,
+     ) -> Result<Self::SerializeTupleVariant, Self::Error> {
+-        Err(self.bad_type(Unsupported::Enum))
++        Err(Self::bad_type(Unsupported::Enum))
+     }
+ 
+     fn serialize_map(self, _: Option<usize>) -> Result<Self::SerializeMap, Self::Error> {
+diff --git a/third_party/rust/serde/src/ser/impls.rs b/third_party/rust/serde/src/ser/impls.rs
+index 3ebe5a891d..0ac667dbfc 100644
+--- a/third_party/rust/serde/src/ser/impls.rs
++++ b/third_party/rust/serde/src/ser/impls.rs
+@@ -160,10 +160,12 @@ macro_rules! array_impls {
+     }
+ }
+ 
+-array_impls!(01 02 03 04 05 06 07 08 09 10
+-             11 12 13 14 15 16 17 18 19 20
+-             21 22 23 24 25 26 27 28 29 30
+-             31 32);
++array_impls! {
++    01 02 03 04 05 06 07 08 09 10
++    11 12 13 14 15 16 17 18 19 20
++    21 22 23 24 25 26 27 28 29 30
++    31 32
++}
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+@@ -479,7 +481,6 @@ macro_rules! nonzero_integers {
+ }
+ 
+ nonzero_integers! {
+-    // Not including signed NonZeroI* since they might be removed
+     NonZeroU8,
+     NonZeroU16,
+     NonZeroU32,
+@@ -487,12 +488,26 @@ nonzero_integers! {
+     NonZeroUsize,
+ }
+ 
++#[cfg(num_nonzero_signed)]
++nonzero_integers! {
++    NonZeroI8,
++    NonZeroI16,
++    NonZeroI32,
++    NonZeroI64,
++    NonZeroIsize,
++}
++
+ // Currently 128-bit integers do not work on Emscripten targets so we need an
+ // additional `#[cfg]`
+ serde_if_integer128! {
+     nonzero_integers! {
+         NonZeroU128,
+     }
++
++    #[cfg(num_nonzero_signed)]
++    nonzero_integers! {
++        NonZeroI128,
++    }
+ }
+ 
+ impl<T> Serialize for Cell<T>
+@@ -618,6 +633,7 @@ impl Serialize for SystemTime {
+ #[cfg(feature = "std")]
+ macro_rules! serialize_display_bounded_length {
+     ($value:expr, $max:expr, $serializer:expr) => {{
++        #[allow(deprecated)]
+         let mut buffer: [u8; $max] = unsafe { mem::uninitialized() };
+         let remaining_len = {
+             let mut remaining = &mut buffer[..];
+@@ -822,3 +838,47 @@ where
+         self.0.serialize(serializer)
+     }
+ }
++
++#[cfg(core_reverse)]
++impl<T> Serialize for Reverse<T>
++where
++    T: Serialize,
++{
++    #[inline]
++    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
++    where
++        S: Serializer,
++    {
++        self.0.serialize(serializer)
++    }
++}
++
++////////////////////////////////////////////////////////////////////////////////
++
++#[cfg(all(feature = "std", std_atomic))]
++macro_rules! atomic_impl {
++    ($($ty:ident)*) => {
++        $(
++            impl Serialize for $ty {
++                fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
++                where
++                    S: Serializer,
++                {
++                    self.load(Ordering::SeqCst).serialize(serializer)
++                }
++            }
++        )*
++    }
++}
++
++#[cfg(all(feature = "std", std_atomic))]
++atomic_impl! {
++    AtomicBool
++    AtomicI8 AtomicI16 AtomicI32 AtomicIsize
++    AtomicU8 AtomicU16 AtomicU32 AtomicUsize
++}
++
++#[cfg(all(feature = "std", std_atomic64))]
++atomic_impl! {
++    AtomicI64 AtomicU64
++}
+diff --git a/third_party/rust/serde/src/ser/mod.rs b/third_party/rust/serde/src/ser/mod.rs
+index 2d6a1043aa..8fb2434fa4 100644
+--- a/third_party/rust/serde/src/ser/mod.rs
++++ b/third_party/rust/serde/src/ser/mod.rs
+@@ -56,13 +56,13 @@
+ //!    - PhantomData\<T\>
+ //!  - **Wrapper types**:
+ //!    - Box\<T\>
+-//!    - Rc\<T\>
+-//!    - Arc\<T\>
+ //!    - Cow\<'a, T\>
+ //!    - Cell\<T\>
+ //!    - RefCell\<T\>
+ //!    - Mutex\<T\>
+ //!    - RwLock\<T\>
++//!    - Rc\<T\>&emsp;*(if* features = ["rc"] *is enabled)*
++//!    - Arc\<T\>&emsp;*(if* features = ["rc"] *is enabled)*
+ //!  - **Collection types**:
+ //!    - BTreeMap\<K, V\>
+ //!    - BTreeSet\<T\>
+@@ -114,6 +114,13 @@ mod impossible;
+ 
+ pub use self::impossible::Impossible;
+ 
++#[cfg(feature = "std")]
++#[doc(no_inline)]
++pub use std::error::Error as StdError;
++#[cfg(not(feature = "std"))]
++#[doc(no_inline)]
++pub use std_error::Error as StdError;
++
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+ macro_rules! declare_error_trait {
+@@ -172,7 +179,7 @@ macro_rules! declare_error_trait {
+ }
+ 
+ #[cfg(feature = "std")]
+-declare_error_trait!(Error: Sized + error::Error);
++declare_error_trait!(Error: Sized + StdError);
+ 
+ #[cfg(not(feature = "std"))]
+ declare_error_trait!(Error: Sized + Debug + Display);
+diff --git a/third_party/rust/serde/src/std_error.rs b/third_party/rust/serde/src/std_error.rs
+new file mode 100644
+index 0000000000..1055e0ffbc
+--- /dev/null
++++ b/third_party/rust/serde/src/std_error.rs
+@@ -0,0 +1,48 @@
++use lib::{Debug, Display};
++
++/// Either a re-export of std::error::Error or a new identical trait, depending
++/// on whether Serde's "std" feature is enabled.
++///
++/// Serde's error traits [`serde::ser::Error`] and [`serde::de::Error`] require
++/// [`std::error::Error`] as a supertrait, but only when Serde is built with
++/// "std" enabled. Data formats that don't care about no\_std support should
++/// generally provide their error types with a `std::error::Error` impl
++/// directly:
++///
++/// ```edition2018
++/// #[derive(Debug)]
++/// struct MySerError {...}
++///
++/// impl serde::ser::Error for MySerError {...}
++///
++/// impl std::fmt::Display for MySerError {...}
++///
++/// // We don't support no_std!
++/// impl std::error::Error for MySerError {}
++/// ```
++///
++/// Data formats that *do* support no\_std may either have a "std" feature of
++/// their own:
++///
++/// ```toml
++/// [features]
++/// std = ["serde/std"]
++/// ```
++///
++/// ```edition2018
++/// #[cfg(feature = "std")]
++/// impl std::error::Error for MySerError {}
++/// ```
++///
++/// ... or else provide the std Error impl unconditionally via Serde's
++/// re-export:
++///
++/// ```edition2018
++/// impl serde::ser::StdError for MySerError {}
++/// ```
++pub trait Error: Debug + Display {
++    /// The underlying cause of this error, if any.
++    fn source(&self) -> Option<&(Error + 'static)> {
++        None
++    }
++}
+diff --git a/third_party/rust/serde_derive/Cargo.toml b/third_party/rust/serde_derive/Cargo.toml
+index 3a95f696d3..54767322f7 100644
+--- a/third_party/rust/serde_derive/Cargo.toml
++++ b/third_party/rust/serde_derive/Cargo.toml
+@@ -1,6 +1,6 @@
+ [package]
+ name = "serde_derive"
+-version = "1.0.88" # remember to update html_root_url
++version = "1.0.102"
+ authors = ["Erick Tryzelaar <erick.tryzelaar@gmail.com>", "David Tolnay <dtolnay@gmail.com>"]
+ license = "MIT/Apache-2.0"
+ description = "Macros 1.1 implementation of #[derive(Serialize, Deserialize)]"
+@@ -26,7 +26,7 @@ proc-macro = true
+ [dependencies]
+ proc-macro2 = "0.4"
+ quote = "0.6.3"
+-syn = { version = "0.15.22", features = ["visit", "extra-traits"] }
++syn = { version = "1.0" }
+ 
+ [dev-dependencies]
+ serde = { version = "1.0", path = "../serde" }
+diff --git a/third_party/rust/serde_derive/README.md b/third_party/rust/serde_derive/README.md
+index b2626db940..426ad6c102 100644
+--- a/third_party/rust/serde_derive/README.md
++++ b/third_party/rust/serde_derive/README.md
+@@ -1,11 +1,13 @@
+-# Serde &emsp; [![Build Status]][travis] [![Latest Version]][crates.io] [![Rustc Version 1.13+]][rustc]
++# Serde &emsp; [![Build Status]][travis] [![Latest Version]][crates.io] [![serde: rustc 1.13+]][Rust 1.13] [![serde_derive: rustc 1.31+]][Rust 1.31]
+ 
+ [Build Status]: https://api.travis-ci.org/serde-rs/serde.svg?branch=master
+ [travis]: https://travis-ci.org/serde-rs/serde
+ [Latest Version]: https://img.shields.io/crates/v/serde.svg
+ [crates.io]: https://crates.io/crates/serde
+-[Rustc Version 1.13+]: https://img.shields.io/badge/rustc-1.13+-lightgray.svg
+-[rustc]: https://blog.rust-lang.org/2016/11/10/Rust-1.13.html
++[serde: rustc 1.13+]: https://img.shields.io/badge/serde-rustc_1.13+-lightgray.svg
++[serde_derive: rustc 1.31+]: https://img.shields.io/badge/serde_derive-rustc_1.31+-lightgray.svg
++[Rust 1.13]: https://blog.rust-lang.org/2016/11/10/Rust-1.13.html
++[Rust 1.31]: https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html
+ 
+ **Serde is a framework for *ser*ializing and *de*serializing Rust data structures efficiently and generically.**
+ 
+@@ -81,19 +83,19 @@ good response, we are happy to respond to [GitHub issues][issues] as well.
+ [irc]: https://wiki.mozilla.org/IRC
+ [issues]: https://github.com/serde-rs/serde/issues/new/choose
+ 
+-## License
++<br>
+ 
+-Serde is licensed under either of
++#### License
+ 
+- * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or
+-   http://www.apache.org/licenses/LICENSE-2.0)
+- * MIT license ([LICENSE-MIT](LICENSE-MIT) or
+-   http://opensource.org/licenses/MIT)
++<sup>
++Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
++2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
++</sup>
+ 
+-at your option.
+-
+-### Contribution
++<br>
+ 
++<sub>
+ Unless you explicitly state otherwise, any contribution intentionally submitted
+ for inclusion in Serde by you, as defined in the Apache-2.0 license, shall be
+ dual licensed as above, without any additional terms or conditions.
++</sub>
+diff --git a/third_party/rust/serde_derive/src/bound.rs b/third_party/rust/serde_derive/src/bound.rs
+index b67753e66e..8a6f2d258c 100644
+--- a/third_party/rust/serde_derive/src/bound.rs
++++ b/third_party/rust/serde_derive/src/bound.rs
+@@ -17,8 +17,8 @@ pub fn without_defaults(generics: &syn::Generics) -> syn::Generics {
+         params: generics
+             .params
+             .iter()
+-            .map(|param| match *param {
+-                syn::GenericParam::Type(ref param) => syn::GenericParam::Type(syn::TypeParam {
++            .map(|param| match param {
++                syn::GenericParam::Type(param) => syn::GenericParam::Type(syn::TypeParam {
+                     eq_token: None,
+                     default: None,
+                     ..param.clone()
+@@ -114,8 +114,8 @@ pub fn with_bound(
+     }
+     impl<'ast> Visit<'ast> for FindTyParams<'ast> {
+         fn visit_field(&mut self, field: &'ast syn::Field) {
+-            if let syn::Type::Path(ref ty) = field.ty {
+-                if let Some(Pair::Punctuated(ref t, _)) = ty.path.segments.first() {
++            if let syn::Type::Path(ty) = &field.ty {
++                if let Some(Pair::Punctuated(t, _)) = ty.path.segments.pairs().next() {
+                     if self.all_type_params.contains(&t.ident) {
+                         self.associated_type_usage.push(ty);
+                     }
+@@ -126,7 +126,7 @@ pub fn with_bound(
+ 
+         fn visit_path(&mut self, path: &'ast syn::Path) {
+             if let Some(seg) = path.segments.last() {
+-                if seg.into_value().ident == "PhantomData" {
++                if seg.ident == "PhantomData" {
+                     // Hardcoded exception, because PhantomData<T> implements
+                     // Serialize and Deserialize whether or not T implements it.
+                     return;
+@@ -255,11 +255,11 @@ pub fn with_lifetime_bound(generics: &syn::Generics, lifetime: &str) -> syn::Gen
+     let params = Some(syn::GenericParam::Lifetime(def))
+         .into_iter()
+         .chain(generics.params.iter().cloned().map(|mut param| {
+-            match param {
+-                syn::GenericParam::Lifetime(ref mut param) => {
++            match &mut param {
++                syn::GenericParam::Lifetime(param) => {
+                     param.bounds.push(bound.clone());
+                 }
+-                syn::GenericParam::Type(ref mut param) => {
++                syn::GenericParam::Type(param) => {
+                     param
+                         .bounds
+                         .push(syn::TypeParamBound::Lifetime(bound.clone()));
+@@ -291,14 +291,14 @@ fn type_of_item(cont: &Container) -> syn::Type {
+                             .generics
+                             .params
+                             .iter()
+-                            .map(|param| match *param {
+-                                syn::GenericParam::Type(ref param) => {
++                            .map(|param| match param {
++                                syn::GenericParam::Type(param) => {
+                                     syn::GenericArgument::Type(syn::Type::Path(syn::TypePath {
+                                         qself: None,
+                                         path: param.ident.clone().into(),
+                                     }))
+                                 }
+-                                syn::GenericParam::Lifetime(ref param) => {
++                                syn::GenericParam::Lifetime(param) => {
+                                     syn::GenericArgument::Lifetime(param.lifetime.clone())
+                                 }
+                                 syn::GenericParam::Const(_) => {
+diff --git a/third_party/rust/serde_derive/src/de.rs b/third_party/rust/serde_derive/src/de.rs
+index 773d3b7537..b737f69be8 100644
+--- a/third_party/rust/serde_derive/src/de.rs
++++ b/third_party/rust/serde_derive/src/de.rs
+@@ -24,22 +24,23 @@ pub fn expand_derive_deserialize(input: &syn::DeriveInput) -> Result<TokenStream
+         None => return Err(ctxt.check().unwrap_err()),
+     };
+     precondition(&ctxt, &cont);
+-    try!(ctxt.check());
++    ctxt.check()?;
+ 
+     let ident = &cont.ident;
+     let params = Parameters::new(&cont);
+     let (de_impl_generics, _, ty_generics, where_clause) = split_with_de_lifetime(&params);
+     let body = Stmts(deserialize_body(&cont, &params));
+     let delife = params.borrowed.de_lifetime();
++    let serde = cont.attrs.serde_path();
+ 
+     let impl_block = if let Some(remote) = cont.attrs.remote() {
+         let vis = &input.vis;
+         let used = pretend::pretend_used(&cont);
+         quote! {
+             impl #de_impl_generics #ident #ty_generics #where_clause {
+-                #vis fn deserialize<__D>(__deserializer: __D) -> _serde::export::Result<#remote #ty_generics, __D::Error>
++                #vis fn deserialize<__D>(__deserializer: __D) -> #serde::export::Result<#remote #ty_generics, __D::Error>
+                 where
+-                    __D: _serde::Deserializer<#delife>,
++                    __D: #serde::Deserializer<#delife>,
+                 {
+                     #used
+                     #body
+@@ -51,10 +52,10 @@ pub fn expand_derive_deserialize(input: &syn::DeriveInput) -> Result<TokenStream
+ 
+         quote! {
+             #[automatically_derived]
+-            impl #de_impl_generics _serde::Deserialize<#delife> for #ident #ty_generics #where_clause {
+-                fn deserialize<__D>(__deserializer: __D) -> _serde::export::Result<Self, __D::Error>
++            impl #de_impl_generics #serde::Deserialize<#delife> for #ident #ty_generics #where_clause {
++                fn deserialize<__D>(__deserializer: __D) -> #serde::export::Result<Self, __D::Error>
+                 where
+-                    __D: _serde::Deserializer<#delife>,
++                    __D: #serde::Deserializer<#delife>,
+                 {
+                     #body
+                 }
+@@ -64,7 +65,12 @@ pub fn expand_derive_deserialize(input: &syn::DeriveInput) -> Result<TokenStream
+         }
+     };
+ 
+-    Ok(dummy::wrap_in_const("DESERIALIZE", ident, impl_block))
++    Ok(dummy::wrap_in_const(
++        cont.attrs.custom_serde_path(),
++        "DESERIALIZE",
++        ident,
++        impl_block,
++    ))
+ }
+ 
+ fn precondition(cx: &Ctxt, cont: &Container) {
+@@ -73,7 +79,7 @@ fn precondition(cx: &Ctxt, cont: &Container) {
+ }
+ 
+ fn precondition_sized(cx: &Ctxt, cont: &Container) {
+-    if let Data::Struct(_, ref fields) = cont.data {
++    if let Data::Struct(_, fields) = &cont.data {
+         if let Some(last) = fields.last() {
+             if let syn::Type::Slice(_) = *last.ty {
+                 cx.error_spanned_by(
+@@ -144,7 +150,7 @@ impl Parameters {
+     /// Type name to use in error messages and `&'static str` arguments to
+     /// various Deserializer methods.
+     fn type_name(&self) -> String {
+-        self.this.segments.last().unwrap().value().ident.to_string()
++        self.this.segments.last().unwrap().ident.to_string()
+     }
+ }
+ 
+@@ -229,8 +235,8 @@ impl BorrowedLifetimes {
+     }
+ 
+     fn de_lifetime_def(&self) -> Option<syn::LifetimeDef> {
+-        match *self {
+-            BorrowedLifetimes::Borrowed(ref bounds) => Some(syn::LifetimeDef {
++        match self {
++            BorrowedLifetimes::Borrowed(bounds) => Some(syn::LifetimeDef {
+                 attrs: Vec::new(),
+                 lifetime: syn::Lifetime::new("'de", Span::call_site()),
+                 colon_token: None,
+@@ -373,9 +379,9 @@ fn deserialize_transparent(cont: &Container, params: &Parameters) -> Fragment {
+         if field as *const Field == transparent_field as *const Field {
+             quote!(#member: __transparent)
+         } else {
+-            let value = match *field.attrs.default() {
++            let value = match field.attrs.default() {
+                 attr::Default::Default => quote!(_serde::export::Default::default()),
+-                attr::Default::Path(ref path) => quote!(#path()),
++                attr::Default::Path(path) => quote!(#path()),
+                 attr::Default::None => quote!(_serde::export::PhantomData),
+             };
+             quote!(#member: #value)
+@@ -397,6 +403,14 @@ fn deserialize_from(type_from: &syn::Type) -> Fragment {
+     }
+ }
+ 
++fn deserialize_try_from(type_try_from: &syn::Type) -> Fragment {
++    quote_block! {
++        _serde::export::Result::and_then(
++            <#type_try_from as _serde::Deserialize>::deserialize(__deserializer),
++            |v| _serde::export::TryFrom::try_from(v).map_err(_serde::de::Error::custom))
++    }
++}
++
+ fn deserialize_unit_struct(params: &Parameters, cattrs: &attr::Container) -> Fragment {
+     let this = &params.this;
+     let type_name = cattrs.name().deserialize_name();
+@@ -452,7 +466,7 @@ fn deserialize_tuple(
+ 
+     let is_enum = variant_ident.is_some();
+     let type_path = match variant_ident {
+-        Some(ref variant_ident) => quote!(#construct::#variant_ident),
++        Some(variant_ident) => quote!(#construct::#variant_ident),
+         None => construct,
+     };
+     let expecting = match variant_ident {
+@@ -669,9 +683,9 @@ fn deserialize_seq(
+                     })
+                 }
+             };
+-            let value_if_none = match *field.attrs.default() {
++            let value_if_none = match field.attrs.default() {
+                 attr::Default::Default => quote!(_serde::export::Default::default()),
+-                attr::Default::Path(ref path) => quote!(#path()),
++                attr::Default::Path(path) => quote!(#path()),
+                 attr::Default::None => quote!(
+                     return _serde::export::Err(_serde::de::Error::invalid_length(#index_in_seq, &#expecting));
+                 ),
+@@ -707,11 +721,11 @@ fn deserialize_seq(
+         };
+     }
+ 
+-    let let_default = match *cattrs.default() {
++    let let_default = match cattrs.default() {
+         attr::Default::Default => Some(quote!(
+             let __default: Self::Value = _serde::export::Default::default();
+         )),
+-        attr::Default::Path(ref path) => Some(quote!(
++        attr::Default::Path(path) => Some(quote!(
+             let __default: Self::Value = #path();
+         )),
+         attr::Default::None => {
+@@ -757,11 +771,11 @@ fn deserialize_seq_in_place(
+                 self.place.#member = #default;
+             }
+         } else {
+-            let value_if_none = match *field.attrs.default() {
++            let value_if_none = match field.attrs.default() {
+                 attr::Default::Default => quote!(
+                     self.place.#member = _serde::export::Default::default();
+                 ),
+-                attr::Default::Path(ref path) => quote!(
++                attr::Default::Path(path) => quote!(
+                     self.place.#member = #path();
+                 ),
+                 attr::Default::None => quote!(
+@@ -800,11 +814,11 @@ fn deserialize_seq_in_place(
+ 
+     let this = &params.this;
+     let (_, ty_generics, _) = params.generics.split_for_impl();
+-    let let_default = match *cattrs.default() {
++    let let_default = match cattrs.default() {
+         attr::Default::Default => Some(quote!(
+             let __default: #this #ty_generics  = _serde::export::Default::default();
+         )),
+-        attr::Default::Path(ref path) => Some(quote!(
++        attr::Default::Path(path) => Some(quote!(
+             let __default: #this #ty_generics  = #path();
+         )),
+         attr::Default::None => {
+@@ -914,7 +928,7 @@ fn deserialize_struct(
+     };
+ 
+     let type_path = match variant_ident {
+-        Some(ref variant_ident) => quote!(#construct::#variant_ident),
++        Some(variant_ident) => quote!(#construct::#variant_ident),
+         None => construct,
+     };
+     let expecting = match variant_ident {
+@@ -1194,12 +1208,10 @@ fn prepare_enum_variant_enum(
+         })
+         .collect();
+ 
+-    let other_idx = variants
+-        .iter()
+-        .position(|ref variant| variant.attrs.other());
++    let other_idx = variants.iter().position(|variant| variant.attrs.other());
+ 
+     let variants_stmt = {
+-        let variant_names = variant_names_idents.iter().map(|&(ref name, _, _)| name);
++        let variant_names = variant_names_idents.iter().map(|(name, _, _)| name);
+         quote! {
+             const VARIANTS: &'static [&'static str] = &[ #(#variant_names),* ];
+         }
+@@ -1954,9 +1966,12 @@ fn deserialize_externally_tagged_variant(
+                 _serde::export::Ok(#this::#variant_ident)
+             }
+         }
+-        Style::Newtype => {
+-            deserialize_externally_tagged_newtype_variant(variant_ident, params, &variant.fields[0])
+-        }
++        Style::Newtype => deserialize_externally_tagged_newtype_variant(
++            variant_ident,
++            params,
++            &variant.fields[0],
++            cattrs,
++        ),
+         Style::Tuple => {
+             deserialize_tuple(Some(variant_ident), params, &variant.fields, cattrs, None)
+         }
+@@ -2023,14 +2038,18 @@ fn deserialize_internally_tagged_variant(
+ 
+     let variant_ident = &variant.ident;
+ 
+-    match variant.style {
++    match effective_style(variant) {
+         Style::Unit => {
+             let this = &params.this;
+             let type_name = params.type_name();
+             let variant_name = variant.ident.to_string();
++            let default = variant.fields.get(0).map(|field| {
++                let default = Expr(expr_is_missing(field, cattrs));
++                quote!((#default))
++            });
+             quote_block! {
+                 try!(_serde::Deserializer::deserialize_any(#deserializer, _serde::private::de::InternallyTaggedUnitVisitor::new(#type_name, #variant_name)));
+-                _serde::export::Ok(#this::#variant_ident)
++                _serde::export::Ok(#this::#variant_ident #default)
+             }
+         }
+         Style::Newtype => deserialize_untagged_newtype_variant(
+@@ -2068,17 +2087,21 @@ fn deserialize_untagged_variant(
+ 
+     let variant_ident = &variant.ident;
+ 
+-    match variant.style {
++    match effective_style(variant) {
+         Style::Unit => {
+             let this = &params.this;
+             let type_name = params.type_name();
+             let variant_name = variant.ident.to_string();
++            let default = variant.fields.get(0).map(|field| {
++                let default = Expr(expr_is_missing(field, cattrs));
++                quote!((#default))
++            });
+             quote_expr! {
+                 match _serde::Deserializer::deserialize_any(
+                     #deserializer,
+                     _serde::private::de::UntaggedUnitVisitor::new(#type_name, #variant_name)
+                 ) {
+-                    _serde::export::Ok(()) => _serde::export::Ok(#this::#variant_ident),
++                    _serde::export::Ok(()) => _serde::export::Ok(#this::#variant_ident #default),
+                     _serde::export::Err(__err) => _serde::export::Err(__err),
+                 }
+             }
+@@ -2111,8 +2134,19 @@ fn deserialize_externally_tagged_newtype_variant(
+     variant_ident: &syn::Ident,
+     params: &Parameters,
+     field: &Field,
++    cattrs: &attr::Container,
+ ) -> Fragment {
+     let this = &params.this;
++
++    if field.attrs.skip_deserializing() {
++        let this = &params.this;
++        let default = Expr(expr_is_missing(field, cattrs));
++        return quote_block! {
++            try!(_serde::de::VariantAccess::unit_variant(__variant));
++            _serde::export::Ok(#this::#variant_ident(#default))
++        };
++    }
++
+     match field.attrs.deserialize_with() {
+         None => {
+             let field_ty = field.ty;
+@@ -2195,7 +2229,7 @@ fn deserialize_generated_identifier(
+     other_idx: Option<usize>,
+ ) -> Fragment {
+     let this = quote!(__Field);
+-    let field_idents: &Vec<_> = &fields.iter().map(|&(_, ref ident, _)| ident).collect();
++    let field_idents: &Vec<_> = &fields.iter().map(|(_, ident, _)| ident).collect();
+ 
+     let (ignore_variant, fallthrough) = if !is_variant && cattrs.has_flatten() {
+         let ignore_variant = quote!(__other(_serde::private::de::Content<'de>),);
+@@ -2301,7 +2335,7 @@ fn deserialize_custom_identifier(
+         })
+         .collect();
+ 
+-    let names = names_idents.iter().map(|&(ref name, _, _)| name);
++    let names = names_idents.iter().map(|(name, _, _)| name);
+ 
+     let names_const = if fallthrough.is_some() {
+         None
+@@ -2358,26 +2392,26 @@ fn deserialize_identifier(
+     collect_other_fields: bool,
+ ) -> Fragment {
+     let mut flat_fields = Vec::new();
+-    for &(_, ref ident, ref aliases) in fields {
++    for (_, ident, aliases) in fields {
+         flat_fields.extend(aliases.iter().map(|alias| (alias, ident)))
+     }
+ 
+-    let field_strs = flat_fields.iter().map(|&(ref name, _)| name);
+-    let field_borrowed_strs = flat_fields.iter().map(|&(ref name, _)| name);
++    let field_strs = flat_fields.iter().map(|(name, _)| name);
++    let field_borrowed_strs = flat_fields.iter().map(|(name, _)| name);
+     let field_bytes = flat_fields
+         .iter()
+-        .map(|&(ref name, _)| Literal::byte_string(name.as_bytes()));
++        .map(|(name, _)| Literal::byte_string(name.as_bytes()));
+     let field_borrowed_bytes = flat_fields
+         .iter()
+-        .map(|&(ref name, _)| Literal::byte_string(name.as_bytes()));
++        .map(|(name, _)| Literal::byte_string(name.as_bytes()));
+ 
+     let constructors: &Vec<_> = &flat_fields
+         .iter()
+-        .map(|&(_, ref ident)| quote!(#this::#ident))
++        .map(|(_, ident)| quote!(#this::#ident))
+         .collect();
+     let main_constructors: &Vec<_> = &fields
+         .iter()
+-        .map(|&(_, ref ident, _)| quote!(#this::#ident))
++        .map(|(_, ident, _)| quote!(#this::#ident))
+         .collect();
+ 
+     let expecting = if is_variant {
+@@ -2404,7 +2438,7 @@ fn deserialize_identifier(
+     ) = if collect_other_fields {
+         (
+             Some(quote! {
+-                let __value = _serde::private::de::Content::String(__value.to_string());
++                let __value = _serde::private::de::Content::String(_serde::export::ToString::to_string(__value));
+             }),
+             Some(quote! {
+                 let __value = _serde::private::de::Content::Str(__value);
+@@ -2639,7 +2673,7 @@ fn deserialize_struct_as_struct_visitor(
+         .collect();
+ 
+     let fields_stmt = {
+-        let field_names = field_names_idents.iter().map(|&(ref name, _, _)| name);
++        let field_names = field_names_idents.iter().map(|(name, _, _)| name);
+         quote_block! {
+             const FIELDS: &'static [&'static str] = &[ #(#field_names),* ];
+         }
+@@ -2695,7 +2729,7 @@ fn deserialize_map(
+     let let_values = fields_names
+         .iter()
+         .filter(|&&(field, _)| !field.attrs.skip_deserializing() && !field.attrs.flatten())
+-        .map(|&(field, ref name)| {
++        .map(|(field, name)| {
+             let field_ty = field.ty;
+             quote! {
+                 let mut #name: _serde::export::Option<#field_ty> = _serde::export::None;
+@@ -2718,7 +2752,7 @@ fn deserialize_map(
+     let value_arms = fields_names
+         .iter()
+         .filter(|&&(field, _)| !field.attrs.skip_deserializing() && !field.attrs.flatten())
+-        .map(|&(field, ref name)| {
++        .map(|(field, name)| {
+             let deser_name = field.attrs.name().deserialize_name();
+ 
+             let visit = match field.attrs.deserialize_with() {
+@@ -2794,7 +2828,7 @@ fn deserialize_map(
+     let extract_values = fields_names
+         .iter()
+         .filter(|&&(field, _)| !field.attrs.skip_deserializing() && !field.attrs.flatten())
+-        .map(|&(field, ref name)| {
++        .map(|(field, name)| {
+             let missing_expr = Match(expr_is_missing(field, cattrs));
+ 
+             quote! {
+@@ -2808,7 +2842,7 @@ fn deserialize_map(
+     let extract_collected = fields_names
+         .iter()
+         .filter(|&&(field, _)| field.attrs.flatten() && !field.attrs.skip_deserializing())
+-        .map(|&(field, ref name)| {
++        .map(|(field, name)| {
+             let field_ty = field.ty;
+             let func = match field.attrs.deserialize_with() {
+                 None => {
+@@ -2827,7 +2861,9 @@ fn deserialize_map(
+ 
+     let collected_deny_unknown_fields = if cattrs.has_flatten() && cattrs.deny_unknown_fields() {
+         Some(quote! {
+-            if let _serde::export::Some(_serde::export::Some((__key, _))) = __collect.into_iter().filter(|x| x.is_some()).next() {
++            if let _serde::export::Some(_serde::export::Some((__key, _))) =
++                __collect.into_iter().filter(_serde::export::Option::is_some).next()
++            {
+                 if let _serde::export::Some(__key) = __key.as_str() {
+                     return _serde::export::Err(
+                         _serde::de::Error::custom(format_args!("unknown field `{}`", &__key)));
+@@ -2841,7 +2877,7 @@ fn deserialize_map(
+         None
+     };
+ 
+-    let result = fields_names.iter().map(|&(field, ref name)| {
++    let result = fields_names.iter().map(|(field, name)| {
+         let member = &field.member;
+         if field.attrs.skip_deserializing() {
+             let value = Expr(expr_is_missing(field, cattrs));
+@@ -2851,11 +2887,11 @@ fn deserialize_map(
+         }
+     });
+ 
+-    let let_default = match *cattrs.default() {
++    let let_default = match cattrs.default() {
+         attr::Default::Default => Some(quote!(
+             let __default: Self::Value = _serde::export::Default::default();
+         )),
+-        attr::Default::Path(ref path) => Some(quote!(
++        attr::Default::Path(path) => Some(quote!(
+             let __default: Self::Value = #path();
+         )),
+         attr::Default::None => {
+@@ -2914,7 +2950,7 @@ fn deserialize_struct_as_struct_in_place_visitor(
+         .collect();
+ 
+     let fields_stmt = {
+-        let field_names = field_names_idents.iter().map(|&(ref name, _, _)| name);
++        let field_names = field_names_idents.iter().map(|(name, _, _)| name);
+         quote_block! {
+             const FIELDS: &'static [&'static str] = &[ #(#field_names),* ];
+         }
+@@ -2947,7 +2983,7 @@ fn deserialize_map_in_place(
+     let let_flags = fields_names
+         .iter()
+         .filter(|&&(field, _)| !field.attrs.skip_deserializing())
+-        .map(|&(_, ref name)| {
++        .map(|(_, name)| {
+             quote! {
+                 let mut #name: bool = false;
+             }
+@@ -2957,7 +2993,7 @@ fn deserialize_map_in_place(
+     let value_arms_from = fields_names
+         .iter()
+         .filter(|&&(field, _)| !field.attrs.skip_deserializing())
+-        .map(|&(field, ref name)| {
++        .map(|(field, name)| {
+             let deser_name = field.attrs.name().deserialize_name();
+             let member = &field.member;
+ 
+@@ -3024,7 +3060,7 @@ fn deserialize_map_in_place(
+     let check_flags = fields_names
+         .iter()
+         .filter(|&&(field, _)| !field.attrs.skip_deserializing())
+-        .map(|&(field, ref name)| {
++        .map(|(field, name)| {
+             let missing_expr = expr_is_missing(field, cattrs);
+             // If missing_expr unconditionally returns an error, don't try
+             // to assign its value to self.place.
+@@ -3052,11 +3088,11 @@ fn deserialize_map_in_place(
+     let this = &params.this;
+     let (_, _, ty_generics, _) = split_with_de_lifetime(params);
+ 
+-    let let_default = match *cattrs.default() {
++    let let_default = match cattrs.default() {
+         attr::Default::Default => Some(quote!(
+             let __default: #this #ty_generics = _serde::export::Default::default();
+         )),
+-        attr::Default::Path(ref path) => Some(quote!(
++        attr::Default::Path(path) => Some(quote!(
+             let __default: #this #ty_generics = #path();
+         )),
+         attr::Default::None => {
+@@ -3175,13 +3211,13 @@ fn wrap_deserialize_variant_with(
+ }
+ 
+ fn expr_is_missing(field: &Field, cattrs: &attr::Container) -> Fragment {
+-    match *field.attrs.default() {
++    match field.attrs.default() {
+         attr::Default::Default => {
+             let span = field.original.span();
+             let func = quote_spanned!(span=> _serde::export::Default::default);
+             return quote_expr!(#func());
+         }
+-        attr::Default::Path(ref path) => {
++        attr::Default::Path(path) => {
+             return quote_expr!(#path());
+         }
+         attr::Default::None => { /* below */ }
+@@ -3212,6 +3248,13 @@ fn expr_is_missing(field: &Field, cattrs: &attr::Container) -> Fragment {
+     }
+ }
+ 
++fn effective_style(variant: &Variant) -> Style {
++    match variant.style {
++        Style::Newtype if variant.fields[0].attrs.skip_deserializing() => Style::Unit,
++        other => other,
++    }
++}
++
+ struct DeImplGenerics<'a>(&'a Parameters);
+ #[cfg(feature = "deserialize_in_place")]
+ struct InPlaceImplGenerics<'a>(&'a Parameters);
+@@ -3238,11 +3281,11 @@ impl<'a> ToTokens for InPlaceImplGenerics<'a> {
+ 
+         // Add lifetime for `&'place mut Self, and `'a: 'place`
+         for param in &mut generics.params {
+-            match *param {
+-                syn::GenericParam::Lifetime(ref mut param) => {
++            match param {
++                syn::GenericParam::Lifetime(param) => {
+                     param.bounds.push(place_lifetime.lifetime.clone());
+                 }
+-                syn::GenericParam::Type(ref mut param) => {
++                syn::GenericParam::Type(param) => {
+                     param.bounds.push(syn::TypeParamBound::Lifetime(
+                         place_lifetime.lifetime.clone(),
+                     ));
+diff --git a/third_party/rust/serde_derive/src/dummy.rs b/third_party/rust/serde_derive/src/dummy.rs
+index c265f03ea3..90a3514cae 100644
+--- a/third_party/rust/serde_derive/src/dummy.rs
++++ b/third_party/rust/serde_derive/src/dummy.rs
+@@ -1,8 +1,14 @@
+ use proc_macro2::{Ident, Span, TokenStream};
+ 
++use syn;
+ use try;
+ 
+-pub fn wrap_in_const(trait_: &str, ty: &Ident, code: TokenStream) -> TokenStream {
++pub fn wrap_in_const(
++    serde_path: Option<&syn::Path>,
++    trait_: &str,
++    ty: &Ident,
++    code: TokenStream,
++) -> TokenStream {
+     let try_replacement = try::replacement();
+ 
+     let dummy_const = Ident::new(
+@@ -10,13 +16,22 @@ pub fn wrap_in_const(trait_: &str, ty: &Ident, code: TokenStream) -> TokenStream
+         Span::call_site(),
+     );
+ 
+-    quote! {
+-        #[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
+-        const #dummy_const: () = {
++    let use_serde = match serde_path {
++        Some(path) => quote! {
++            use #path as _serde;
++        },
++        None => quote! {
+             #[allow(unknown_lints)]
+             #[cfg_attr(feature = "cargo-clippy", allow(useless_attribute))]
+             #[allow(rust_2018_idioms)]
+             extern crate serde as _serde;
++        },
++    };
++
++    quote! {
++        #[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
++        const #dummy_const: () = {
++            #use_serde
+             #try_replacement
+             #code
+         };
+diff --git a/third_party/rust/serde_derive/src/fragment.rs b/third_party/rust/serde_derive/src/fragment.rs
+index 85a579746c..324504aa46 100644
+--- a/third_party/rust/serde_derive/src/fragment.rs
++++ b/third_party/rust/serde_derive/src/fragment.rs
+@@ -27,9 +27,9 @@ macro_rules! quote_block {
+ pub struct Expr(pub Fragment);
+ impl ToTokens for Expr {
+     fn to_tokens(&self, out: &mut TokenStream) {
+-        match self.0 {
+-            Fragment::Expr(ref expr) => expr.to_tokens(out),
+-            Fragment::Block(ref block) => {
++        match &self.0 {
++            Fragment::Expr(expr) => expr.to_tokens(out),
++            Fragment::Block(block) => {
+                 token::Brace::default().surround(out, |out| block.to_tokens(out));
+             }
+         }
+@@ -40,9 +40,9 @@ impl ToTokens for Expr {
+ pub struct Stmts(pub Fragment);
+ impl ToTokens for Stmts {
+     fn to_tokens(&self, out: &mut TokenStream) {
+-        match self.0 {
+-            Fragment::Expr(ref expr) => expr.to_tokens(out),
+-            Fragment::Block(ref block) => block.to_tokens(out),
++        match &self.0 {
++            Fragment::Expr(expr) => expr.to_tokens(out),
++            Fragment::Block(block) => block.to_tokens(out),
+         }
+     }
+ }
+@@ -52,12 +52,12 @@ impl ToTokens for Stmts {
+ pub struct Match(pub Fragment);
+ impl ToTokens for Match {
+     fn to_tokens(&self, out: &mut TokenStream) {
+-        match self.0 {
+-            Fragment::Expr(ref expr) => {
++        match &self.0 {
++            Fragment::Expr(expr) => {
+                 expr.to_tokens(out);
+                 <Token![,]>::default().to_tokens(out);
+             }
+-            Fragment::Block(ref block) => {
++            Fragment::Block(block) => {
+                 token::Brace::default().surround(out, |out| block.to_tokens(out));
+             }
+         }
+@@ -66,9 +66,9 @@ impl ToTokens for Match {
+ 
+ impl AsRef<TokenStream> for Fragment {
+     fn as_ref(&self) -> &TokenStream {
+-        match *self {
+-            Fragment::Expr(ref expr) => expr,
+-            Fragment::Block(ref block) => block,
++        match self {
++            Fragment::Expr(expr) => expr,
++            Fragment::Block(block) => block,
+         }
+     }
+ }
+diff --git a/third_party/rust/serde_derive/src/internals/ast.rs b/third_party/rust/serde_derive/src/internals/ast.rs
+index 67442f27f2..464bc8d218 100644
+--- a/third_party/rust/serde_derive/src/internals/ast.rs
++++ b/third_party/rust/serde_derive/src/internals/ast.rs
+@@ -234,16 +234,16 @@ fn struct_from_ast<'a>(
+     attrs: Option<&attr::Variant>,
+     container_default: &attr::Default,
+ ) -> (Style, Vec<Field<'a>>) {
+-    match *fields {
+-        syn::Fields::Named(ref fields) => (
++    match fields {
++        syn::Fields::Named(fields) => (
+             Style::Struct,
+             fields_from_ast(cx, &fields.named, attrs, container_default),
+         ),
+-        syn::Fields::Unnamed(ref fields) if fields.unnamed.len() == 1 => (
++        syn::Fields::Unnamed(fields) if fields.unnamed.len() == 1 => (
+             Style::Newtype,
+             fields_from_ast(cx, &fields.unnamed, attrs, container_default),
+         ),
+-        syn::Fields::Unnamed(ref fields) => (
++        syn::Fields::Unnamed(fields) => (
+             Style::Tuple,
+             fields_from_ast(cx, &fields.unnamed, attrs, container_default),
+         ),
+@@ -261,8 +261,8 @@ fn fields_from_ast<'a>(
+         .iter()
+         .enumerate()
+         .map(|(i, field)| Field {
+-            member: match field.ident {
+-                Some(ref ident) => syn::Member::Named(ident.clone()),
++            member: match &field.ident {
++                Some(ident) => syn::Member::Named(ident.clone()),
+                 None => syn::Member::Unnamed(i.into()),
+             },
+             attrs: attr::Field::from_ast(cx, i, field, attrs, container_default),
+diff --git a/third_party/rust/serde_derive/src/internals/attr.rs b/third_party/rust/serde_derive/src/internals/attr.rs
+index b95d490f22..0a5595dc7c 100644
+--- a/third_party/rust/serde_derive/src/internals/attr.rs
++++ b/third_party/rust/serde_derive/src/internals/attr.rs
+@@ -1,14 +1,16 @@
++use internals::symbol::*;
+ use internals::Ctxt;
+ use proc_macro2::{Group, Span, TokenStream, TokenTree};
+ use quote::ToTokens;
++use std::borrow::Cow;
+ use std::collections::BTreeSet;
+ use std::str::FromStr;
+ use syn;
+ use syn::parse::{self, Parse, ParseStream};
+ use syn::punctuated::Punctuated;
+ use syn::Ident;
+-use syn::Meta::{List, NameValue, Word};
+-use syn::NestedMeta::{Literal, Meta};
++use syn::Meta::{List, NameValue, Path};
++use syn::NestedMeta::{Lit, Meta};
+ 
+ // This module handles parsing of `#[serde(...)]` attributes. The entrypoints
+ // are `attr::Container::from_ast`, `attr::Variant::from_ast`, and
+@@ -22,13 +24,13 @@ pub use internals::case::RenameRule;
+ 
+ struct Attr<'c, T> {
+     cx: &'c Ctxt,
+-    name: &'static str,
++    name: Symbol,
+     tokens: TokenStream,
+     value: Option<T>,
+ }
+ 
+ impl<'c, T> Attr<'c, T> {
+-    fn none(cx: &'c Ctxt, name: &'static str) -> Self {
++    fn none(cx: &'c Ctxt, name: Symbol) -> Self {
+         Attr {
+             cx: cx,
+             name: name,
+@@ -76,7 +78,7 @@ impl<'c, T> Attr<'c, T> {
+ struct BoolAttr<'c>(Attr<'c, ()>);
+ 
+ impl<'c> BoolAttr<'c> {
+-    fn none(cx: &'c Ctxt, name: &'static str) -> Self {
++    fn none(cx: &'c Ctxt, name: Symbol) -> Self {
+         BoolAttr(Attr::none(cx, name))
+     }
+ 
+@@ -91,13 +93,13 @@ impl<'c> BoolAttr<'c> {
+ 
+ struct VecAttr<'c, T> {
+     cx: &'c Ctxt,
+-    name: &'static str,
++    name: Symbol,
+     first_dup_tokens: TokenStream,
+     values: Vec<T>,
+ }
+ 
+ impl<'c, T> VecAttr<'c, T> {
+-    fn none(cx: &'c Ctxt, name: &'static str) -> Self {
++    fn none(cx: &'c Ctxt, name: Symbol) -> Self {
+         VecAttr {
+             cx: cx,
+             name: name,
+@@ -214,10 +216,12 @@ pub struct Container {
+     de_bound: Option<Vec<syn::WherePredicate>>,
+     tag: TagType,
+     type_from: Option<syn::Type>,
++    type_try_from: Option<syn::Type>,
+     type_into: Option<syn::Type>,
+     remote: Option<syn::Path>,
+     identifier: Identifier,
+     has_flatten: bool,
++    serde_path: Option<syn::Path>,
+ }
+ 
+ /// Styles of representing an enum.
+@@ -281,318 +285,310 @@ impl Identifier {
+ impl Container {
+     /// Extract out the `#[serde(...)]` attributes from an item.
+     pub fn from_ast(cx: &Ctxt, item: &syn::DeriveInput) -> Self {
+-        let mut ser_name = Attr::none(cx, "rename");
+-        let mut de_name = Attr::none(cx, "rename");
+-        let mut transparent = BoolAttr::none(cx, "transparent");
+-        let mut deny_unknown_fields = BoolAttr::none(cx, "deny_unknown_fields");
+-        let mut default = Attr::none(cx, "default");
+-        let mut rename_all_ser_rule = Attr::none(cx, "rename_all");
+-        let mut rename_all_de_rule = Attr::none(cx, "rename_all");
+-        let mut ser_bound = Attr::none(cx, "bound");
+-        let mut de_bound = Attr::none(cx, "bound");
+-        let mut untagged = BoolAttr::none(cx, "untagged");
+-        let mut internal_tag = Attr::none(cx, "tag");
+-        let mut content = Attr::none(cx, "content");
+-        let mut type_from = Attr::none(cx, "from");
+-        let mut type_into = Attr::none(cx, "into");
+-        let mut remote = Attr::none(cx, "remote");
+-        let mut field_identifier = BoolAttr::none(cx, "field_identifier");
+-        let mut variant_identifier = BoolAttr::none(cx, "variant_identifier");
+-
+-        for meta_items in item.attrs.iter().filter_map(get_serde_meta_items) {
+-            for meta_item in meta_items {
+-                match meta_item {
+-                    // Parse `#[serde(rename = "foo")]`
+-                    Meta(NameValue(ref m)) if m.ident == "rename" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            ser_name.set(&m.ident, s.value());
+-                            de_name.set(&m.ident, s.value());
+-                        }
++        let mut ser_name = Attr::none(cx, RENAME);
++        let mut de_name = Attr::none(cx, RENAME);
++        let mut transparent = BoolAttr::none(cx, TRANSPARENT);
++        let mut deny_unknown_fields = BoolAttr::none(cx, DENY_UNKNOWN_FIELDS);
++        let mut default = Attr::none(cx, DEFAULT);
++        let mut rename_all_ser_rule = Attr::none(cx, RENAME_ALL);
++        let mut rename_all_de_rule = Attr::none(cx, RENAME_ALL);
++        let mut ser_bound = Attr::none(cx, BOUND);
++        let mut de_bound = Attr::none(cx, BOUND);
++        let mut untagged = BoolAttr::none(cx, UNTAGGED);
++        let mut internal_tag = Attr::none(cx, TAG);
++        let mut content = Attr::none(cx, CONTENT);
++        let mut type_from = Attr::none(cx, FROM);
++        let mut type_try_from = Attr::none(cx, TRY_FROM);
++        let mut type_into = Attr::none(cx, INTO);
++        let mut remote = Attr::none(cx, REMOTE);
++        let mut field_identifier = BoolAttr::none(cx, FIELD_IDENTIFIER);
++        let mut variant_identifier = BoolAttr::none(cx, VARIANT_IDENTIFIER);
++        let mut serde_path = Attr::none(cx, CRATE);
++
++        for meta_item in item
++            .attrs
++            .iter()
++            .flat_map(|attr| get_serde_meta_items(cx, attr))
++            .flatten()
++        {
++            match &meta_item {
++                // Parse `#[serde(rename = "foo")]`
++                Meta(NameValue(m)) if m.path == RENAME => {
++                    if let Ok(s) = get_lit_str(cx, RENAME, &m.lit) {
++                        ser_name.set(&m.path, s.value());
++                        de_name.set(&m.path, s.value());
+                     }
++                }
++
++                // Parse `#[serde(rename(serialize = "foo", deserialize = "bar"))]`
++                Meta(List(m)) if m.path == RENAME => {
++                    if let Ok((ser, de)) = get_renames(cx, &m.nested) {
++                        ser_name.set_opt(&m.path, ser.map(syn::LitStr::value));
++                        de_name.set_opt(&m.path, de.map(syn::LitStr::value));
++                    }
++                }
+ 
+-                    // Parse `#[serde(rename(serialize = "foo", deserialize = "bar"))]`
+-                    Meta(List(ref m)) if m.ident == "rename" => {
+-                        if let Ok((ser, de)) = get_renames(cx, &m.nested) {
+-                            ser_name.set_opt(&m.ident, ser.map(syn::LitStr::value));
+-                            de_name.set_opt(&m.ident, de.map(syn::LitStr::value));
++                // Parse `#[serde(rename_all = "foo")]`
++                Meta(NameValue(m)) if m.path == RENAME_ALL => {
++                    if let Ok(s) = get_lit_str(cx, RENAME_ALL, &m.lit) {
++                        match RenameRule::from_str(&s.value()) {
++                            Ok(rename_rule) => {
++                                rename_all_ser_rule.set(&m.path, rename_rule);
++                                rename_all_de_rule.set(&m.path, rename_rule);
++                            }
++                            Err(()) => cx.error_spanned_by(
++                                s,
++                                format!(
++                                    "unknown rename rule for #[serde(rename_all = {:?})]",
++                                    s.value(),
++                                ),
++                            ),
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(rename_all = "foo")]`
+-                    Meta(NameValue(ref m)) if m.ident == "rename_all" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            match RenameRule::from_str(&s.value()) {
+-                                Ok(rename_rule) => {
+-                                    rename_all_ser_rule.set(&m.ident, rename_rule);
+-                                    rename_all_de_rule.set(&m.ident, rename_rule);
+-                                }
++                // Parse `#[serde(rename_all(serialize = "foo", deserialize = "bar"))]`
++                Meta(List(m)) if m.path == RENAME_ALL => {
++                    if let Ok((ser, de)) = get_renames(cx, &m.nested) {
++                        if let Some(ser) = ser {
++                            match RenameRule::from_str(&ser.value()) {
++                                Ok(rename_rule) => rename_all_ser_rule.set(&m.path, rename_rule),
+                                 Err(()) => cx.error_spanned_by(
+-                                    s,
++                                    ser,
+                                     format!(
+-                                        "unknown rename rule for #[serde(rename_all \
+-                                         = {:?})]",
+-                                        s.value(),
++                                        "unknown rename rule for #[serde(rename_all = {:?})]",
++                                        ser.value(),
+                                     ),
+                                 ),
+                             }
+                         }
+-                    }
+-
+-                    // Parse `#[serde(rename_all(serialize = "foo", deserialize = "bar"))]`
+-                    Meta(List(ref m)) if m.ident == "rename_all" => {
+-                        if let Ok((ser, de)) = get_renames(cx, &m.nested) {
+-                            if let Some(ser) = ser {
+-                                match RenameRule::from_str(&ser.value()) {
+-                                    Ok(rename_rule) => {
+-                                        rename_all_ser_rule.set(&m.ident, rename_rule)
+-                                    }
+-                                    Err(()) => cx.error_spanned_by(
+-                                        ser,
+-                                        format!(
+-                                            "unknown rename rule for #[serde(rename_all \
+-                                             = {:?})]",
+-                                            ser.value(),
+-                                        ),
+-                                    ),
+-                                }
+-                            }
+-                            if let Some(de) = de {
+-                                match RenameRule::from_str(&de.value()) {
+-                                    Ok(rename_rule) => {
+-                                        rename_all_de_rule.set(&m.ident, rename_rule)
+-                                    }
+-                                    Err(()) => cx.error_spanned_by(
+-                                        de,
+-                                        format!(
+-                                            "unknown rename rule for #[serde(rename_all \
+-                                             = {:?})]",
+-                                            de.value(),
+-                                        ),
++                        if let Some(de) = de {
++                            match RenameRule::from_str(&de.value()) {
++                                Ok(rename_rule) => rename_all_de_rule.set(&m.path, rename_rule),
++                                Err(()) => cx.error_spanned_by(
++                                    de,
++                                    format!(
++                                        "unknown rename rule for #[serde(rename_all = {:?})]",
++                                        de.value(),
+                                     ),
+-                                }
++                                ),
+                             }
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(transparent)]`
+-                    Meta(Word(ref word)) if word == "transparent" => {
+-                        transparent.set_true(word);
+-                    }
++                // Parse `#[serde(transparent)]`
++                Meta(Path(word)) if word == TRANSPARENT => {
++                    transparent.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(deny_unknown_fields)]`
+-                    Meta(Word(ref word)) if word == "deny_unknown_fields" => {
+-                        deny_unknown_fields.set_true(word);
+-                    }
++                // Parse `#[serde(deny_unknown_fields)]`
++                Meta(Path(word)) if word == DENY_UNKNOWN_FIELDS => {
++                    deny_unknown_fields.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(default)]`
+-                    Meta(Word(ref word)) if word == "default" => match item.data {
+-                        syn::Data::Struct(syn::DataStruct { ref fields, .. }) => match *fields {
+-                            syn::Fields::Named(_) => {
+-                                default.set(word, Default::Default);
+-                            }
+-                            syn::Fields::Unnamed(_) | syn::Fields::Unit => cx.error_spanned_by(
+-                                fields,
+-                                "#[serde(default)] can only be used on structs \
+-                                 with named fields",
+-                            ),
+-                        },
+-                        syn::Data::Enum(syn::DataEnum { ref enum_token, .. }) => cx
+-                            .error_spanned_by(
+-                                enum_token,
+-                                "#[serde(default)] can only be used on structs \
+-                                 with named fields",
+-                            ),
+-                        syn::Data::Union(syn::DataUnion {
+-                            ref union_token, ..
+-                        }) => cx.error_spanned_by(
+-                            union_token,
+-                            "#[serde(default)] can only be used on structs \
+-                             with named fields",
++                // Parse `#[serde(default)]`
++                Meta(Path(word)) if word == DEFAULT => match &item.data {
++                    syn::Data::Struct(syn::DataStruct { fields, .. }) => match fields {
++                        syn::Fields::Named(_) => {
++                            default.set(word, Default::Default);
++                        }
++                        syn::Fields::Unnamed(_) | syn::Fields::Unit => cx.error_spanned_by(
++                            fields,
++                            "#[serde(default)] can only be used on structs with named fields",
+                         ),
+                     },
+-
+-                    // Parse `#[serde(default = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "default" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            match item.data {
+-                                syn::Data::Struct(syn::DataStruct { ref fields, .. }) => {
+-                                    match *fields {
+-                                        syn::Fields::Named(_) => {
+-                                            default.set(&m.ident, Default::Path(path));
+-                                        }
+-                                        syn::Fields::Unnamed(_) | syn::Fields::Unit => cx
+-                                            .error_spanned_by(
+-                                                fields,
+-                                                "#[serde(default = \"...\")] can only be used \
+-                                                 on structs with named fields",
+-                                            ),
++                    syn::Data::Enum(syn::DataEnum { enum_token, .. }) => cx.error_spanned_by(
++                        enum_token,
++                        "#[serde(default)] can only be used on structs with named fields",
++                    ),
++                    syn::Data::Union(syn::DataUnion { union_token, .. }) => cx.error_spanned_by(
++                        union_token,
++                        "#[serde(default)] can only be used on structs with named fields",
++                    ),
++                },
++
++                // Parse `#[serde(default = "...")]`
++                Meta(NameValue(m)) if m.path == DEFAULT => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, DEFAULT, &m.lit) {
++                        match &item.data {
++                            syn::Data::Struct(syn::DataStruct { fields, .. }) => {
++                                match fields {
++                                    syn::Fields::Named(_) => {
++                                        default.set(&m.path, Default::Path(path));
+                                     }
++                                    syn::Fields::Unnamed(_) | syn::Fields::Unit => cx
++                                        .error_spanned_by(
++                                            fields,
++                                            "#[serde(default = \"...\")] can only be used on structs with named fields",
++                                        ),
+                                 }
+-                                syn::Data::Enum(syn::DataEnum { ref enum_token, .. }) => cx
+-                                    .error_spanned_by(
+-                                        enum_token,
+-                                        "#[serde(default = \"...\")] can only be used \
+-                                         on structs with named fields",
+-                                    ),
+-                                syn::Data::Union(syn::DataUnion {
+-                                    ref union_token, ..
+-                                }) => cx.error_spanned_by(
+-                                    union_token,
+-                                    "#[serde(default = \"...\")] can only be used \
+-                                     on structs with named fields",
+-                                ),
+                             }
++                            syn::Data::Enum(syn::DataEnum { enum_token, .. }) => cx
++                                .error_spanned_by(
++                                    enum_token,
++                                    "#[serde(default = \"...\")] can only be used on structs with named fields",
++                                ),
++                            syn::Data::Union(syn::DataUnion {
++                                union_token, ..
++                            }) => cx.error_spanned_by(
++                                union_token,
++                                "#[serde(default = \"...\")] can only be used on structs with named fields",
++                            ),
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(bound = "T: SomeBound")]`
+-                    Meta(NameValue(ref m)) if m.ident == "bound" => {
+-                        if let Ok(where_predicates) =
+-                            parse_lit_into_where(cx, &m.ident, &m.ident, &m.lit)
+-                        {
+-                            ser_bound.set(&m.ident, where_predicates.clone());
+-                            de_bound.set(&m.ident, where_predicates);
+-                        }
++                // Parse `#[serde(bound = "T: SomeBound")]`
++                Meta(NameValue(m)) if m.path == BOUND => {
++                    if let Ok(where_predicates) = parse_lit_into_where(cx, BOUND, BOUND, &m.lit) {
++                        ser_bound.set(&m.path, where_predicates.clone());
++                        de_bound.set(&m.path, where_predicates);
+                     }
++                }
+ 
+-                    // Parse `#[serde(bound(serialize = "...", deserialize = "..."))]`
+-                    Meta(List(ref m)) if m.ident == "bound" => {
+-                        if let Ok((ser, de)) = get_where_predicates(cx, &m.nested) {
+-                            ser_bound.set_opt(&m.ident, ser);
+-                            de_bound.set_opt(&m.ident, de);
+-                        }
++                // Parse `#[serde(bound(serialize = "...", deserialize = "..."))]`
++                Meta(List(m)) if m.path == BOUND => {
++                    if let Ok((ser, de)) = get_where_predicates(cx, &m.nested) {
++                        ser_bound.set_opt(&m.path, ser);
++                        de_bound.set_opt(&m.path, de);
+                     }
++                }
+ 
+-                    // Parse `#[serde(untagged)]`
+-                    Meta(Word(ref word)) if word == "untagged" => match item.data {
+-                        syn::Data::Enum(_) => {
+-                            untagged.set_true(word);
+-                        }
+-                        syn::Data::Struct(syn::DataStruct {
+-                            ref struct_token, ..
+-                        }) => {
+-                            cx.error_spanned_by(
+-                                struct_token,
+-                                "#[serde(untagged)] can only be used on enums",
+-                            );
+-                        }
+-                        syn::Data::Union(syn::DataUnion {
+-                            ref union_token, ..
+-                        }) => {
+-                            cx.error_spanned_by(
+-                                union_token,
+-                                "#[serde(untagged)] can only be used on enums",
+-                            );
+-                        }
+-                    },
+-
+-                    // Parse `#[serde(tag = "type")]`
+-                    Meta(NameValue(ref m)) if m.ident == "tag" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            match item.data {
+-                                syn::Data::Enum(_) => {
+-                                    internal_tag.set(&m.ident, s.value());
+-                                }
+-                                syn::Data::Struct(syn::DataStruct { ref fields, .. }) => {
+-                                    match *fields {
+-                                        syn::Fields::Named(_) => {
+-                                            internal_tag.set(&m.ident, s.value());
+-                                        }
+-                                        syn::Fields::Unnamed(_) | syn::Fields::Unit => {
+-                                            cx.error_spanned_by(
+-                                                fields,
+-                                                "#[serde(tag = \"...\")] can only be used on enums \
+-                                                and structs with named fields",
+-                                            );
+-                                        }
+-                                    }
++                // Parse `#[serde(untagged)]`
++                Meta(Path(word)) if word == UNTAGGED => match item.data {
++                    syn::Data::Enum(_) => {
++                        untagged.set_true(word);
++                    }
++                    syn::Data::Struct(syn::DataStruct { struct_token, .. }) => {
++                        cx.error_spanned_by(
++                            struct_token,
++                            "#[serde(untagged)] can only be used on enums",
++                        );
++                    }
++                    syn::Data::Union(syn::DataUnion { union_token, .. }) => {
++                        cx.error_spanned_by(
++                            union_token,
++                            "#[serde(untagged)] can only be used on enums",
++                        );
++                    }
++                },
++
++                // Parse `#[serde(tag = "type")]`
++                Meta(NameValue(m)) if m.path == TAG => {
++                    if let Ok(s) = get_lit_str(cx, TAG, &m.lit) {
++                        match &item.data {
++                            syn::Data::Enum(_) => {
++                                internal_tag.set(&m.path, s.value());
++                            }
++                            syn::Data::Struct(syn::DataStruct { fields, .. }) => match fields {
++                                syn::Fields::Named(_) => {
++                                    internal_tag.set(&m.path, s.value());
+                                 }
+-                                syn::Data::Union(syn::DataUnion {
+-                                    ref union_token, ..
+-                                }) => {
++                                syn::Fields::Unnamed(_) | syn::Fields::Unit => {
+                                     cx.error_spanned_by(
+-                                        union_token,
+-                                        "#[serde(tag = \"...\")] can only be used on enums \
+-                                         and structs with named fields",
+-                                    );
++                                            fields,
++                                            "#[serde(tag = \"...\")] can only be used on enums and structs with named fields",
++                                        );
+                                 }
++                            },
++                            syn::Data::Union(syn::DataUnion { union_token, .. }) => {
++                                cx.error_spanned_by(
++                                    union_token,
++                                    "#[serde(tag = \"...\")] can only be used on enums and structs with named fields",
++                                );
+                             }
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(content = "c")]`
+-                    Meta(NameValue(ref m)) if m.ident == "content" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            match item.data {
+-                                syn::Data::Enum(_) => {
+-                                    content.set(&m.ident, s.value());
+-                                }
+-                                syn::Data::Struct(syn::DataStruct {
+-                                    ref struct_token, ..
+-                                }) => {
+-                                    cx.error_spanned_by(
+-                                        struct_token,
+-                                        "#[serde(content = \"...\")] can only be used on enums",
+-                                    );
+-                                }
+-                                syn::Data::Union(syn::DataUnion {
+-                                    ref union_token, ..
+-                                }) => {
+-                                    cx.error_spanned_by(
+-                                        union_token,
+-                                        "#[serde(content = \"...\")] can only be used on enums",
+-                                    );
+-                                }
++                // Parse `#[serde(content = "c")]`
++                Meta(NameValue(m)) if m.path == CONTENT => {
++                    if let Ok(s) = get_lit_str(cx, CONTENT, &m.lit) {
++                        match &item.data {
++                            syn::Data::Enum(_) => {
++                                content.set(&m.path, s.value());
++                            }
++                            syn::Data::Struct(syn::DataStruct { struct_token, .. }) => {
++                                cx.error_spanned_by(
++                                    struct_token,
++                                    "#[serde(content = \"...\")] can only be used on enums",
++                                );
++                            }
++                            syn::Data::Union(syn::DataUnion { union_token, .. }) => {
++                                cx.error_spanned_by(
++                                    union_token,
++                                    "#[serde(content = \"...\")] can only be used on enums",
++                                );
+                             }
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(from = "Type")]
+-                    Meta(NameValue(ref m)) if m.ident == "from" => {
+-                        if let Ok(from_ty) = parse_lit_into_ty(cx, &m.ident, &m.lit) {
+-                            type_from.set_opt(&m.ident, Some(from_ty));
+-                        }
++                // Parse `#[serde(from = "Type")]
++                Meta(NameValue(m)) if m.path == FROM => {
++                    if let Ok(from_ty) = parse_lit_into_ty(cx, FROM, &m.lit) {
++                        type_from.set_opt(&m.path, Some(from_ty));
+                     }
++                }
+ 
+-                    // Parse `#[serde(into = "Type")]
+-                    Meta(NameValue(ref m)) if m.ident == "into" => {
+-                        if let Ok(into_ty) = parse_lit_into_ty(cx, &m.ident, &m.lit) {
+-                            type_into.set_opt(&m.ident, Some(into_ty));
+-                        }
++                // Parse `#[serde(try_from = "Type")]
++                Meta(NameValue(m)) if m.path == TRY_FROM => {
++                    if let Ok(try_from_ty) = parse_lit_into_ty(cx, TRY_FROM, &m.lit) {
++                        type_try_from.set_opt(&m.path, Some(try_from_ty));
+                     }
++                }
+ 
+-                    // Parse `#[serde(remote = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "remote" => {
+-                        if let Ok(path) = parse_lit_into_path(cx, &m.ident, &m.lit) {
+-                            if is_primitive_path(&path, "Self") {
+-                                remote.set(&m.ident, item.ident.clone().into());
+-                            } else {
+-                                remote.set(&m.ident, path);
+-                            }
+-                        }
++                // Parse `#[serde(into = "Type")]
++                Meta(NameValue(m)) if m.path == INTO => {
++                    if let Ok(into_ty) = parse_lit_into_ty(cx, INTO, &m.lit) {
++                        type_into.set_opt(&m.path, Some(into_ty));
+                     }
++                }
+ 
+-                    // Parse `#[serde(field_identifier)]`
+-                    Meta(Word(ref word)) if word == "field_identifier" => {
+-                        field_identifier.set_true(word);
++                // Parse `#[serde(remote = "...")]`
++                Meta(NameValue(m)) if m.path == REMOTE => {
++                    if let Ok(path) = parse_lit_into_path(cx, REMOTE, &m.lit) {
++                        if is_primitive_path(&path, "Self") {
++                            remote.set(&m.path, item.ident.clone().into());
++                        } else {
++                            remote.set(&m.path, path);
++                        }
+                     }
++                }
+ 
+-                    // Parse `#[serde(variant_identifier)]`
+-                    Meta(Word(ref word)) if word == "variant_identifier" => {
+-                        variant_identifier.set_true(word);
+-                    }
++                // Parse `#[serde(field_identifier)]`
++                Meta(Path(word)) if word == FIELD_IDENTIFIER => {
++                    field_identifier.set_true(word);
++                }
+ 
+-                    Meta(ref meta_item) => {
+-                        cx.error_spanned_by(
+-                            meta_item.name(),
+-                            format!("unknown serde container attribute `{}`", meta_item.name()),
+-                        );
+-                    }
++                // Parse `#[serde(variant_identifier)]`
++                Meta(Path(word)) if word == VARIANT_IDENTIFIER => {
++                    variant_identifier.set_true(word);
++                }
+ 
+-                    Literal(ref lit) => {
+-                        cx.error_spanned_by(lit, "unexpected literal in serde container attribute");
++                // Parse `#[serde(crate = "foo")]`
++                Meta(NameValue(m)) if m.path == CRATE => {
++                    if let Ok(path) = parse_lit_into_path(cx, CRATE, &m.lit) {
++                        serde_path.set(&m.path, path)
+                     }
+                 }
++
++                Meta(meta_item) => {
++                    let path = meta_item
++                        .path()
++                        .into_token_stream()
++                        .to_string()
++                        .replace(' ', "");
++                    cx.error_spanned_by(
++                        meta_item.path(),
++                        format!("unknown serde container attribute `{}`", path),
++                    );
++                }
++
++                Lit(lit) => {
++                    cx.error_spanned_by(lit, "unexpected literal in serde container attribute");
++                }
+             }
+         }
+ 
+@@ -609,10 +605,12 @@ impl Container {
+             de_bound: de_bound.get(),
+             tag: decide_tag(cx, item, untagged, internal_tag, content),
+             type_from: type_from.get(),
++            type_try_from: type_try_from.get(),
+             type_into: type_into.get(),
+             remote: remote.get(),
+             identifier: decide_identifier(cx, item, field_identifier, variant_identifier),
+             has_flatten: false,
++            serde_path: serde_path.get(),
+         }
+     }
+ 
+@@ -652,6 +650,10 @@ impl Container {
+         self.type_from.as_ref()
+     }
+ 
++    pub fn type_try_from(&self) -> Option<&syn::Type> {
++        self.type_try_from.as_ref()
++    }
++
+     pub fn type_into(&self) -> Option<&syn::Type> {
+         self.type_into.as_ref()
+     }
+@@ -671,6 +673,15 @@ impl Container {
+     pub fn mark_has_flatten(&mut self) {
+         self.has_flatten = true;
+     }
++
++    pub fn custom_serde_path(&self) -> Option<&syn::Path> {
++        self.serde_path.as_ref()
++    }
++
++    pub fn serde_path(&self) -> Cow<syn::Path> {
++        self.custom_serde_path()
++            .map_or_else(|| Cow::Owned(parse_quote!(_serde)), Cow::Borrowed)
++    }
+ }
+ 
+ fn decide_tag(
+@@ -689,16 +700,15 @@ fn decide_tag(
+         (Some(_), None, None) => TagType::None,
+         (None, Some((_, tag)), None) => {
+             // Check that there are no tuple variants.
+-            if let syn::Data::Enum(ref data) = item.data {
++            if let syn::Data::Enum(data) = &item.data {
+                 for variant in &data.variants {
+-                    match variant.fields {
++                    match &variant.fields {
+                         syn::Fields::Named(_) | syn::Fields::Unit => {}
+-                        syn::Fields::Unnamed(ref fields) => {
++                        syn::Fields::Unnamed(fields) => {
+                             if fields.unnamed.len() != 1 {
+                                 cx.error_spanned_by(
+                                     variant,
+-                                    "#[serde(tag = \"...\")] cannot be used with tuple \
+-                                     variants",
++                                    "#[serde(tag = \"...\")] cannot be used with tuple variants",
+                                 );
+                                 break;
+                             }
+@@ -782,54 +792,30 @@ fn decide_identifier(
+             );
+             Identifier::No
+         }
+-        (&syn::Data::Enum(_), Some(_), None) => Identifier::Field,
+-        (&syn::Data::Enum(_), None, Some(_)) => Identifier::Variant,
+-        (
+-            &syn::Data::Struct(syn::DataStruct {
+-                ref struct_token, ..
+-            }),
+-            Some(_),
+-            None,
+-        ) => {
++        (syn::Data::Enum(_), Some(_), None) => Identifier::Field,
++        (syn::Data::Enum(_), None, Some(_)) => Identifier::Variant,
++        (syn::Data::Struct(syn::DataStruct { struct_token, .. }), Some(_), None) => {
+             cx.error_spanned_by(
+                 struct_token,
+                 "#[serde(field_identifier)] can only be used on an enum",
+             );
+             Identifier::No
+         }
+-        (
+-            &syn::Data::Union(syn::DataUnion {
+-                ref union_token, ..
+-            }),
+-            Some(_),
+-            None,
+-        ) => {
++        (syn::Data::Union(syn::DataUnion { union_token, .. }), Some(_), None) => {
+             cx.error_spanned_by(
+                 union_token,
+                 "#[serde(field_identifier)] can only be used on an enum",
+             );
+             Identifier::No
+         }
+-        (
+-            &syn::Data::Struct(syn::DataStruct {
+-                ref struct_token, ..
+-            }),
+-            None,
+-            Some(_),
+-        ) => {
++        (syn::Data::Struct(syn::DataStruct { struct_token, .. }), None, Some(_)) => {
+             cx.error_spanned_by(
+                 struct_token,
+                 "#[serde(variant_identifier)] can only be used on an enum",
+             );
+             Identifier::No
+         }
+-        (
+-            &syn::Data::Union(syn::DataUnion {
+-                ref union_token, ..
+-            }),
+-            None,
+-            Some(_),
+-        ) => {
++        (syn::Data::Union(syn::DataUnion { union_token, .. }), None, Some(_)) => {
+             cx.error_spanned_by(
+                 union_token,
+                 "#[serde(variant_identifier)] can only be used on an enum",
+@@ -855,200 +841,199 @@ pub struct Variant {
+ 
+ impl Variant {
+     pub fn from_ast(cx: &Ctxt, variant: &syn::Variant) -> Self {
+-        let mut ser_name = Attr::none(cx, "rename");
+-        let mut de_name = Attr::none(cx, "rename");
+-        let mut de_aliases = VecAttr::none(cx, "rename");
+-        let mut skip_deserializing = BoolAttr::none(cx, "skip_deserializing");
+-        let mut skip_serializing = BoolAttr::none(cx, "skip_serializing");
+-        let mut rename_all_ser_rule = Attr::none(cx, "rename_all");
+-        let mut rename_all_de_rule = Attr::none(cx, "rename_all");
+-        let mut ser_bound = Attr::none(cx, "bound");
+-        let mut de_bound = Attr::none(cx, "bound");
+-        let mut other = BoolAttr::none(cx, "other");
+-        let mut serialize_with = Attr::none(cx, "serialize_with");
+-        let mut deserialize_with = Attr::none(cx, "deserialize_with");
+-        let mut borrow = Attr::none(cx, "borrow");
+-
+-        for meta_items in variant.attrs.iter().filter_map(get_serde_meta_items) {
+-            for meta_item in meta_items {
+-                match meta_item {
+-                    // Parse `#[serde(rename = "foo")]`
+-                    Meta(NameValue(ref m)) if m.ident == "rename" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            ser_name.set(&m.ident, s.value());
+-                            de_name.set_if_none(s.value());
+-                            de_aliases.insert(&m.ident, s.value());
+-                        }
++        let mut ser_name = Attr::none(cx, RENAME);
++        let mut de_name = Attr::none(cx, RENAME);
++        let mut de_aliases = VecAttr::none(cx, RENAME);
++        let mut skip_deserializing = BoolAttr::none(cx, SKIP_DESERIALIZING);
++        let mut skip_serializing = BoolAttr::none(cx, SKIP_SERIALIZING);
++        let mut rename_all_ser_rule = Attr::none(cx, RENAME_ALL);
++        let mut rename_all_de_rule = Attr::none(cx, RENAME_ALL);
++        let mut ser_bound = Attr::none(cx, BOUND);
++        let mut de_bound = Attr::none(cx, BOUND);
++        let mut other = BoolAttr::none(cx, OTHER);
++        let mut serialize_with = Attr::none(cx, SERIALIZE_WITH);
++        let mut deserialize_with = Attr::none(cx, DESERIALIZE_WITH);
++        let mut borrow = Attr::none(cx, BORROW);
++
++        for meta_item in variant
++            .attrs
++            .iter()
++            .flat_map(|attr| get_serde_meta_items(cx, attr))
++            .flatten()
++        {
++            match &meta_item {
++                // Parse `#[serde(rename = "foo")]`
++                Meta(NameValue(m)) if m.path == RENAME => {
++                    if let Ok(s) = get_lit_str(cx, RENAME, &m.lit) {
++                        ser_name.set(&m.path, s.value());
++                        de_name.set_if_none(s.value());
++                        de_aliases.insert(&m.path, s.value());
+                     }
++                }
+ 
+-                    // Parse `#[serde(rename(serialize = "foo", deserialize = "bar"))]`
+-                    Meta(List(ref m)) if m.ident == "rename" => {
+-                        if let Ok((ser, de)) = get_multiple_renames(cx, &m.nested) {
+-                            ser_name.set_opt(&m.ident, ser.map(syn::LitStr::value));
+-                            for de_value in de {
+-                                de_name.set_if_none(de_value.value());
+-                                de_aliases.insert(&m.ident, de_value.value());
+-                            }
++                // Parse `#[serde(rename(serialize = "foo", deserialize = "bar"))]`
++                Meta(List(m)) if m.path == RENAME => {
++                    if let Ok((ser, de)) = get_multiple_renames(cx, &m.nested) {
++                        ser_name.set_opt(&m.path, ser.map(syn::LitStr::value));
++                        for de_value in de {
++                            de_name.set_if_none(de_value.value());
++                            de_aliases.insert(&m.path, de_value.value());
+                         }
+                     }
++                }
++
++                // Parse `#[serde(alias = "foo")]`
++                Meta(NameValue(m)) if m.path == ALIAS => {
++                    if let Ok(s) = get_lit_str(cx, ALIAS, &m.lit) {
++                        de_aliases.insert(&m.path, s.value());
++                    }
++                }
+ 
+-                    // Parse `#[serde(alias = "foo")]`
+-                    Meta(NameValue(ref m)) if m.ident == "alias" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            de_aliases.insert(&m.ident, s.value());
++                // Parse `#[serde(rename_all = "foo")]`
++                Meta(NameValue(m)) if m.path == RENAME_ALL => {
++                    if let Ok(s) = get_lit_str(cx, RENAME_ALL, &m.lit) {
++                        match RenameRule::from_str(&s.value()) {
++                            Ok(rename_rule) => {
++                                rename_all_ser_rule.set(&m.path, rename_rule);
++                                rename_all_de_rule.set(&m.path, rename_rule);
++                            }
++                            Err(()) => cx.error_spanned_by(
++                                s,
++                                format!(
++                                    "unknown rename rule for #[serde(rename_all = {:?})]",
++                                    s.value()
++                                ),
++                            ),
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(rename_all = "foo")]`
+-                    Meta(NameValue(ref m)) if m.ident == "rename_all" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            match RenameRule::from_str(&s.value()) {
+-                                Ok(rename_rule) => {
+-                                    rename_all_ser_rule.set(&m.ident, rename_rule);
+-                                    rename_all_de_rule.set(&m.ident, rename_rule);
+-                                }
++                // Parse `#[serde(rename_all(serialize = "foo", deserialize = "bar"))]`
++                Meta(List(m)) if m.path == RENAME_ALL => {
++                    if let Ok((ser, de)) = get_renames(cx, &m.nested) {
++                        if let Some(ser) = ser {
++                            match RenameRule::from_str(&ser.value()) {
++                                Ok(rename_rule) => rename_all_ser_rule.set(&m.path, rename_rule),
+                                 Err(()) => cx.error_spanned_by(
+-                                    s,
++                                    ser,
+                                     format!(
+-                                        "unknown rename rule for #[serde(rename_all \
+-                                         = {:?})]",
+-                                        s.value()
++                                        "unknown rename rule for #[serde(rename_all = {:?})]",
++                                        ser.value(),
+                                     ),
+                                 ),
+                             }
+                         }
+-                    }
+-
+-                    // Parse `#[serde(rename_all(serialize = "foo", deserialize = "bar"))]`
+-                    Meta(List(ref m)) if m.ident == "rename_all" => {
+-                        if let Ok((ser, de)) = get_renames(cx, &m.nested) {
+-                            if let Some(ser) = ser {
+-                                match RenameRule::from_str(&ser.value()) {
+-                                    Ok(rename_rule) => {
+-                                        rename_all_ser_rule.set(&m.ident, rename_rule)
+-                                    }
+-                                    Err(()) => cx.error_spanned_by(
+-                                        ser,
+-                                        format!(
+-                                            "unknown rename rule for #[serde(rename_all \
+-                                             = {:?})]",
+-                                            ser.value(),
+-                                        ),
+-                                    ),
+-                                }
+-                            }
+-                            if let Some(de) = de {
+-                                match RenameRule::from_str(&de.value()) {
+-                                    Ok(rename_rule) => {
+-                                        rename_all_de_rule.set(&m.ident, rename_rule)
+-                                    }
+-                                    Err(()) => cx.error_spanned_by(
+-                                        de,
+-                                        format!(
+-                                            "unknown rename rule for #[serde(rename_all \
+-                                             = {:?})]",
+-                                            de.value(),
+-                                        ),
++                        if let Some(de) = de {
++                            match RenameRule::from_str(&de.value()) {
++                                Ok(rename_rule) => rename_all_de_rule.set(&m.path, rename_rule),
++                                Err(()) => cx.error_spanned_by(
++                                    de,
++                                    format!(
++                                        "unknown rename rule for #[serde(rename_all = {:?})]",
++                                        de.value(),
+                                     ),
+-                                }
++                                ),
+                             }
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(skip)]`
+-                    Meta(Word(ref word)) if word == "skip" => {
+-                        skip_serializing.set_true(word);
+-                        skip_deserializing.set_true(word);
+-                    }
++                // Parse `#[serde(skip)]`
++                Meta(Path(word)) if word == SKIP => {
++                    skip_serializing.set_true(word);
++                    skip_deserializing.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(skip_deserializing)]`
+-                    Meta(Word(ref word)) if word == "skip_deserializing" => {
+-                        skip_deserializing.set_true(word);
+-                    }
++                // Parse `#[serde(skip_deserializing)]`
++                Meta(Path(word)) if word == SKIP_DESERIALIZING => {
++                    skip_deserializing.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(skip_serializing)]`
+-                    Meta(Word(ref word)) if word == "skip_serializing" => {
+-                        skip_serializing.set_true(word);
+-                    }
++                // Parse `#[serde(skip_serializing)]`
++                Meta(Path(word)) if word == SKIP_SERIALIZING => {
++                    skip_serializing.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(other)]`
+-                    Meta(Word(ref word)) if word == "other" => {
+-                        other.set_true(word);
+-                    }
++                // Parse `#[serde(other)]`
++                Meta(Path(word)) if word == OTHER => {
++                    other.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(bound = "T: SomeBound")]`
+-                    Meta(NameValue(ref m)) if m.ident == "bound" => {
+-                        if let Ok(where_predicates) =
+-                            parse_lit_into_where(cx, &m.ident, &m.ident, &m.lit)
+-                        {
+-                            ser_bound.set(&m.ident, where_predicates.clone());
+-                            de_bound.set(&m.ident, where_predicates);
+-                        }
++                // Parse `#[serde(bound = "T: SomeBound")]`
++                Meta(NameValue(m)) if m.path == BOUND => {
++                    if let Ok(where_predicates) = parse_lit_into_where(cx, BOUND, BOUND, &m.lit) {
++                        ser_bound.set(&m.path, where_predicates.clone());
++                        de_bound.set(&m.path, where_predicates);
+                     }
++                }
+ 
+-                    // Parse `#[serde(bound(serialize = "...", deserialize = "..."))]`
+-                    Meta(List(ref m)) if m.ident == "bound" => {
+-                        if let Ok((ser, de)) = get_where_predicates(cx, &m.nested) {
+-                            ser_bound.set_opt(&m.ident, ser);
+-                            de_bound.set_opt(&m.ident, de);
+-                        }
++                // Parse `#[serde(bound(serialize = "...", deserialize = "..."))]`
++                Meta(List(m)) if m.path == BOUND => {
++                    if let Ok((ser, de)) = get_where_predicates(cx, &m.nested) {
++                        ser_bound.set_opt(&m.path, ser);
++                        de_bound.set_opt(&m.path, de);
+                     }
++                }
+ 
+-                    // Parse `#[serde(with = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "with" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            let mut ser_path = path.clone();
+-                            ser_path
+-                                .path
+-                                .segments
+-                                .push(Ident::new("serialize", Span::call_site()).into());
+-                            serialize_with.set(&m.ident, ser_path);
+-                            let mut de_path = path;
+-                            de_path
+-                                .path
+-                                .segments
+-                                .push(Ident::new("deserialize", Span::call_site()).into());
+-                            deserialize_with.set(&m.ident, de_path);
+-                        }
++                // Parse `#[serde(with = "...")]`
++                Meta(NameValue(m)) if m.path == WITH => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, WITH, &m.lit) {
++                        let mut ser_path = path.clone();
++                        ser_path
++                            .path
++                            .segments
++                            .push(Ident::new("serialize", Span::call_site()).into());
++                        serialize_with.set(&m.path, ser_path);
++                        let mut de_path = path;
++                        de_path
++                            .path
++                            .segments
++                            .push(Ident::new("deserialize", Span::call_site()).into());
++                        deserialize_with.set(&m.path, de_path);
+                     }
++                }
+ 
+-                    // Parse `#[serde(serialize_with = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "serialize_with" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            serialize_with.set(&m.ident, path);
+-                        }
++                // Parse `#[serde(serialize_with = "...")]`
++                Meta(NameValue(m)) if m.path == SERIALIZE_WITH => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, SERIALIZE_WITH, &m.lit) {
++                        serialize_with.set(&m.path, path);
+                     }
++                }
+ 
+-                    // Parse `#[serde(deserialize_with = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "deserialize_with" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            deserialize_with.set(&m.ident, path);
+-                        }
++                // Parse `#[serde(deserialize_with = "...")]`
++                Meta(NameValue(m)) if m.path == DESERIALIZE_WITH => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, DESERIALIZE_WITH, &m.lit) {
++                        deserialize_with.set(&m.path, path);
+                     }
++                }
+ 
+-                    // Defer `#[serde(borrow)]` and `#[serde(borrow = "'a + 'b")]`
+-                    Meta(ref m) if m.name() == "borrow" => match variant.fields {
+-                        syn::Fields::Unnamed(ref fields) if fields.unnamed.len() == 1 => {
+-                            borrow.set(m.name(), m.clone());
+-                        }
+-                        _ => {
+-                            cx.error_spanned_by(
+-                                variant,
+-                                "#[serde(borrow)] may only be used on newtype variants",
+-                            );
+-                        }
+-                    },
+-
+-                    Meta(ref meta_item) => {
++                // Defer `#[serde(borrow)]` and `#[serde(borrow = "'a + 'b")]`
++                Meta(m) if m.path() == BORROW => match &variant.fields {
++                    syn::Fields::Unnamed(fields) if fields.unnamed.len() == 1 => {
++                        borrow.set(m.path(), m.clone());
++                    }
++                    _ => {
+                         cx.error_spanned_by(
+-                            meta_item.name(),
+-                            format!("unknown serde variant attribute `{}`", meta_item.name()),
++                            variant,
++                            "#[serde(borrow)] may only be used on newtype variants",
+                         );
+                     }
++                },
++
++                Meta(meta_item) => {
++                    let path = meta_item
++                        .path()
++                        .into_token_stream()
++                        .to_string()
++                        .replace(' ', "");
++                    cx.error_spanned_by(
++                        meta_item.path(),
++                        format!("unknown serde variant attribute `{}`", path),
++                    );
++                }
+ 
+-                    Literal(ref lit) => {
+-                        cx.error_spanned_by(lit, "unexpected literal in serde variant attribute");
+-                    }
++                Lit(lit) => {
++                    cx.error_spanned_by(lit, "unexpected literal in serde variant attribute");
+                 }
+             }
+         }
+@@ -1149,7 +1134,7 @@ pub enum Default {
+ 
+ impl Default {
+     pub fn is_none(&self) -> bool {
+-        match *self {
++        match self {
+             Default::None => true,
+             Default::Default | Default::Path(_) => false,
+         }
+@@ -1165,199 +1150,201 @@ impl Field {
+         attrs: Option<&Variant>,
+         container_default: &Default,
+     ) -> Self {
+-        let mut ser_name = Attr::none(cx, "rename");
+-        let mut de_name = Attr::none(cx, "rename");
+-        let mut de_aliases = VecAttr::none(cx, "rename");
+-        let mut skip_serializing = BoolAttr::none(cx, "skip_serializing");
+-        let mut skip_deserializing = BoolAttr::none(cx, "skip_deserializing");
+-        let mut skip_serializing_if = Attr::none(cx, "skip_serializing_if");
+-        let mut default = Attr::none(cx, "default");
+-        let mut serialize_with = Attr::none(cx, "serialize_with");
+-        let mut deserialize_with = Attr::none(cx, "deserialize_with");
+-        let mut ser_bound = Attr::none(cx, "bound");
+-        let mut de_bound = Attr::none(cx, "bound");
+-        let mut borrowed_lifetimes = Attr::none(cx, "borrow");
+-        let mut getter = Attr::none(cx, "getter");
+-        let mut flatten = BoolAttr::none(cx, "flatten");
+-
+-        let ident = match field.ident {
+-            Some(ref ident) => unraw(ident),
++        let mut ser_name = Attr::none(cx, RENAME);
++        let mut de_name = Attr::none(cx, RENAME);
++        let mut de_aliases = VecAttr::none(cx, RENAME);
++        let mut skip_serializing = BoolAttr::none(cx, SKIP_SERIALIZING);
++        let mut skip_deserializing = BoolAttr::none(cx, SKIP_DESERIALIZING);
++        let mut skip_serializing_if = Attr::none(cx, SKIP_SERIALIZING_IF);
++        let mut default = Attr::none(cx, DEFAULT);
++        let mut serialize_with = Attr::none(cx, SERIALIZE_WITH);
++        let mut deserialize_with = Attr::none(cx, DESERIALIZE_WITH);
++        let mut ser_bound = Attr::none(cx, BOUND);
++        let mut de_bound = Attr::none(cx, BOUND);
++        let mut borrowed_lifetimes = Attr::none(cx, BORROW);
++        let mut getter = Attr::none(cx, GETTER);
++        let mut flatten = BoolAttr::none(cx, FLATTEN);
++
++        let ident = match &field.ident {
++            Some(ident) => unraw(ident),
+             None => index.to_string(),
+         };
+ 
+         let variant_borrow = attrs
+             .and_then(|variant| variant.borrow.as_ref())
+-            .map(|borrow| vec![Meta(borrow.clone())]);
++            .map(|borrow| Meta(borrow.clone()));
+ 
+-        for meta_items in field
++        for meta_item in field
+             .attrs
+             .iter()
+-            .filter_map(get_serde_meta_items)
++            .flat_map(|attr| get_serde_meta_items(cx, attr))
++            .flatten()
+             .chain(variant_borrow)
+         {
+-            for meta_item in meta_items {
+-                match meta_item {
+-                    // Parse `#[serde(rename = "foo")]`
+-                    Meta(NameValue(ref m)) if m.ident == "rename" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            ser_name.set(&m.ident, s.value());
+-                            de_name.set_if_none(s.value());
+-                            de_aliases.insert(&m.ident, s.value());
+-                        }
++            match &meta_item {
++                // Parse `#[serde(rename = "foo")]`
++                Meta(NameValue(m)) if m.path == RENAME => {
++                    if let Ok(s) = get_lit_str(cx, RENAME, &m.lit) {
++                        ser_name.set(&m.path, s.value());
++                        de_name.set_if_none(s.value());
++                        de_aliases.insert(&m.path, s.value());
+                     }
++                }
+ 
+-                    // Parse `#[serde(rename(serialize = "foo", deserialize = "bar"))]`
+-                    Meta(List(ref m)) if m.ident == "rename" => {
+-                        if let Ok((ser, de)) = get_multiple_renames(cx, &m.nested) {
+-                            ser_name.set_opt(&m.ident, ser.map(syn::LitStr::value));
+-                            for de_value in de {
+-                                de_name.set_if_none(de_value.value());
+-                                de_aliases.insert(&m.ident, de_value.value());
+-                            }
++                // Parse `#[serde(rename(serialize = "foo", deserialize = "bar"))]`
++                Meta(List(m)) if m.path == RENAME => {
++                    if let Ok((ser, de)) = get_multiple_renames(cx, &m.nested) {
++                        ser_name.set_opt(&m.path, ser.map(syn::LitStr::value));
++                        for de_value in de {
++                            de_name.set_if_none(de_value.value());
++                            de_aliases.insert(&m.path, de_value.value());
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(alias = "foo")]`
+-                    Meta(NameValue(ref m)) if m.ident == "alias" => {
+-                        if let Ok(s) = get_lit_str(cx, &m.ident, &m.ident, &m.lit) {
+-                            de_aliases.insert(&m.ident, s.value());
+-                        }
++                // Parse `#[serde(alias = "foo")]`
++                Meta(NameValue(m)) if m.path == ALIAS => {
++                    if let Ok(s) = get_lit_str(cx, ALIAS, &m.lit) {
++                        de_aliases.insert(&m.path, s.value());
+                     }
++                }
+ 
+-                    // Parse `#[serde(default)]`
+-                    Meta(Word(ref word)) if word == "default" => {
+-                        default.set(word, Default::Default);
+-                    }
++                // Parse `#[serde(default)]`
++                Meta(Path(word)) if word == DEFAULT => {
++                    default.set(word, Default::Default);
++                }
+ 
+-                    // Parse `#[serde(default = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "default" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            default.set(&m.ident, Default::Path(path));
+-                        }
++                // Parse `#[serde(default = "...")]`
++                Meta(NameValue(m)) if m.path == DEFAULT => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, DEFAULT, &m.lit) {
++                        default.set(&m.path, Default::Path(path));
+                     }
++                }
+ 
+-                    // Parse `#[serde(skip_serializing)]`
+-                    Meta(Word(ref word)) if word == "skip_serializing" => {
+-                        skip_serializing.set_true(word);
+-                    }
++                // Parse `#[serde(skip_serializing)]`
++                Meta(Path(word)) if word == SKIP_SERIALIZING => {
++                    skip_serializing.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(skip_deserializing)]`
+-                    Meta(Word(ref word)) if word == "skip_deserializing" => {
+-                        skip_deserializing.set_true(word);
+-                    }
++                // Parse `#[serde(skip_deserializing)]`
++                Meta(Path(word)) if word == SKIP_DESERIALIZING => {
++                    skip_deserializing.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(skip)]`
+-                    Meta(Word(ref word)) if word == "skip" => {
+-                        skip_serializing.set_true(word);
+-                        skip_deserializing.set_true(word);
+-                    }
++                // Parse `#[serde(skip)]`
++                Meta(Path(word)) if word == SKIP => {
++                    skip_serializing.set_true(word);
++                    skip_deserializing.set_true(word);
++                }
+ 
+-                    // Parse `#[serde(skip_serializing_if = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "skip_serializing_if" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            skip_serializing_if.set(&m.ident, path);
+-                        }
++                // Parse `#[serde(skip_serializing_if = "...")]`
++                Meta(NameValue(m)) if m.path == SKIP_SERIALIZING_IF => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, SKIP_SERIALIZING_IF, &m.lit) {
++                        skip_serializing_if.set(&m.path, path);
+                     }
++                }
+ 
+-                    // Parse `#[serde(serialize_with = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "serialize_with" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            serialize_with.set(&m.ident, path);
+-                        }
++                // Parse `#[serde(serialize_with = "...")]`
++                Meta(NameValue(m)) if m.path == SERIALIZE_WITH => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, SERIALIZE_WITH, &m.lit) {
++                        serialize_with.set(&m.path, path);
+                     }
++                }
+ 
+-                    // Parse `#[serde(deserialize_with = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "deserialize_with" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            deserialize_with.set(&m.ident, path);
+-                        }
++                // Parse `#[serde(deserialize_with = "...")]`
++                Meta(NameValue(m)) if m.path == DESERIALIZE_WITH => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, DESERIALIZE_WITH, &m.lit) {
++                        deserialize_with.set(&m.path, path);
+                     }
++                }
+ 
+-                    // Parse `#[serde(with = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "with" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            let mut ser_path = path.clone();
+-                            ser_path
+-                                .path
+-                                .segments
+-                                .push(Ident::new("serialize", Span::call_site()).into());
+-                            serialize_with.set(&m.ident, ser_path);
+-                            let mut de_path = path;
+-                            de_path
+-                                .path
+-                                .segments
+-                                .push(Ident::new("deserialize", Span::call_site()).into());
+-                            deserialize_with.set(&m.ident, de_path);
+-                        }
++                // Parse `#[serde(with = "...")]`
++                Meta(NameValue(m)) if m.path == WITH => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, WITH, &m.lit) {
++                        let mut ser_path = path.clone();
++                        ser_path
++                            .path
++                            .segments
++                            .push(Ident::new("serialize", Span::call_site()).into());
++                        serialize_with.set(&m.path, ser_path);
++                        let mut de_path = path;
++                        de_path
++                            .path
++                            .segments
++                            .push(Ident::new("deserialize", Span::call_site()).into());
++                        deserialize_with.set(&m.path, de_path);
+                     }
++                }
+ 
+-                    // Parse `#[serde(bound = "T: SomeBound")]`
+-                    Meta(NameValue(ref m)) if m.ident == "bound" => {
+-                        if let Ok(where_predicates) =
+-                            parse_lit_into_where(cx, &m.ident, &m.ident, &m.lit)
+-                        {
+-                            ser_bound.set(&m.ident, where_predicates.clone());
+-                            de_bound.set(&m.ident, where_predicates);
+-                        }
++                // Parse `#[serde(bound = "T: SomeBound")]`
++                Meta(NameValue(m)) if m.path == BOUND => {
++                    if let Ok(where_predicates) = parse_lit_into_where(cx, BOUND, BOUND, &m.lit) {
++                        ser_bound.set(&m.path, where_predicates.clone());
++                        de_bound.set(&m.path, where_predicates);
+                     }
++                }
+ 
+-                    // Parse `#[serde(bound(serialize = "...", deserialize = "..."))]`
+-                    Meta(List(ref m)) if m.ident == "bound" => {
+-                        if let Ok((ser, de)) = get_where_predicates(cx, &m.nested) {
+-                            ser_bound.set_opt(&m.ident, ser);
+-                            de_bound.set_opt(&m.ident, de);
+-                        }
++                // Parse `#[serde(bound(serialize = "...", deserialize = "..."))]`
++                Meta(List(m)) if m.path == BOUND => {
++                    if let Ok((ser, de)) = get_where_predicates(cx, &m.nested) {
++                        ser_bound.set_opt(&m.path, ser);
++                        de_bound.set_opt(&m.path, de);
+                     }
++                }
+ 
+-                    // Parse `#[serde(borrow)]`
+-                    Meta(Word(ref word)) if word == "borrow" => {
+-                        if let Ok(borrowable) = borrowable_lifetimes(cx, &ident, field) {
+-                            borrowed_lifetimes.set(word, borrowable);
+-                        }
++                // Parse `#[serde(borrow)]`
++                Meta(Path(word)) if word == BORROW => {
++                    if let Ok(borrowable) = borrowable_lifetimes(cx, &ident, field) {
++                        borrowed_lifetimes.set(word, borrowable);
+                     }
++                }
+ 
+-                    // Parse `#[serde(borrow = "'a + 'b")]`
+-                    Meta(NameValue(ref m)) if m.ident == "borrow" => {
+-                        if let Ok(lifetimes) = parse_lit_into_lifetimes(cx, &m.ident, &m.lit) {
+-                            if let Ok(borrowable) = borrowable_lifetimes(cx, &ident, field) {
+-                                for lifetime in &lifetimes {
+-                                    if !borrowable.contains(lifetime) {
+-                                        cx.error_spanned_by(
+-                                            field,
+-                                            format!(
+-                                                "field `{}` does not have lifetime {}",
+-                                                ident, lifetime
+-                                            ),
+-                                        );
+-                                    }
++                // Parse `#[serde(borrow = "'a + 'b")]`
++                Meta(NameValue(m)) if m.path == BORROW => {
++                    if let Ok(lifetimes) = parse_lit_into_lifetimes(cx, BORROW, &m.lit) {
++                        if let Ok(borrowable) = borrowable_lifetimes(cx, &ident, field) {
++                            for lifetime in &lifetimes {
++                                if !borrowable.contains(lifetime) {
++                                    cx.error_spanned_by(
++                                        field,
++                                        format!(
++                                            "field `{}` does not have lifetime {}",
++                                            ident, lifetime
++                                        ),
++                                    );
+                                 }
+-                                borrowed_lifetimes.set(&m.ident, lifetimes);
+                             }
++                            borrowed_lifetimes.set(&m.path, lifetimes);
+                         }
+                     }
++                }
+ 
+-                    // Parse `#[serde(getter = "...")]`
+-                    Meta(NameValue(ref m)) if m.ident == "getter" => {
+-                        if let Ok(path) = parse_lit_into_expr_path(cx, &m.ident, &m.lit) {
+-                            getter.set(&m.ident, path);
+-                        }
++                // Parse `#[serde(getter = "...")]`
++                Meta(NameValue(m)) if m.path == GETTER => {
++                    if let Ok(path) = parse_lit_into_expr_path(cx, GETTER, &m.lit) {
++                        getter.set(&m.path, path);
+                     }
++                }
+ 
+-                    // Parse `#[serde(flatten)]`
+-                    Meta(Word(ref word)) if word == "flatten" => {
+-                        flatten.set_true(word);
+-                    }
++                // Parse `#[serde(flatten)]`
++                Meta(Path(word)) if word == FLATTEN => {
++                    flatten.set_true(word);
++                }
+ 
+-                    Meta(ref meta_item) => {
+-                        cx.error_spanned_by(
+-                            meta_item.name(),
+-                            format!("unknown serde field attribute `{}`", meta_item.name()),
+-                        );
+-                    }
++                Meta(meta_item) => {
++                    let path = meta_item
++                        .path()
++                        .into_token_stream()
++                        .to_string()
++                        .replace(' ', "");
++                    cx.error_spanned_by(
++                        meta_item.path(),
++                        format!("unknown serde field attribute `{}`", path),
++                    );
++                }
+ 
+-                    Literal(ref lit) => {
+-                        cx.error_spanned_by(lit, "unexpected literal in serde field attribute");
+-                    }
++                Lit(lit) => {
++                    cx.error_spanned_by(lit, "unexpected literal in serde field attribute");
+                 }
+             }
+         }
+@@ -1387,14 +1374,12 @@ impl Field {
+                     leading_colon: None,
+                     segments: Punctuated::new(),
+                 };
++                let span = Span::call_site();
++                path.segments.push(Ident::new("_serde", span).into());
++                path.segments.push(Ident::new("private", span).into());
++                path.segments.push(Ident::new("de", span).into());
+                 path.segments
+-                    .push(Ident::new("_serde", Span::call_site()).into());
+-                path.segments
+-                    .push(Ident::new("private", Span::call_site()).into());
+-                path.segments
+-                    .push(Ident::new("de", Span::call_site()).into());
+-                path.segments
+-                    .push(Ident::new("borrow_cow_str", Span::call_site()).into());
++                    .push(Ident::new("borrow_cow_str", span).into());
+                 let expr = syn::ExprPath {
+                     attrs: Vec::new(),
+                     qself: None,
+@@ -1406,14 +1391,12 @@ impl Field {
+                     leading_colon: None,
+                     segments: Punctuated::new(),
+                 };
++                let span = Span::call_site();
++                path.segments.push(Ident::new("_serde", span).into());
++                path.segments.push(Ident::new("private", span).into());
++                path.segments.push(Ident::new("de", span).into());
+                 path.segments
+-                    .push(Ident::new("_serde", Span::call_site()).into());
+-                path.segments
+-                    .push(Ident::new("private", Span::call_site()).into());
+-                path.segments
+-                    .push(Ident::new("de", Span::call_site()).into());
+-                path.segments
+-                    .push(Ident::new("borrow_cow_bytes", Span::call_site()).into());
++                    .push(Ident::new("borrow_cow_bytes", span).into());
+                 let expr = syn::ExprPath {
+                     attrs: Vec::new(),
+                     qself: None,
+@@ -1518,29 +1501,28 @@ type SerAndDe<T> = (Option<T>, Option<T>);
+ 
+ fn get_ser_and_de<'a, 'b, T, F>(
+     cx: &'b Ctxt,
+-    attr_name: &'static str,
++    attr_name: Symbol,
+     metas: &'a Punctuated<syn::NestedMeta, Token![,]>,
+     f: F,
+ ) -> Result<(VecAttr<'b, T>, VecAttr<'b, T>), ()>
+ where
+     T: 'a,
+-    F: Fn(&Ctxt, &Ident, &Ident, &'a syn::Lit) -> Result<T, ()>,
++    F: Fn(&Ctxt, Symbol, Symbol, &'a syn::Lit) -> Result<T, ()>,
+ {
+     let mut ser_meta = VecAttr::none(cx, attr_name);
+     let mut de_meta = VecAttr::none(cx, attr_name);
+-    let attr_name = Ident::new(attr_name, Span::call_site());
+ 
+     for meta in metas {
+-        match *meta {
+-            Meta(NameValue(ref meta)) if meta.ident == "serialize" => {
+-                if let Ok(v) = f(cx, &attr_name, &meta.ident, &meta.lit) {
+-                    ser_meta.insert(&meta.ident, v);
++        match meta {
++            Meta(NameValue(meta)) if meta.path == SERIALIZE => {
++                if let Ok(v) = f(cx, attr_name, SERIALIZE, &meta.lit) {
++                    ser_meta.insert(&meta.path, v);
+                 }
+             }
+ 
+-            Meta(NameValue(ref meta)) if meta.ident == "deserialize" => {
+-                if let Ok(v) = f(cx, &attr_name, &meta.ident, &meta.lit) {
+-                    de_meta.insert(&meta.ident, v);
++            Meta(NameValue(meta)) if meta.path == DESERIALIZE => {
++                if let Ok(v) = f(cx, attr_name, DESERIALIZE, &meta.lit) {
++                    de_meta.insert(&meta.path, v);
+                 }
+             }
+ 
+@@ -1548,8 +1530,7 @@ where
+                 cx.error_spanned_by(
+                     meta,
+                     format!(
+-                        "malformed {0} attribute, expected `{0}(serialize = ..., \
+-                         deserialize = ...)`",
++                        "malformed {0} attribute, expected `{0}(serialize = ..., deserialize = ...)`",
+                         attr_name
+                     ),
+                 );
+@@ -1565,47 +1546,55 @@ fn get_renames<'a>(
+     cx: &Ctxt,
+     items: &'a Punctuated<syn::NestedMeta, Token![,]>,
+ ) -> Result<SerAndDe<&'a syn::LitStr>, ()> {
+-    let (ser, de) = try!(get_ser_and_de(cx, "rename", items, get_lit_str));
+-    Ok((try!(ser.at_most_one()), try!(de.at_most_one())))
++    let (ser, de) = get_ser_and_de(cx, RENAME, items, get_lit_str2)?;
++    Ok((ser.at_most_one()?, de.at_most_one()?))
+ }
+ 
+ fn get_multiple_renames<'a>(
+     cx: &Ctxt,
+     items: &'a Punctuated<syn::NestedMeta, Token![,]>,
+ ) -> Result<(Option<&'a syn::LitStr>, Vec<&'a syn::LitStr>), ()> {
+-    let (ser, de) = try!(get_ser_and_de(cx, "rename", items, get_lit_str));
+-    Ok((try!(ser.at_most_one()), de.get()))
++    let (ser, de) = get_ser_and_de(cx, RENAME, items, get_lit_str2)?;
++    Ok((ser.at_most_one()?, de.get()))
+ }
+ 
+ fn get_where_predicates(
+     cx: &Ctxt,
+     items: &Punctuated<syn::NestedMeta, Token![,]>,
+ ) -> Result<SerAndDe<Vec<syn::WherePredicate>>, ()> {
+-    let (ser, de) = try!(get_ser_and_de(cx, "bound", items, parse_lit_into_where));
+-    Ok((try!(ser.at_most_one()), try!(de.at_most_one())))
++    let (ser, de) = get_ser_and_de(cx, BOUND, items, parse_lit_into_where)?;
++    Ok((ser.at_most_one()?, de.at_most_one()?))
+ }
+ 
+-pub fn get_serde_meta_items(attr: &syn::Attribute) -> Option<Vec<syn::NestedMeta>> {
+-    if attr.path.segments.len() == 1 && attr.path.segments[0].ident == "serde" {
+-        match attr.interpret_meta() {
+-            Some(List(ref meta)) => Some(meta.nested.iter().cloned().collect()),
+-            _ => {
+-                // TODO: produce an error
+-                None
+-            }
++pub fn get_serde_meta_items(cx: &Ctxt, attr: &syn::Attribute) -> Result<Vec<syn::NestedMeta>, ()> {
++    if attr.path != SERDE {
++        return Ok(Vec::new());
++    }
++
++    match attr.parse_meta() {
++        Ok(List(meta)) => Ok(meta.nested.into_iter().collect()),
++        Ok(other) => {
++            cx.error_spanned_by(other, "expected #[serde(...)]");
++            Err(())
++        }
++        Err(err) => {
++            cx.syn_error(err);
++            Err(())
+         }
+-    } else {
+-        None
+     }
+ }
+ 
+-fn get_lit_str<'a>(
++fn get_lit_str<'a>(cx: &Ctxt, attr_name: Symbol, lit: &'a syn::Lit) -> Result<&'a syn::LitStr, ()> {
++    get_lit_str2(cx, attr_name, attr_name, lit)
++}
++
++fn get_lit_str2<'a>(
+     cx: &Ctxt,
+-    attr_name: &Ident,
+-    meta_item_name: &Ident,
++    attr_name: Symbol,
++    meta_item_name: Symbol,
+     lit: &'a syn::Lit,
+ ) -> Result<&'a syn::LitStr, ()> {
+-    if let syn::Lit::Str(ref lit) = *lit {
++    if let syn::Lit::Str(lit) = lit {
+         Ok(lit)
+     } else {
+         cx.error_spanned_by(
+@@ -1619,8 +1608,8 @@ fn get_lit_str<'a>(
+     }
+ }
+ 
+-fn parse_lit_into_path(cx: &Ctxt, attr_name: &Ident, lit: &syn::Lit) -> Result<syn::Path, ()> {
+-    let string = try!(get_lit_str(cx, attr_name, attr_name, lit));
++fn parse_lit_into_path(cx: &Ctxt, attr_name: Symbol, lit: &syn::Lit) -> Result<syn::Path, ()> {
++    let string = get_lit_str(cx, attr_name, lit)?;
+     parse_lit_str(string).map_err(|_| {
+         cx.error_spanned_by(lit, format!("failed to parse path: {:?}", string.value()))
+     })
+@@ -1628,10 +1617,10 @@ fn parse_lit_into_path(cx: &Ctxt, attr_name: &Ident, lit: &syn::Lit) -> Result<s
+ 
+ fn parse_lit_into_expr_path(
+     cx: &Ctxt,
+-    attr_name: &Ident,
++    attr_name: Symbol,
+     lit: &syn::Lit,
+ ) -> Result<syn::ExprPath, ()> {
+-    let string = try!(get_lit_str(cx, attr_name, attr_name, lit));
++    let string = get_lit_str(cx, attr_name, lit)?;
+     parse_lit_str(string).map_err(|_| {
+         cx.error_spanned_by(lit, format!("failed to parse path: {:?}", string.value()))
+     })
+@@ -1639,11 +1628,11 @@ fn parse_lit_into_expr_path(
+ 
+ fn parse_lit_into_where(
+     cx: &Ctxt,
+-    attr_name: &Ident,
+-    meta_item_name: &Ident,
++    attr_name: Symbol,
++    meta_item_name: Symbol,
+     lit: &syn::Lit,
+ ) -> Result<Vec<syn::WherePredicate>, ()> {
+-    let string = try!(get_lit_str(cx, attr_name, meta_item_name, lit));
++    let string = get_lit_str2(cx, attr_name, meta_item_name, lit)?;
+     if string.value().is_empty() {
+         return Ok(Vec::new());
+     }
+@@ -1655,8 +1644,8 @@ fn parse_lit_into_where(
+         .map_err(|err| cx.error_spanned_by(lit, err))
+ }
+ 
+-fn parse_lit_into_ty(cx: &Ctxt, attr_name: &Ident, lit: &syn::Lit) -> Result<syn::Type, ()> {
+-    let string = try!(get_lit_str(cx, attr_name, attr_name, lit));
++fn parse_lit_into_ty(cx: &Ctxt, attr_name: Symbol, lit: &syn::Lit) -> Result<syn::Type, ()> {
++    let string = get_lit_str(cx, attr_name, lit)?;
+ 
+     parse_lit_str(string).map_err(|_| {
+         cx.error_spanned_by(
+@@ -1670,10 +1659,10 @@ fn parse_lit_into_ty(cx: &Ctxt, attr_name: &Ident, lit: &syn::Lit) -> Result<syn
+ // lifetimes separated by `+`.
+ fn parse_lit_into_lifetimes(
+     cx: &Ctxt,
+-    attr_name: &Ident,
++    attr_name: Symbol,
+     lit: &syn::Lit,
+ ) -> Result<BTreeSet<syn::Lifetime>, ()> {
+-    let string = try!(get_lit_str(cx, attr_name, attr_name, lit));
++    let string = get_lit_str(cx, attr_name, lit)?;
+     if string.value().is_empty() {
+         cx.error_spanned_by(lit, "at least one lifetime must be borrowed");
+         return Err(());
+@@ -1735,20 +1724,20 @@ fn is_implicitly_borrowed_reference(ty: &syn::Type) -> bool {
+ //         cow: Cow<'a, str>,
+ //     }
+ fn is_cow(ty: &syn::Type, elem: fn(&syn::Type) -> bool) -> bool {
+-    let path = match *ty {
+-        syn::Type::Path(ref ty) => &ty.path,
++    let path = match ty {
++        syn::Type::Path(ty) => &ty.path,
+         _ => {
+             return false;
+         }
+     };
+     let seg = match path.segments.last() {
+-        Some(seg) => seg.into_value(),
++        Some(seg) => seg,
+         None => {
+             return false;
+         }
+     };
+-    let args = match seg.arguments {
+-        syn::PathArguments::AngleBracketed(ref bracketed) => &bracketed.args,
++    let args = match &seg.arguments {
++        syn::PathArguments::AngleBracketed(bracketed) => &bracketed.args,
+         _ => {
+             return false;
+         }
+@@ -1756,34 +1745,34 @@ fn is_cow(ty: &syn::Type, elem: fn(&syn::Type) -> bool) -> bool {
+     seg.ident == "Cow"
+         && args.len() == 2
+         && match (&args[0], &args[1]) {
+-            (&syn::GenericArgument::Lifetime(_), &syn::GenericArgument::Type(ref arg)) => elem(arg),
++            (syn::GenericArgument::Lifetime(_), syn::GenericArgument::Type(arg)) => elem(arg),
+             _ => false,
+         }
+ }
+ 
+ fn is_option(ty: &syn::Type, elem: fn(&syn::Type) -> bool) -> bool {
+-    let path = match *ty {
+-        syn::Type::Path(ref ty) => &ty.path,
++    let path = match ty {
++        syn::Type::Path(ty) => &ty.path,
+         _ => {
+             return false;
+         }
+     };
+     let seg = match path.segments.last() {
+-        Some(seg) => seg.into_value(),
++        Some(seg) => seg,
+         None => {
+             return false;
+         }
+     };
+-    let args = match seg.arguments {
+-        syn::PathArguments::AngleBracketed(ref bracketed) => &bracketed.args,
++    let args = match &seg.arguments {
++        syn::PathArguments::AngleBracketed(bracketed) => &bracketed.args,
+         _ => {
+             return false;
+         }
+     };
+     seg.ident == "Option"
+         && args.len() == 1
+-        && match args[0] {
+-            syn::GenericArgument::Type(ref arg) => elem(arg),
++        && match &args[0] {
++            syn::GenericArgument::Type(arg) => elem(arg),
+             _ => false,
+         }
+ }
+@@ -1809,8 +1798,8 @@ fn is_option(ty: &syn::Type, elem: fn(&syn::Type) -> bool) -> bool {
+ //         r: &'a str,
+ //     }
+ fn is_reference(ty: &syn::Type, elem: fn(&syn::Type) -> bool) -> bool {
+-    match *ty {
+-        syn::Type::Reference(ref ty) => ty.mutability.is_none() && elem(&ty.elem),
++    match ty {
++        syn::Type::Reference(ty) => ty.mutability.is_none() && elem(&ty.elem),
+         _ => false,
+     }
+ }
+@@ -1820,15 +1809,15 @@ fn is_str(ty: &syn::Type) -> bool {
+ }
+ 
+ fn is_slice_u8(ty: &syn::Type) -> bool {
+-    match *ty {
+-        syn::Type::Slice(ref ty) => is_primitive_type(&ty.elem, "u8"),
++    match ty {
++        syn::Type::Slice(ty) => is_primitive_type(&ty.elem, "u8"),
+         _ => false,
+     }
+ }
+ 
+ fn is_primitive_type(ty: &syn::Type, primitive: &str) -> bool {
+-    match *ty {
+-        syn::Type::Path(ref ty) => ty.qself.is_none() && is_primitive_path(&ty.path, primitive),
++    match ty {
++        syn::Type::Path(ty) => ty.qself.is_none() && is_primitive_path(&ty.path, primitive),
+         _ => false,
+     }
+ }
+@@ -1866,40 +1855,40 @@ fn borrowable_lifetimes(
+ }
+ 
+ fn collect_lifetimes(ty: &syn::Type, out: &mut BTreeSet<syn::Lifetime>) {
+-    match *ty {
+-        syn::Type::Slice(ref ty) => {
++    match ty {
++        syn::Type::Slice(ty) => {
+             collect_lifetimes(&ty.elem, out);
+         }
+-        syn::Type::Array(ref ty) => {
++        syn::Type::Array(ty) => {
+             collect_lifetimes(&ty.elem, out);
+         }
+-        syn::Type::Ptr(ref ty) => {
++        syn::Type::Ptr(ty) => {
+             collect_lifetimes(&ty.elem, out);
+         }
+-        syn::Type::Reference(ref ty) => {
++        syn::Type::Reference(ty) => {
+             out.extend(ty.lifetime.iter().cloned());
+             collect_lifetimes(&ty.elem, out);
+         }
+-        syn::Type::Tuple(ref ty) => {
++        syn::Type::Tuple(ty) => {
+             for elem in &ty.elems {
+                 collect_lifetimes(elem, out);
+             }
+         }
+-        syn::Type::Path(ref ty) => {
+-            if let Some(ref qself) = ty.qself {
++        syn::Type::Path(ty) => {
++            if let Some(qself) = &ty.qself {
+                 collect_lifetimes(&qself.ty, out);
+             }
+             for seg in &ty.path.segments {
+-                if let syn::PathArguments::AngleBracketed(ref bracketed) = seg.arguments {
++                if let syn::PathArguments::AngleBracketed(bracketed) = &seg.arguments {
+                     for arg in &bracketed.args {
+-                        match *arg {
+-                            syn::GenericArgument::Lifetime(ref lifetime) => {
++                        match arg {
++                            syn::GenericArgument::Lifetime(lifetime) => {
+                                 out.insert(lifetime.clone());
+                             }
+-                            syn::GenericArgument::Type(ref ty) => {
++                            syn::GenericArgument::Type(ty) => {
+                                 collect_lifetimes(ty, out);
+                             }
+-                            syn::GenericArgument::Binding(ref binding) => {
++                            syn::GenericArgument::Binding(binding) => {
+                                 collect_lifetimes(&binding.ty, out);
+                             }
+                             syn::GenericArgument::Constraint(_)
+@@ -1909,10 +1898,10 @@ fn collect_lifetimes(ty: &syn::Type, out: &mut BTreeSet<syn::Lifetime>) {
+                 }
+             }
+         }
+-        syn::Type::Paren(ref ty) => {
++        syn::Type::Paren(ty) => {
+             collect_lifetimes(&ty.elem, out);
+         }
+-        syn::Type::Group(ref ty) => {
++        syn::Type::Group(ty) => {
+             collect_lifetimes(&ty.elem, out);
+         }
+         syn::Type::BareFn(_)
+@@ -1921,7 +1910,8 @@ fn collect_lifetimes(ty: &syn::Type, out: &mut BTreeSet<syn::Lifetime>) {
+         | syn::Type::ImplTrait(_)
+         | syn::Type::Infer(_)
+         | syn::Type::Macro(_)
+-        | syn::Type::Verbatim(_) => {}
++        | syn::Type::Verbatim(_)
++        | _ => {}
+     }
+ }
+ 
+@@ -1929,12 +1919,12 @@ fn parse_lit_str<T>(s: &syn::LitStr) -> parse::Result<T>
+ where
+     T: Parse,
+ {
+-    let tokens = try!(spanned_tokens(s));
++    let tokens = spanned_tokens(s)?;
+     syn::parse2(tokens)
+ }
+ 
+ fn spanned_tokens(s: &syn::LitStr) -> parse::Result<TokenStream> {
+-    let stream = try!(syn::parse_str(&s.value()));
++    let stream = syn::parse_str(&s.value())?;
+     Ok(respan_token_stream(stream, s.span()))
+ }
+ 
+@@ -1946,8 +1936,8 @@ fn respan_token_stream(stream: TokenStream, span: Span) -> TokenStream {
+ }
+ 
+ fn respan_token_tree(mut token: TokenTree, span: Span) -> TokenTree {
+-    if let TokenTree::Group(ref mut g) = token {
+-        *g = Group::new(g.delimiter(), respan_token_stream(g.stream().clone(), span));
++    if let TokenTree::Group(g) = &mut token {
++        *g = Group::new(g.delimiter(), respan_token_stream(g.stream(), span));
+     }
+     token.set_span(span);
+     token
+diff --git a/third_party/rust/serde_derive/src/internals/check.rs b/third_party/rust/serde_derive/src/internals/check.rs
+index 3fa72412a5..ca00db7c01 100644
+--- a/third_party/rust/serde_derive/src/internals/check.rs
++++ b/third_party/rust/serde_derive/src/internals/check.rs
+@@ -13,6 +13,7 @@ pub fn check(cx: &Ctxt, cont: &mut Container, derive: Derive) {
+     check_internal_tag_field_name_conflict(cx, cont);
+     check_adjacent_tag_conflict(cx, cont);
+     check_transparent(cx, cont, derive);
++    check_from_and_try_from(cx, cont);
+ }
+ 
+ /// Getters are only allowed inside structs (not enums) with the `remote`
+@@ -298,11 +299,8 @@ fn check_internal_tag_field_name_conflict(cx: &Ctxt, cont: &Container) {
+ /// In the case of adjacently-tagged enums, the type and the
+ /// contents tag must differ, for the same reason.
+ fn check_adjacent_tag_conflict(cx: &Ctxt, cont: &Container) {
+-    let (type_tag, content_tag) = match *cont.attrs.tag() {
+-        TagType::Adjacent {
+-            ref tag,
+-            ref content,
+-        } => (tag, content),
++    let (type_tag, content_tag) = match cont.attrs.tag() {
++        TagType::Adjacent { tag, content } => (tag, content),
+         TagType::Internal { .. } | TagType::External | TagType::None => return,
+     };
+ 
+@@ -390,16 +388,16 @@ fn check_transparent(cx: &Ctxt, cont: &mut Container, derive: Derive) {
+ }
+ 
+ fn member_message(member: &Member) -> String {
+-    match *member {
+-        Member::Named(ref ident) => format!("`{}`", ident),
+-        Member::Unnamed(ref i) => format!("#{}", i.index),
++    match member {
++        Member::Named(ident) => format!("`{}`", ident),
++        Member::Unnamed(i) => format!("#{}", i.index),
+     }
+ }
+ 
+ fn allow_transparent(field: &Field, derive: Derive) -> bool {
+-    if let Type::Path(ref ty) = *field.ty {
++    if let Type::Path(ty) = field.ty {
+         if let Some(seg) = ty.path.segments.last() {
+-            if seg.into_value().ident == "PhantomData" {
++            if seg.ident == "PhantomData" {
+                 return false;
+             }
+         }
+@@ -410,3 +408,12 @@ fn allow_transparent(field: &Field, derive: Derive) -> bool {
+         Derive::Deserialize => !field.attrs.skip_deserializing() && field.attrs.default().is_none(),
+     }
+ }
++
++fn check_from_and_try_from(cx: &Ctxt, cont: &mut Container) {
++    if cont.attrs.type_from().is_some() && cont.attrs.type_try_from().is_some() {
++        cx.error_spanned_by(
++            cont.original,
++            "#[serde(from = \"...\")] and #[serde(try_from = \"...\")] conflict with each other",
++        );
++    }
++}
+diff --git a/third_party/rust/serde_derive/src/internals/ctxt.rs b/third_party/rust/serde_derive/src/internals/ctxt.rs
+index 84261cf1a7..d692c2a449 100644
+--- a/third_party/rust/serde_derive/src/internals/ctxt.rs
++++ b/third_party/rust/serde_derive/src/internals/ctxt.rs
+@@ -38,6 +38,11 @@ impl Ctxt {
+             .push(syn::Error::new_spanned(obj.into_token_stream(), msg));
+     }
+ 
++    /// Add one of Syn's parse errors.
++    pub fn syn_error(&self, err: syn::Error) {
++        self.errors.borrow_mut().as_mut().unwrap().push(err);
++    }
++
+     /// Consume this object, producing a formatted error string if there are errors.
+     pub fn check(self) -> Result<(), Vec<syn::Error>> {
+         let errors = self.errors.borrow_mut().take().unwrap();
+diff --git a/third_party/rust/serde_derive/src/internals/mod.rs b/third_party/rust/serde_derive/src/internals/mod.rs
+index c31b3f9fa3..688588e226 100644
+--- a/third_party/rust/serde_derive/src/internals/mod.rs
++++ b/third_party/rust/serde_derive/src/internals/mod.rs
+@@ -6,6 +6,7 @@ pub use self::ctxt::Ctxt;
+ 
+ mod case;
+ mod check;
++mod symbol;
+ 
+ #[derive(Copy, Clone)]
+ pub enum Derive {
+diff --git a/third_party/rust/serde_derive/src/internals/symbol.rs b/third_party/rust/serde_derive/src/internals/symbol.rs
+new file mode 100644
+index 0000000000..318b81bbbd
+--- /dev/null
++++ b/third_party/rust/serde_derive/src/internals/symbol.rs
+@@ -0,0 +1,67 @@
++use std::fmt::{self, Display};
++use syn::{Ident, Path};
++
++#[derive(Copy, Clone)]
++pub struct Symbol(&'static str);
++
++pub const ALIAS: Symbol = Symbol("alias");
++pub const BORROW: Symbol = Symbol("borrow");
++pub const BOUND: Symbol = Symbol("bound");
++pub const CONTENT: Symbol = Symbol("content");
++pub const CRATE: Symbol = Symbol("crate");
++pub const DEFAULT: Symbol = Symbol("default");
++pub const DENY_UNKNOWN_FIELDS: Symbol = Symbol("deny_unknown_fields");
++pub const DESERIALIZE: Symbol = Symbol("deserialize");
++pub const DESERIALIZE_WITH: Symbol = Symbol("deserialize_with");
++pub const FIELD_IDENTIFIER: Symbol = Symbol("field_identifier");
++pub const FLATTEN: Symbol = Symbol("flatten");
++pub const FROM: Symbol = Symbol("from");
++pub const GETTER: Symbol = Symbol("getter");
++pub const INTO: Symbol = Symbol("into");
++pub const OTHER: Symbol = Symbol("other");
++pub const REMOTE: Symbol = Symbol("remote");
++pub const RENAME: Symbol = Symbol("rename");
++pub const RENAME_ALL: Symbol = Symbol("rename_all");
++pub const SERDE: Symbol = Symbol("serde");
++pub const SERIALIZE: Symbol = Symbol("serialize");
++pub const SERIALIZE_WITH: Symbol = Symbol("serialize_with");
++pub const SKIP: Symbol = Symbol("skip");
++pub const SKIP_DESERIALIZING: Symbol = Symbol("skip_deserializing");
++pub const SKIP_SERIALIZING: Symbol = Symbol("skip_serializing");
++pub const SKIP_SERIALIZING_IF: Symbol = Symbol("skip_serializing_if");
++pub const TAG: Symbol = Symbol("tag");
++pub const TRANSPARENT: Symbol = Symbol("transparent");
++pub const TRY_FROM: Symbol = Symbol("try_from");
++pub const UNTAGGED: Symbol = Symbol("untagged");
++pub const VARIANT_IDENTIFIER: Symbol = Symbol("variant_identifier");
++pub const WITH: Symbol = Symbol("with");
++
++impl PartialEq<Symbol> for Ident {
++    fn eq(&self, word: &Symbol) -> bool {
++        self == word.0
++    }
++}
++
++impl<'a> PartialEq<Symbol> for &'a Ident {
++    fn eq(&self, word: &Symbol) -> bool {
++        *self == word.0
++    }
++}
++
++impl PartialEq<Symbol> for Path {
++    fn eq(&self, word: &Symbol) -> bool {
++        self.is_ident(word.0)
++    }
++}
++
++impl<'a> PartialEq<Symbol> for &'a Path {
++    fn eq(&self, word: &Symbol) -> bool {
++        self.is_ident(word.0)
++    }
++}
++
++impl Display for Symbol {
++    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
++        formatter.write_str(self.0)
++    }
++}
+diff --git a/third_party/rust/serde_derive/src/lib.rs b/third_party/rust/serde_derive/src/lib.rs
+index 6d50749917..55717a9a2d 100644
+--- a/third_party/rust/serde_derive/src/lib.rs
++++ b/third_party/rust/serde_derive/src/lib.rs
+@@ -13,14 +13,15 @@
+ //!
+ //! [https://serde.rs/derive.html]: https://serde.rs/derive.html
+ 
+-#![doc(html_root_url = "https://docs.rs/serde_derive/1.0.88")]
++#![doc(html_root_url = "https://docs.rs/serde_derive/1.0.102")]
++#![allow(unknown_lints, bare_trait_objects)]
+ #![cfg_attr(feature = "cargo-clippy", allow(renamed_and_removed_lints))]
+ #![cfg_attr(feature = "cargo-clippy", deny(clippy, clippy_pedantic))]
+ // Ignored clippy lints
+ #![cfg_attr(
+     feature = "cargo-clippy",
+     allow(
+-        cyclomatic_complexity,
++        cognitive_complexity,
+         enum_variant_names,
+         needless_pass_by_value,
+         redundant_field_names,
+@@ -34,6 +35,7 @@
+     feature = "cargo-clippy",
+     allow(
+         cast_possible_truncation,
++        checked_conversions,
+         doc_markdown,
+         enum_glob_use,
+         filter_map,
+@@ -41,8 +43,10 @@
+         items_after_statements,
+         match_same_arms,
+         module_name_repetitions,
++        must_use_candidate,
+         similar_names,
+         single_match_else,
++        too_many_lines,
+         unseparated_literal_suffix,
+         use_self,
+     )
+diff --git a/third_party/rust/serde_derive/src/ser.rs b/third_party/rust/serde_derive/src/ser.rs
+index 0984b5c8d0..e41fd6973e 100644
+--- a/third_party/rust/serde_derive/src/ser.rs
++++ b/third_party/rust/serde_derive/src/ser.rs
+@@ -16,21 +16,22 @@ pub fn expand_derive_serialize(input: &syn::DeriveInput) -> Result<TokenStream,
+         None => return Err(ctxt.check().unwrap_err()),
+     };
+     precondition(&ctxt, &cont);
+-    try!(ctxt.check());
++    ctxt.check()?;
+ 
+     let ident = &cont.ident;
+     let params = Parameters::new(&cont);
+     let (impl_generics, ty_generics, where_clause) = params.generics.split_for_impl();
+     let body = Stmts(serialize_body(&cont, &params));
++    let serde = cont.attrs.serde_path();
+ 
+     let impl_block = if let Some(remote) = cont.attrs.remote() {
+         let vis = &input.vis;
+         let used = pretend::pretend_used(&cont);
+         quote! {
+             impl #impl_generics #ident #ty_generics #where_clause {
+-                #vis fn serialize<__S>(__self: &#remote #ty_generics, __serializer: __S) -> _serde::export::Result<__S::Ok, __S::Error>
++                #vis fn serialize<__S>(__self: &#remote #ty_generics, __serializer: __S) -> #serde::export::Result<__S::Ok, __S::Error>
+                 where
+-                    __S: _serde::Serializer,
++                    __S: #serde::Serializer,
+                 {
+                     #used
+                     #body
+@@ -40,10 +41,10 @@ pub fn expand_derive_serialize(input: &syn::DeriveInput) -> Result<TokenStream,
+     } else {
+         quote! {
+             #[automatically_derived]
+-            impl #impl_generics _serde::Serialize for #ident #ty_generics #where_clause {
+-                fn serialize<__S>(&self, __serializer: __S) -> _serde::export::Result<__S::Ok, __S::Error>
++            impl #impl_generics #serde::Serialize for #ident #ty_generics #where_clause {
++                fn serialize<__S>(&self, __serializer: __S) -> #serde::export::Result<__S::Ok, __S::Error>
+                 where
+-                    __S: _serde::Serializer,
++                    __S: #serde::Serializer,
+                 {
+                     #body
+                 }
+@@ -51,7 +52,12 @@ pub fn expand_derive_serialize(input: &syn::DeriveInput) -> Result<TokenStream,
+         }
+     };
+ 
+-    Ok(dummy::wrap_in_const("SERIALIZE", ident, impl_block))
++    Ok(dummy::wrap_in_const(
++        cont.attrs.custom_serde_path(),
++        "SERIALIZE",
++        ident,
++        impl_block,
++    ))
+ }
+ 
+ fn precondition(cx: &Ctxt, cont: &Container) {
+@@ -110,7 +116,7 @@ impl Parameters {
+     /// Type name to use in error messages and `&'static str` arguments to
+     /// various Serializer methods.
+     fn type_name(&self) -> String {
+-        self.this.segments.last().unwrap().value().ident.to_string()
++        self.this.segments.last().unwrap().ident.to_string()
+     }
+ }
+ 
+@@ -253,7 +259,7 @@ fn serialize_tuple_struct(
+     let mut serialized_fields = fields
+         .iter()
+         .enumerate()
+-        .filter(|&(_, ref field)| !field.attrs.skip_serializing())
++        .filter(|(_, field)| !field.attrs.skip_serializing())
+         .peekable();
+ 
+     let let_mut = mut_if(serialized_fields.peek().is_some());
+@@ -290,8 +296,8 @@ fn serialize_struct(params: &Parameters, fields: &[Field], cattrs: &attr::Contai
+ }
+ 
+ fn serialize_struct_tag_field(cattrs: &attr::Container, struct_trait: &StructTrait) -> TokenStream {
+-    match *cattrs.tag() {
+-        attr::TagType::Internal { ref tag } => {
++    match cattrs.tag() {
++        attr::TagType::Internal { tag } => {
+             let type_name = cattrs.name().serialize_name();
+             let func = struct_trait.serialize_field(Span::call_site());
+             quote! {
+@@ -461,17 +467,16 @@ fn serialize_variant(
+             }
+         };
+ 
+-        let body = Match(match *cattrs.tag() {
++        let body = Match(match cattrs.tag() {
+             attr::TagType::External => {
+                 serialize_externally_tagged_variant(params, variant, variant_index, cattrs)
+             }
+-            attr::TagType::Internal { ref tag } => {
++            attr::TagType::Internal { tag } => {
+                 serialize_internally_tagged_variant(params, variant, cattrs, tag)
+             }
+-            attr::TagType::Adjacent {
+-                ref tag,
+-                ref content,
+-            } => serialize_adjacently_tagged_variant(params, variant, cattrs, tag, content),
++            attr::TagType::Adjacent { tag, content } => {
++                serialize_adjacently_tagged_variant(params, variant, cattrs, tag, content)
++            }
+             attr::TagType::None => serialize_untagged_variant(params, variant, cattrs),
+         });
+ 
+@@ -503,7 +508,7 @@ fn serialize_externally_tagged_variant(
+         };
+     }
+ 
+-    match variant.style {
++    match effective_style(variant) {
+         Style::Unit => {
+             quote_expr! {
+                 _serde::Serializer::serialize_unit_variant(
+@@ -580,7 +585,7 @@ fn serialize_internally_tagged_variant(
+         };
+     }
+ 
+-    match variant.style {
++    match effective_style(variant) {
+         Style::Unit => {
+             quote_block! {
+                 let mut __struct = try!(_serde::Serializer::serialize_struct(
+@@ -640,7 +645,7 @@ fn serialize_adjacently_tagged_variant(
+             _serde::Serialize::serialize(#ser, __serializer)
+         }
+     } else {
+-        match variant.style {
++        match effective_style(variant) {
+             Style::Unit => {
+                 return quote_block! {
+                     let mut __struct = try!(_serde::Serializer::serialize_struct(
+@@ -717,6 +722,8 @@ fn serialize_adjacently_tagged_variant(
+             where
+                 __S: _serde::Serializer,
+             {
++                // Elements that have skip_serializing will be unused.
++                #[allow(unused_variables)]
+                 let (#(#fields_ident,)*) = self.data;
+                 #inner
+             }
+@@ -747,7 +754,7 @@ fn serialize_untagged_variant(
+         };
+     }
+ 
+-    match variant.style {
++    match effective_style(variant) {
+         Style::Unit => {
+             quote_expr! {
+                 _serde::Serializer::serialize_unit(__serializer)
+@@ -798,7 +805,7 @@ fn serialize_tuple_variant(
+     let mut serialized_fields = fields
+         .iter()
+         .enumerate()
+-        .filter(|&(_, ref field)| !field.attrs.skip_serializing())
++        .filter(|(_, field)| !field.attrs.skip_serializing())
+         .peekable();
+ 
+     let let_mut = mut_if(serialized_fields.peek().is_some());
+@@ -1033,7 +1040,7 @@ fn serialize_tuple_struct_visitor(
+     fields
+         .iter()
+         .enumerate()
+-        .filter(|&(_, ref field)| !field.attrs.skip_serializing())
++        .filter(|(_, field)| !field.attrs.skip_serializing())
+         .map(|(i, field)| {
+             let mut field_expr = if is_enum {
+                 let id = Ident::new(&format!("__field{}", i), Span::call_site());
+@@ -1157,9 +1164,9 @@ fn wrap_serialize_variant_with(
+         .fields
+         .iter()
+         .map(|field| {
+-            let id = match field.member {
+-                Member::Named(ref ident) => ident.clone(),
+-                Member::Unnamed(ref member) => {
++            let id = match &field.member {
++                Member::Named(ident) => ident.clone(),
++                Member::Unnamed(member) => {
+                     Ident::new(&format!("__field{}", member.index), Span::call_site())
+                 }
+             };
+@@ -1252,6 +1259,13 @@ fn get_member(params: &Parameters, field: &Field, member: &Member) -> TokenStrea
+     }
+ }
+ 
++fn effective_style(variant: &Variant) -> Style {
++    match variant.style {
++        Style::Newtype if variant.fields[0].attrs.skip_serializing() => Style::Unit,
++        other => other,
++    }
++}
++
+ enum StructTrait {
+     SerializeMap,
+     SerializeStruct,
+@@ -1261,15 +1275,9 @@ enum StructTrait {
+ impl StructTrait {
+     fn serialize_field(&self, span: Span) -> TokenStream {
+         match *self {
+-            StructTrait::SerializeMap => {
+-                quote_spanned!(span=> _serde::ser::SerializeMap::serialize_entry)
+-            }
+-            StructTrait::SerializeStruct => {
+-                quote_spanned!(span=> _serde::ser::SerializeStruct::serialize_field)
+-            }
+-            StructTrait::SerializeStructVariant => {
+-                quote_spanned!(span=> _serde::ser::SerializeStructVariant::serialize_field)
+-            }
++            StructTrait::SerializeMap => quote_spanned!(span=> _serde::ser::SerializeMap::serialize_entry),
++            StructTrait::SerializeStruct => quote_spanned!(span=> _serde::ser::SerializeStruct::serialize_field),
++            StructTrait::SerializeStructVariant => quote_spanned!(span=> _serde::ser::SerializeStructVariant::serialize_field),
+         }
+     }
+ 
+@@ -1295,15 +1303,9 @@ enum TupleTrait {
+ impl TupleTrait {
+     fn serialize_element(&self, span: Span) -> TokenStream {
+         match *self {
+-            TupleTrait::SerializeTuple => {
+-                quote_spanned!(span=> _serde::ser::SerializeTuple::serialize_element)
+-            }
+-            TupleTrait::SerializeTupleStruct => {
+-                quote_spanned!(span=> _serde::ser::SerializeTupleStruct::serialize_field)
+-            }
+-            TupleTrait::SerializeTupleVariant => {
+-                quote_spanned!(span=> _serde::ser::SerializeTupleVariant::serialize_field)
+-            }
++            TupleTrait::SerializeTuple => quote_spanned!(span=> _serde::ser::SerializeTuple::serialize_element),
++            TupleTrait::SerializeTupleStruct => quote_spanned!(span=> _serde::ser::SerializeTupleStruct::serialize_field),
++            TupleTrait::SerializeTupleVariant => quote_spanned!(span=> _serde::ser::SerializeTupleVariant::serialize_field),
+         }
+     }
+ }

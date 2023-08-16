@@ -58,6 +58,13 @@ SRC_URI = "https://ftp.mozilla.org/pub/firefox/releases/${PV}/source/firefox-${P
            file://wayland/egl/0001-GLLibraryLoader-Use-given-symbol-lookup-function-fir.patch \
            file://wayland/egl/0001-Mark-GLFeature-framebuffer_multisample-as-unsupporte.patch \
            file://0001-Fix-build-with-gcc-13.patch \
+           file://0002-Backport-D89473-to-fix-build-with-newer-rust.patch \
+           file://0003-Backport-D83816-to-fix-build-with-newer-rust.patch \
+           file://0004-Update-num-drive.patch \
+           file://0005-Bug-1552695-Part-1-Deduplicate-syn-and-quote.patch \
+           file://0006-Bug-1592738-update-xpcom_macros-to-more-recent-proc_.patch \
+           file://0007-Update-syn.patch \
+           file://0008-Bug-1587468-Update-serde-and-related-crates.patch \
            "
 
 SRC_URI[sha256sum] = "935105e1a8a97d64daffb372690e2b566b5f07641f01470929dbbc82d20d4407"
